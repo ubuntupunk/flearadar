@@ -13,10 +13,14 @@
     "@emotion/styled": "^11.14.0",
     "@mui/material": "^6.4.5",
     "bootstrap": "^5.3.3",
+    "gray-matter": "^4.0.3",
+    "markdown-to-jsx": "^7.7.4",
     "next": "15.1.7",
     "react": "^19.0.0",
     "react-bootstrap": "^2.10.9",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "remark": "^15.0.1",
+    "remark-html": "^16.0.1"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
