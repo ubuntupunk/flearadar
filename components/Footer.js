@@ -20,7 +20,7 @@ export default function Footer() {
                   <li className="mb-3"><a href="#" className="text-gray-200">Events</a></li>
                   <li className="mb-3"><a href="#" className="text-gray-200">Trekking</a></li>
                   <li className="mb-3"><a href="#" className="text-gray-200">Secondhand</a></li>
-                  <li className="mb-3"><a href="#" className="text-gray-200">Co-working Spaces</a></li>
+                  <li className="mb-3"><a href="#" className="text-gray-200">Food Truckers</a></li>
                 </ul>
               </div>
               <div className="md:w-1/2">
@@ -28,6 +28,7 @@ export default function Footer() {
                   <li className="mb-3"><a href="#" className="text-gray-200">Banks</a></li>
                   <li className="mb-3"><a href="#" className="text-gray-200">ATMs</a></li>
                   <li className="mb-3"><a href="#" className="text-gray-200">Services</a></li>
+                  <li className="mb-3"><a href="#" className="text-gray-200">Community Currency</a></li>
                   <li className="mb-3"><a href="#" className="text-gray-200">Informal Markets</a></li>
                 </ul>
               </div>

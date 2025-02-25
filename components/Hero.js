@@ -3,7 +3,7 @@ export default function Hero() {
     <section className="pt-20 pb-20 text-center bg-cover bg-center text-white" style={{ backgroundImage: "url('https://www.sabcnews.com/sabcnews/wp-content/uploads/2021/01/SABC-News-Fleak-market-R.png')" }}>
       <div className="bg-black bg-opacity-50 p-10">
         <div className="max-w-4xl mx-auto">
-          <h1 className="text-4xl md:text-5xl font-normal mb-5">Discover Informal Craft, Food Trucks & Flea Markets</h1>
+          <h1 className="text-4xl md:text-5xl font-normal mb-5">Discover Food Trucks & Flea Markets</h1>
           <p className="text-lg mb-5">Find the perfect informal places to shop or trade</p>
           <form className="flex justify-center items-center space-x-2">
             <input

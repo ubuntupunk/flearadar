@@ -4,6 +4,7 @@ export default function FeaturedListing() {
     type: "Flea Market",
     date: "March 1, 2025",
     location: "123 Main St",
+    gps: "37.7749,-122.4194",
     image: "https://placehold.co/600x300",
     rating: 4.5,
   };

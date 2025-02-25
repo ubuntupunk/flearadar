@@ -4,11 +4,6 @@ import Markdown from 'markdown-to-jsx';
 import Link from 'next/link';
 
 const Blog = ({ articles }) => {
-  // Sort articles by date and get the latest four
-  const latestArticles = articles
-    .sort((a, b) => new Date(b.date) - new Date(a.date)) // Sort by date descending
-    .slice(0, 4); // Get the first four articles
-
   
   return (
     (<div className="container mx-auto my-8">

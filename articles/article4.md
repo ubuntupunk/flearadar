@@ -1,13 +1,24 @@
 ---
-title: "Carboots & Yard Sales "
-description: "Have you noticed local car-boot and yard-sales?"
-author: "Darryl Seawood"
-section: CarbootLifestyle
-slug: article3
+title: "Food Truckers R US "
+description: "Here is where you can catch your fave truckers"
+author: "Davy Jones"
+section: FoodTrucks
+slug: article4
 date: Feb 28, 2025
 ---
 
-# Carboots & Yard Sales
+# Food Truckers R US 
+
+This is the content of the article. You can use Markdown syntax here.his is the content of the article. You can use Markdown syntax here.This is the content of the article. You can use Markdown syntax here.---
+title: "Sunday Market Guide"
+description: "Sunday markets are some of the best around."
+author: "Dav"
+slug: article1
+section: "MarketLifestyle"
+date: 
+---
+
+# Article Title
 
 Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,
 molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum
