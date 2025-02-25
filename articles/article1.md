@@ -1,7 +1,10 @@
 ---
-title: "Article Title One"
-description: "Brief description of the article."
-slug: "article1"
+title: "Sunday Market Guide"
+description: "Sunday markets are some of the best around."
+author: "Dav"
+slug: article1
+section: "MarketLifestyle"
+date: 
 ---
 
 # Article Title
