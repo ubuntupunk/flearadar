@@ -1,6 +1,7 @@
 // components/Blog.js
 import React from 'react';
 import Markdown from 'markdown-to-jsx';
+import Link from 'next/link';
 
 const Blog = ({ articles }) => {
   return (
@@ -12,9 +13,11 @@ const Blog = ({ articles }) => {
             <h2 className="text-xl font-semibold">{article.title}</h2>
             <p className="text-gray-600">{article.description}</p>
             <Markdown>{article.content}</Markdown>
+            <Link href={`/articles/${article.slug}`}>
             <a href="#" className="text-blue-500 hover:underline">Read more</a>
+            </Link>
           </div>
-        ))}
+        ))}       
       </div>
     </div>
   );

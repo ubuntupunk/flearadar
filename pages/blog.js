@@ -5,7 +5,7 @@ import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 
-const BlogPage = () => {
+const BlogPage = ({ articles }) => {
   return <Blog articles={articles} />;
 };
 
