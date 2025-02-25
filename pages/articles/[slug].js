@@ -3,13 +3,31 @@ import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 import Markdown from 'markdown-to-jsx';
+import '../../styles/article.css';
 
 const ArticlePage = ({ content, frontmatter }) => {
   return (
-    <div>
-      <h1>{frontmatter.title}</h1>
-      <Markdown>{content}</Markdown>
-    </div>
+    <div className="article-container">
+    <h1 className="article-title">{frontmatter.title}</h1>
+    <p className="article-description">{frontmatter.description}</p>
+    {/* <Markdown className="article-content">{content}</Markdown> */}
+    <Markdown
+  options={{
+    overrides: {
+      h1: {
+        component: (props) => <h1 className="article-title" {...props} />,
+      },
+      p: {
+        component: (props) => <p className="article-content" {...props} />,
+      },
+      // Add more overrides as needed
+    },
+  }}
+>
+  {content}
+</Markdown>
+  
+  </div>
   );
 };
 

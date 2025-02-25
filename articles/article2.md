@@ -1,6 +1,7 @@
 ---
 title: "Article Title Two"
 description: "Brief description of the article."
+slug: article2
 ---
 
 # Article Title
