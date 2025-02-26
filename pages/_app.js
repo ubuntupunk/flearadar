@@ -11,7 +11,7 @@ function MyApp({ Component, pageProps }) {
     <Auth0Provider
       clientId="AT0KJzvX5F2CbR9TmYfhj18oLXe92U2z"
       domain="netbones.us.auth0.com"
-      redirectUri={window.location.origin}
+      redirectUri={typeof window !== 'undefined' ? window.location.origin : ''} // Check if window is defined
     >
       <Component {...pageProps} />
     </Auth0Provider>

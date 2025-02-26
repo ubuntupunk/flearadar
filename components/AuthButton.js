@@ -1,7 +1,7 @@
-import { useUser, withPageAuthRequired } from '@auth0/nextjs-auth0';
+import { useUser } from '@auth0/nextjs-auth0';
 import Link from 'next/link';
 
-export default withPageAuthRequired(AuthButton);
+export default AuthButton;
 
 function AuthButton() {
   const { user, error, isLoading } = useUser();
