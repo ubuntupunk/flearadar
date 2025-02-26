@@ -2,9 +2,18 @@
 import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap CSS
 import '../styles/globals.css'; // Import your global CSS if you have one
 import React from 'react';
+import { Auth0Provider } from '@auth0/auth0-react';
 
 function MyApp({ Component, pageProps }) {
-  return <Component {...pageProps} />;
+  return (
+    <Auth0Provider
+      clientId="AT0KJzvX5F2CbR9TmYfhj18oLXe92U2z"
+      domain="netbones.us.auth0.com"
+      redirectUri={window.location.origin}
+    >
+      <Component {...pageProps} />
+    </Auth0Provider>
+  );
 }
 
 export default MyApp;
