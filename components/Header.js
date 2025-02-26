@@ -1,7 +1,7 @@
 import React from 'react';
 import { Navbar, Nav } from 'react-bootstrap';
 import Link from 'next/link'; // Import Link from Next.js
-import Explorer from './Explorer';
+
 import AuthButton from './AuthButton'; // Import AuthButton component
 
 // Add Google Fonts link

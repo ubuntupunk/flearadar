@@ -13,16 +13,13 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { red } from '@mui/material/colors';
 
 const ExpandMore = styled((props) => {
-    const { expand, ...other } = props;
-    return <IconButton {...other} />;
+    return <IconButton {...props} />;
 })(({ theme }) => ({
     marginLeft: 'auto',
     transition: theme.transitions.create('transform', {
         duration: theme.transitions.duration.shortest,
     }),
-    ...(props => ({
-        transform: props.expand ? 'rotate(180deg)' : 'rotate(0deg)',
-    })),
+    transform: props => (props.expand ? 'rotate(180deg)' : 'rotate(0deg)'),
 }));
 
 export default function ExpandableCard({ item }) {
@@ -66,17 +63,17 @@ export default function ExpandableCard({ item }) {
             </CardActions>
             <Collapse in={expanded} timeout="auto" unmountOnExit>
                 <CardContent>
-                    <Typography >
+                    <Typography paragraph>
                         <strong>Type:</strong> {item.type}
                     </Typography>
-                     <Typography >
+                    <Typography paragraph>
                         <strong>Rating:</strong> {item.rating}
                     </Typography>
-                    <Typography >
+                    <Typography paragraph>
                         <strong>Location:</strong> {item.location}
                     </Typography>
-                    <Typography >
-                        <strong>GPS:</strong> {item.gps}
+                    <Typography paragraph>
+                        <strong>GPS:</strong> {item.gps} {/* Added GPS information */}
                     </Typography>
                 </CardContent>
             </Collapse>
