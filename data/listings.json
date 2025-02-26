@@ -6,6 +6,7 @@
       "description": "A vibrant market filled with unique goods.",
       "date": "Feb 28, 2025",
       "location": "456 Oak Ave",
+      "gps": "37.7749,-122.4194",
       "image": "https://placehold.co/150x150/gray/white",
       "rating": 4.7
     },
@@ -16,6 +17,7 @@
       "description": "A delicious truck selling authentic Mexican food.",
       "date": "Open Now",
       "location": "789 Pine St",
+      "gps": "37.7749,-122.4194",
       "image": "https://placehold.co/150x150/gray/white",
       "rating": 4.8
     },
@@ -26,6 +28,7 @@
       "description": "A flea market with a wide variety of goods.",
       "date": "March 5, 2025",
       "location": "321 Elm Rd",
+      "gps": "37.7749,-122.4194",
       "image": "https://placehold.co/150x150/gray/white",
       "rating": 4.6
     },
@@ -36,6 +39,7 @@
       "description": "A vibrant market filled with unique goods.",
       "date": "Feb 28, 2025",
       "location": "456 Oak Ave",
+      "gps": "37.7749,-122.4194",
       "image": "https://placehold.co/150x150/gray/white",
       "rating": 4.7
     },
@@ -46,6 +50,7 @@
       "description": "A delicious truck selling authentic Mexican food.", 
       "date": "Open Now",
       "location": "789 Pine St",
+      "gps": "37.7749,-122.4194",
       "image": "https://placehold.co/150x150/gray/white",
       "rating": 4.8
     },
@@ -56,6 +61,7 @@
       "description": "A flea market with a wide variety of goods.",
       "date": "March 5, 2025",
       "location": "321 Elm Rd",
+      "gps": "37.7749,-122.4194",
       "image": "https://placehold.co/150x150/gray/white",
       "rating": 4.6
     }

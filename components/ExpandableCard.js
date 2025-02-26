@@ -75,6 +75,9 @@ export default function ExpandableCard({ item }) {
                     <Typography >
                         <strong>Location:</strong> {item.location}
                     </Typography>
+                    <Typography >
+                        <strong>GPS:</strong> {item.gps}
+                    </Typography>
                 </CardContent>
             </Collapse>
         </Card>
