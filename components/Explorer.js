@@ -1,37 +1,31 @@
 import React from 'react';
-import { Carousel, Card } from 'react-bootstrap';
+import Slider from 'react-slick';
+import ExpandableCard from './ExpandableCard'; // Import the new card component
 import listings from '../data/listings.json'; // Adjust the path as necessary
+import 'slick-carousel/slick/slick.css'; 
+import 'slick-carousel/slick/slick-theme.css'; 
 
 const Explorer = () => {
-    console.log(listings);
+    const settings = {
+        dots: true,
+        infinite: true,
+        speed: 500,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+    };
 
-   return (
-        <div className="text-center"> {/* Center the heading */}
+    return (
+        <div className="text-center">
             <h1>Explore Vendors, Markets, and Food Trucks</h1>
-            <Carousel className="d-flex justify-content-center"> {/* Center the carousel */}
+            <Slider {...settings}>
                 {listings.map(item => (
-                    <Carousel.Item key={item.id}>
-                        <Card>
-                            <Card.Img 
-                                variant="top" 
-                                src={item.image} 
-                                style={{ width: '300px', height: '300px', objectFit: 'cover' }} 
-                            />
-                            <Card.Body>
-                                <Card.Title>{item.name}</Card.Title>
-                                <Card.Text>
-                                    <strong>Type:</strong> {item.type}<br />
-                                    <strong>Location:</strong> {item.location}<br />
-                                    <strong>Rating:</strong> {item.rating}<br />
-                                    <strong>Description:</strong> {item.description}
-                                </Card.Text>
-                            </Card.Body>
-                        </Card>
-                    </Carousel.Item>
+                    <div key={item.id}>
+                        <ExpandableCard item={item} /> {/* Use the expandable card */}
+                    </div>
                 ))}
-            </Carousel>
+            </Slider>
         </div>
     );
 };
 
-export default Explorer;
+export default Explorer; // Ensure this line is present
