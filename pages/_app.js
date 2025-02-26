@@ -1,6 +1,8 @@
 // pages/_app.js
 import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap CSS
 import '../styles/globals.css'; // Import your global CSS if you have one
+import '../styles/article.css';
+
 import React from 'react';
 import { Auth0Provider } from '@auth0/auth0-react';
 
