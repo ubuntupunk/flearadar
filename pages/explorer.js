@@ -6,7 +6,6 @@ const ExplorerPage = () => {
     return (
         <div>
             <Header />
-            <h1>Explore Vendors, Markets, and Food Trucks</h1>
             <Explorer />
             <Footer />
         </div>
