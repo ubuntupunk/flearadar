@@ -25,5 +25,33 @@
       "location": "321 Elm Rd",
       "image": "https://placehold.co/150x150/gray/white",
       "rating": 4.6
+    },
+    {
+      "id": 4,
+      "name": "Muizenberg Market",
+      "type": "Market",
+      "date": "Feb 28, 2025",
+      "location": "456 Oak Ave",
+      "image": "https://placehold.co/150x150/gray/white",
+      "rating": 4.7
+    },
+    {
+      "id": 5,
+      "name": "Coffee Truck",
+      "type": "Food Truck - Cafe",
+      "date": "Open Now",
+      "location": "789 Pine St",
+      "image": "https://placehold.co/150x150/gray/white",
+      "rating": 4.8
+    },
+    {
+      "id": 6,
+      "name": "Princess Vlei Market",
+      "type": "Flea Market",
+      "date": "March 5, 2025",
+      "location": "321 Elm Rd",
+      "image": "https://placehold.co/150x150/gray/white",
+      "rating": 4.6
     }
+   
   ]
