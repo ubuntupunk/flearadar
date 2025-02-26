@@ -3,7 +3,6 @@ import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 import Markdown from 'markdown-to-jsx';
-import '../../styles/article.css';
 
 const ArticlePage = ({ content, frontmatter }) => {
   return (
