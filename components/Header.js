@@ -1,7 +1,7 @@
 import React from 'react';
 import { Navbar, Nav, Button } from 'react-bootstrap';
 import Link from 'next/link'; // Import Link from Next.js
-
+import AuthButton from './AuthButton'; // Import AuthButton component
 // Add Google Fonts link
 // <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 
@@ -18,7 +18,7 @@ export default function Header() {
           <Nav.Link href="#help">Help</Nav.Link>
           <Nav.Link href="#contact">Contact</Nav.Link>
         </Nav>
-        <Button variant="outline-success">Login/Sign Up</Button>
+        <AuthButton />
       </Navbar.Collapse>
     </Navbar>
   );

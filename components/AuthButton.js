@@ -1,4 +1,5 @@
 import { useUser, withPageAuthRequired } from '@auth0/nextjs-auth0';
+import Link from 'next/link';
 
 export default function AuthButton() {
   const { user, error, isLoading } = useUser();
@@ -8,15 +9,15 @@ export default function AuthButton() {
 
   if (user) {
     return (
-      <a href="/api/auth/logout" className="btn bg-gray-800 text-white px-4 py-2 rounded-full hover:bg-gray-700">
+      <Link href="/api/auth/logout" className="btn bg-gray-800 text-white px-4 py-2 rounded-full hover:bg-gray-700">
         Logout
-      </a>
+      </Link>
     );
   }
 
   return (
-    <a href="/api/auth/login" className="btn bg-red-500 text-white px-4 py-2 rounded-full hover:bg-red-600">
+    <Link href="/api/auth/login" className="btn bg-red-500 text-white px-4 py-2 rounded-full hover:bg-red-600">
       Login / Register
-    </a>
+    </Link>
   );
 }

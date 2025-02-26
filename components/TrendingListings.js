@@ -1,4 +1,5 @@
 import listings from "../data/listings.json";
+import Image from 'next/image';
 
 export default function TrendingListings() {
   return (
@@ -12,7 +13,7 @@ export default function TrendingListings() {
           {listings.map((listing) => (
             <div key={listing.id} className="border rounded-lg shadow-sm">
               <a href="#" className="d-block">
-                <img src={listing.image} className="w-full h-48 object-cover rounded-t-lg" alt={listing.name} />
+                <Image src={listing.image} width={600} height={300} className="w-full h-48 object-cover rounded-t-lg" alt={listing.name} />
               </a>
               <div className="p-4">
                 <div className="flex justify-between items-center">

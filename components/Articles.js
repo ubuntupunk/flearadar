@@ -1,3 +1,5 @@
+import Image from 'next/image';  
+
 export default function Articles() {
   const articles = [
     { title: "Sunday markets are some of the most vibrant places around", categories: ["Sunday Market", "Lifestyle"], author: "Dianne Russell", date: "10 August 2020", time: "6 min", image: "https://www.muizenmesh.co.za/wp/web/flearadar/milnerton-market.jpg" },
@@ -16,7 +18,7 @@ export default function Articles() {
           {articles.map((article, index) => (
             <div key={index} className="bg-gray-100 border rounded-lg flex flex-col h-full">
               <a href="#" className="d-block">
-                <img src={article.image} className="w-full h-48 object-cover rounded-t-lg" alt={article.title} />
+                <Image src={article.image} className="w-full h-48 object-cover rounded-t-lg" alt={article.title} width={500} height={500} />
               </a>
               <div className="p-3">
                 <div className="font-bold mb-2">

@@ -1,3 +1,5 @@
+import Image from 'next/image';
+
 export default function FeaturedListing() {
   const featured = {
     name: "Downtown Flea Market",
@@ -12,7 +14,7 @@ export default function FeaturedListing() {
   return (
     <section className="p-4">
       <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-md overflow-hidden">
-        <img src={featured.image} alt={featured.name} className="w-full h-64 object-cover" />
+        <Image src={featured.image} alt={featured.name} width={600} height={300} className="w-full h-64 object-cover" />
         <div className="p-6">
           <h2 className="text-2xl font-bold text-gray-800">{featured.name}</h2>
           <p className="text-gray-600">{featured.type} | {featured.date} | {featured.location}</p>
