@@ -1,6 +1,5 @@
 // pages/blog.js
 import Blog from '../components/Blog'; // Import the Blog component
-import Link from 'next/link'; // Import Link from Next.js
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';

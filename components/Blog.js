@@ -1,7 +1,6 @@
 // components/Blog.js
 import React from 'react';
 import Markdown from 'markdown-to-jsx';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import Link from 'next/link';
 
 const Blog = ({ articles }) => {

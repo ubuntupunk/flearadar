@@ -32,7 +32,7 @@ export default function Articles() {
               </div>
               <div className="border-t border-gray-200 flex items-center justify-between mt-auto p-3 text-sm">
                 <a href="#" className="flex items-center text-gray-800">
-                  <img src="https://via.placeholder.com/48x48" className="mr-2 rounded-full" alt="Author Image" width="48" height="48" />
+                  <Image src="https://via.placeholder.com/48x48" className="mr-2 rounded-full" alt="Author Image" width="48" height="48" />
                   <div>
                     <h4 className="text-sm mb-0">{article.author}</h4>
                     <p className="text-gray-600 mb-0">{article.date}</p>
