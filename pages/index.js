@@ -15,6 +15,7 @@ import Footer from "../components/Footer";
 import path from "path";
 import fs from "fs";
 import matter from "gray-matter";
+import { Analytics } from "@vercel/analytics/react"
 
 export default function Home({ latestArticles }) {
   return (
@@ -37,6 +38,7 @@ export default function Home({ latestArticles }) {
       <RssPosts />
       <Stats />
       <Footer />
+      <Analytics/>
     </div>
   );
 }

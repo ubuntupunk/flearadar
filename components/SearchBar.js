@@ -19,7 +19,7 @@ const SearchBar = () => {
     }, [query]);
 
 return (
-    <div>
+    (<div>
         <input
             type="text"
             placeholder="Search..."
@@ -36,12 +36,12 @@ return (
                         </CardBody>
                     </Card>
                     <Link href={`/listings/${item.id}`}>
-                        <a>View Listing</a>
+                        View Listing
                     </Link>
                 </div>
             ))}
         </div>
-    </div>
+    </div>)
 );
 }
 export default SearchBar;
