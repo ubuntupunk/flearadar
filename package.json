@@ -6,7 +6,9 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "cypress:run": "cypress run --browser chrome",
+    "cypress:open": "cypress open --browser chrome"
   },
   "dependencies": {
     "@auth0/auth0-react": "^2.3.0",
