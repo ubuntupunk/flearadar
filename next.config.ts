@@ -11,10 +11,15 @@ const nextConfig: NextConfig = {
         AUTH0_CLIENT_SECRET: 'DCIPKDyc7iUEGWNQyKnceDk0xpbHXZxoeCar1AQ_dUzQ6QJrrAstfy9QEgBg2oc3',
     },
     images: {
-    domains: ['placehold.co'], // Add placehold.co here
+      remotePatterns: [
+        {
+          protocol: 'https',
+          hostname: 'placehold.co',
+          port: '',
+          pathname: '/**',
+        },
+      ],
     }
 };
-
-
 
 export default nextConfig;
