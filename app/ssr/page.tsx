@@ -1,11 +1,20 @@
+// app/ssr/page.tsx
 import React from 'react';
-import { getSession, withPageAuthRequired } from '@auth0/nextjs-auth0';
+import { getSession, withPageAuthRequired, UserProfile } from '@auth0/nextjs-auth0';
 
-import Highlight from '../../components/Highlight';
+//import Highlight from '../../components/Highlight';
 
+// Define the props interface (though not directly used due to async nature)
+interface SSRPageProps {
+  // No props needed currently, but can be extended if additional props are passed
+}
+
+// Wrap the async component with withPageAuthRequired
 export default withPageAuthRequired(
-  async function SSRPage() {
-    const { user } = await getSession();
+  async function SSRPage(): Promise<JSX.Element> {
+    const session = await getSession();
+    const user: UserProfile = session?.user as UserProfile; // Type assertion since getSession can return null
+
     return (
       <>
         <div className="mb-5" data-testid="ssr">

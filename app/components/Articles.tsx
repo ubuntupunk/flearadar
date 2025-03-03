@@ -13,9 +13,9 @@ interface Article {
 }
 
 // You could also add props if this component receives any
-interface ArticlesProps {
+//interface ArticlesProps {
   // Add any props here if needed in the future
-}
+//}
 
 export default function Articles(/* props: ArticlesProps */) {
   const articles: Article[] = [

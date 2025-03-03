@@ -1,7 +1,7 @@
 import React from 'react';
 import Slider from 'react-slick';
 import ExpandableCard from './ExpandableCard'; // Import the new card component
-import listings from '../../data/listings.json'; // Adjust the path as necessary
+import listings from '../data/listings.json'; // Adjust the path as necessary
 import 'slick-carousel/slick/slick.css'; 
 import 'slick-carousel/slick/slick-theme.css'; 
 

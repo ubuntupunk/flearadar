@@ -1,21 +1,26 @@
-// pages/add-listing.js
+// pages/add-listing.tsx
 import React, { useState } from 'react';
 import Header from '../components/Header'; // Adjust the import path if necessary
 import Footer from '../components/Footer'; // Adjust the import path if necessary
 
-const AddListing = () => {
-  const [name, setName] = useState('');
-  const [type, setType] = useState('');
-  const [description, setDescription] = useState('');
+// Define props interface (optional for now since no props are passed)
+//interface AddListingProps {
+  // Add props here if needed in the future
+//}
 
-  const handleSubmit = (e) => {
+const AddListing: React.FC = () => {
+  const [name, setName] = useState<string>('');
+  const [type, setType] = useState<string>('');
+  const [description, setDescription] = useState<string>('');
+  const [buttonType, setButtonType] = useState<string>('');
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     console.log('Listing submitted:', { name, type, description });
   };
 
   return (
     <div>
-      <Header /> {/* Include Header */}
+      <Header isAuthenticated={false} /> {/* Include Header */}
       <div className="container mx-auto my-8 p-4 border rounded-lg shadow-lg">
         <h1 className="text-2xl font-bold mb-4">Add Listing</h1>
         <form onSubmit={handleSubmit}>
@@ -25,7 +30,7 @@ const AddListing = () => {
               type="text"
               id="name"
               value={name}
-              onChange={(e) => setName(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value)}
               required
               className="border rounded p-2 w-full"
             />
@@ -35,7 +40,7 @@ const AddListing = () => {
             <select
               id="type"
               value={type}
-              onChange={(e) => setType(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setType(e.target.value)}
               required
               className="border rounded p-2 w-full"
             >
@@ -50,12 +55,15 @@ const AddListing = () => {
             <textarea
               id="description"
               value={description}
-              onChange={(e) => setDescription(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setDescription(e.target.value)}
               required
               className="border rounded p-2 w-full"
             />
           </div>
-          <button type="submit" className="btn bg-red-500 text-white px-4 py-2 rounded-full hover:bg-red-600">
+          <button
+            type={buttonType} onClick={() => setButtonType('submit')}
+            className="btn bg-red-500 text-white px-4 py-2 rounded-full hover:bg-red-600"
+          >
             Add Listing
           </button>
         </form>

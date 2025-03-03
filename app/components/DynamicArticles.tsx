@@ -14,9 +14,9 @@ interface Article {
 }
 
 // Define props interface
-interface DynamicArticlesProps {
-  latestArticles: Article[];
-}
+//interface DynamicArticlesProps {
+  //latestArticles: Article[];
+//}
 
 const DynamicArticles: React.FC<DynamicArticlesProps> = ({ latestArticles }) => {
   return (

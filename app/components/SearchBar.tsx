@@ -13,6 +13,10 @@ interface Listing {
   description: string;
   location: string;
   type: string;
+  date: string;
+  gps: string;
+  image: string;
+  rating: number;
   // Add other fields from listings.json if present
 }
 

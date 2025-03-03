@@ -16,7 +16,7 @@ export default async function ExplorerPage(/* props: ExplorerPageProps */): Prom
 
   return (
     <div>
-      <Header />
+      <Header isAuthenticated={false} />
       <Explorer />
       <Footer />
     </div>
