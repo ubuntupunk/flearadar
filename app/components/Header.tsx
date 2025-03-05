@@ -1,9 +1,20 @@
-import React from 'react';
-import { Navbar, Nav } from 'react-bootstrap';
-import Link from 'next/link'; // Import Link from Next.js
 
-import AuthButton from './AuthButton'; // Import AuthButton component
+import React from 'react';
+import Navbar from 'react-bootstrap/Navbar'; // Default import
+import Nav from 'react-bootstrap/Nav'; // Default import
+import NavbarBrand from 'react-bootstrap/NavbarBrand'; // Check if this is needed
+import NavbarToggle from 'react-bootstrap/NavbarToggle'; // Check if this is needed
+import NavbarCollapse from 'react-bootstrap/NavbarCollapse';
+import NavLink from 'react-bootstrap/NavLink';
+import AuthButton from './AuthButton';
 import SearchBar from './SearchBar';
+
+console.log('Navbar:', Navbar);
+console.log('NavbarBrand:', NavbarBrand);
+console.log('NavbarToggle:', NavbarToggle);
+console.log('Nav:', Nav);
+console.log('NavbarCollapse:', NavbarCollapse);
+console.log('NavLink:', NavLink);
 
 // Define props interface
 interface HeaderProps {
@@ -13,31 +24,19 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ isAuthenticated }) => {
   return (
     <Navbar bg="light" expand="lg">
-      <Navbar.Brand href="/">FleaRadar</Navbar.Brand>
-      <Navbar.Toggle aria-controls="basic-navbar-nav" />
-      <Navbar.Collapse id="basic-navbar-nav">
-        <Nav className="me-auto">
-          <Nav.Link href="/explorer">Explorer</Nav.Link>
-          <Nav.Link href="/blog">Blog</Nav.Link>
-          <Nav.Link href="/help">Help</Nav.Link>
-          <Nav.Link href="/contact">Contact</Nav.Link>
-          {isAuthenticated && (
-            <>
-              <Nav.Link href="/csr" data-testid="navbar-csr">
-                Client-side rendered page
-              </Nav.Link>
-              <Nav.Link href="/ssr" data-testid="navbar-ssr">
-                Server-side rendered page
-              </Nav.Link>
-              <Nav.Link href="/external" data-testid="navbar-external">
-                External API
-              </Nav.Link>
-            </>
-          )}
+      <NavbarBrand href="/">FleaRadar</NavbarBrand>
+      <NavbarToggle aria-controls="basic-navbar-nav" />
+      <NavbarCollapse id="basic-navbar-nav">
+        <Nav className="mr-auto">
+          <NavLink href="/">Home</NavLink>
+          <NavLink href="/explorer">Explorer</NavLink>
+          <NavLink href="/add-listing">Add Listing</NavLink>
         </Nav>
-        <SearchBar /> {/* Include your SearchBar component */}
-        <AuthButton /> {/* Include the AuthButton for login/logout */}
-      </Navbar.Collapse>
+        <Nav>
+          <SearchBar />
+          <AuthButton />
+        </Nav>
+      </NavbarCollapse>
     </Navbar>
   );
 };

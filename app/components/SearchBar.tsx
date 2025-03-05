@@ -1,4 +1,5 @@
 // component/SearchBar.tsx
+"use client";
 
 import React, { useState, useEffect } from 'react';
 import Fuse from 'fuse.js';
@@ -9,7 +10,7 @@ import Link from 'next/link';
 // Define the Listing interface based on expected JSON structure and Fuse search keys
 interface Listing {
   id: string | number;
-  title: string;
+  name: string;
   description: string;
   location: string;
   type: string;
@@ -32,7 +33,7 @@ const SearchBar: React.FC = () => {
 
   useEffect(() => {
     const fuse = new Fuse<Listing>(listings as Listing[], { 
-      keys: ['title', 'description', 'location', 'type'],
+      keys: ['name', 'description', 'location', 'type'],
       includeScore: true,
       threshold: 0.3,
     });
@@ -53,7 +54,7 @@ const SearchBar: React.FC = () => {
           <div key={index}>
             <Card>
               <CardBody>
-                <CardTitle tag="h5">{item.title}</CardTitle>
+                <CardTitle tag="h5">{item.name}</CardTitle>
                 <CardText>{item.description}</CardText>
               </CardBody>
             </Card>

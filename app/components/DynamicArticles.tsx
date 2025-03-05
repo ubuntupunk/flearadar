@@ -14,9 +14,9 @@ interface Article {
 }
 
 // Define props interface
-//interface DynamicArticlesProps {
-  //latestArticles: Article[];
-//}
+interface DynamicArticlesProps {
+  latestArticles: Article[];
+}
 
 const DynamicArticles: React.FC<DynamicArticlesProps> = ({ latestArticles }) => {
   return (
@@ -40,27 +40,5 @@ const DynamicArticles: React.FC<DynamicArticlesProps> = ({ latestArticles }) => 
   );
 };
 
-export async function getStaticProps(): Promise<{ props: DynamicArticlesProps }> {
-  const articlesDirectory: string = path.join(process.cwd(), 'articles');
-  const filenames: string[] = fs.readdirSync(articlesDirectory);
-
-  const articles: Article[] = filenames.map((filename: string) => {
-    const filePath: string = path.join(articlesDirectory, filename);
-    const fileContents: string = fs.readFileSync(filePath, 'utf8');
-    const { data } = matter(fileContents);
-    return { ...data, slug: filename.replace(/\.md$/, '') } as Article;
-  });
-
-  // Sort articles by date and get the latest four
-  const latestArticles: Article[] = articles
-    .sort((a: Article, b: Article) => new Date(b.date).getTime() - new Date(a.date).getTime())
-    .slice(0, 4);
-
-  return {
-    props: {
-      latestArticles,
-    },
-  };
-}
 
 export default DynamicArticles;

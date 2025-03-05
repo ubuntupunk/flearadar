@@ -1,6 +1,8 @@
+"use client";
+
 // components/AuthButton.tsx
 
-import { useUser, UserProfile } from '@auth0/nextjs-auth0';
+import { useUser } from '@auth0/nextjs-auth0';
 import Link from 'next/link';
 
 // Optional: Define props interface even if not used yet
@@ -9,11 +11,7 @@ interface AuthButtonProps {
 }
 
 function AuthButton(/* props: AuthButtonProps */) {
-  const { user, error, isLoading }: {
-    user: UserProfile | undefined;
-    error: Error | undefined;
-    isLoading: boolean;
-  } = useUser();
+  const { user, error, isLoading }: { user: any, error: Error | undefined, isLoading: boolean } = useUser();
 
   console.log('User:', user);
   console.log('Error:', error);
