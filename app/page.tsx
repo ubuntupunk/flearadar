@@ -12,8 +12,8 @@ import ReachMillions from "./components/ReachMillions";
 import RssPosts from "./components/RssPosts";
 import Stats from "./components/Stats";
 import Footer from "./components/Footer";
-import path from "path";
 import fs from "fs";
+import path from 'path';
 import matter from "gray-matter";
 import { Analytics } from "@vercel/analytics/react";
 
@@ -37,34 +37,7 @@ export const metadata = {
   keywords: 'food truck, flea market, craft market',
 };
 
-
-export default function Home({ latestArticles }: HomeProps): JSX.Element {
-  return (
-    <div className="min-h-screen bg-gray-100">
-      <Head>
-        <title>FleaRadar Directory</title>
-        <meta name="description" content="Informal Market & Food Truck Directory" />
-        <meta name="keywords" content="food truck, flea market, craft market" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <Header isAuthenticated={false} />
-      <Hero />
-      <Categories />
-      <TrendingListings />
-      <HowItWorks />
-      <JoinCommunity />
-      <PopularSpots />
-      <DynamicArticles latestArticles={latestArticles} />
-      <ReachMillions />
-      <RssPosts />
-      <Stats />
-      <Footer />
-      <Analytics />
-    </div>
-  );
-}
-
-export async function getStaticProps(): Promise<{ props: HomeProps }> {
+async function getLatestArticles(): Promise<Article[]> {
   const articlesDirectory: string = path.join(process.cwd(), 'articles');
   const filenames: string[] = fs.readdirSync(articlesDirectory);
 
@@ -79,10 +52,31 @@ export async function getStaticProps(): Promise<{ props: HomeProps }> {
   const latestArticles: Article[] = articles
     .sort((a: Article, b: Article) => new Date(b.date).getTime() - new Date(a.date).getTime())
     .slice(0, 4);
+  return latestArticles;
+}
 
-  return {
-    props: {
-      latestArticles,
-    },
-  };
+export default async function Home() {
+  const latestArticles = await getLatestArticles();
+
+  return (
+    <div className="min-h-screen bg-gray-100">
+      <Head>
+        <title>FleaRadar Directory</title>
+        <meta name="description" content="Informal Market & Food Truck Directory" />
+        <meta name="keywords" content="food truck, flea market, craft market" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head> 
+      <Hero />
+      <Categories />
+      <TrendingListings />
+      <HowItWorks />
+      <JoinCommunity />
+      <PopularSpots />
+      <DynamicArticles latestArticles={latestArticles} />
+      <ReachMillions />
+      <RssPosts />
+      <Stats />
+      <Analytics />
+    </div>
+  );
 }

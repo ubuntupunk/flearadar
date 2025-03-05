@@ -1,7 +1,12 @@
 // pages/add-listing.tsx
+"use client";
+
 import React, { useState } from 'react';
 import Header from '../components/Header'; // Adjust the import path if necessary
 import Footer from '../components/Footer'; // Adjust the import path if necessary
+import fs from 'fs';
+import path from 'path';
+import matter from 'gray-matter';
 
 // Define props interface (optional for now since no props are passed)
 //interface AddListingProps {
@@ -20,8 +25,7 @@ const AddListing: React.FC = () => {
 
   return (
     <div>
-      <Header isAuthenticated={false} /> {/* Include Header */}
-      <div className="container mx-auto my-8 p-4 border rounded-lg shadow-lg">
+        <div className="container mx-auto my-8 p-4 border rounded-lg shadow-lg">
         <h1 className="text-2xl font-bold mb-4">Add Listing</h1>
         <form onSubmit={handleSubmit}>
           <div>
@@ -61,14 +65,13 @@ const AddListing: React.FC = () => {
             />
           </div>
           <button
-            type={buttonType} onClick={() => setButtonType('submit')}
+            type="submit"
             className="btn bg-red-500 text-white px-4 py-2 rounded-full hover:bg-red-600"
           >
             Add Listing
           </button>
         </form>
       </div>
-      <Footer /> {/* Include Footer */}
     </div>
   );
 };
