@@ -33,14 +33,14 @@ export default function PopularSpots(/* props: PopularSpotsProps */): JSX.Elemen
 
   return (
     <section className="pb-5 pt-5 text-gray-200">
-      <div className="container">
+      <div className="mx-auto max-w-7xl">
         <div className="mb-4 text-center">
           <h2 className="text-gray-800 text-2xl">Most Popular Spots</h2>
           <p className="text-gray-600">The most popular cities for trading flea markets in South Africa</p>
         </div>
-        <div className="justify-content-center row">
+        <div className="flex justify-center flex-wrap">
           {spots.map((spot: Spot, index: number) => (
-            <div key={index} className="col-lg-4 col-md-6 py-3">
+            <div key={index} className="w-full lg:w-1/3 md:w-1/2 py-3">
               <div 
                 className="bg-gray-800 bg-cover bg-center p-4 rounded-lg text-white" 
                 style={{ backgroundImage: `url('${spot.image}')` }}

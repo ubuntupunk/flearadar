@@ -31,14 +31,14 @@ export default function HowItWorks(/* props: HowItWorksProps */): JSX.Element {
 
   return (
     <section className="pb-5 pt-5 text-gray-600">
-      <div className="container">
+      <div className="mx-auto max-w-7xl">
         <div className="mb-4 text-center">
           <h2 className="text-gray-800 text-2xl">How it works</h2>
           <p className="text-gray-600">Register your Informal Business, Search for Markets & Food Trucks</p>
         </div>
-        <div className="justify-content-center row">
+        <div className="flex justify-center flex-wrap">
           {steps.map((step: Step, index: number) => (
-            <div key={index} className="col-lg-4 col-sm-6 pb-3 pt-3">
+            <div key={index} className="w-full lg:w-1/3 sm:w-1/2 pb-3 pt-3">
               <div className="border p-4 rounded-lg">
                 <svg 
                   xmlns="http://www.w3.org/2000/svg" 

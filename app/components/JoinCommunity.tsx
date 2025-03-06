@@ -1,3 +1,5 @@
+import React from 'react';
+
 // Optional props interface for future use
 interface JoinCommunityProps {
   // Add props here if needed
@@ -6,7 +8,7 @@ interface JoinCommunityProps {
 export default function JoinCommunity(/* props: JoinCommunityProps */): JSX.Element {
   return (
     <section className="bg-red-500 pb-3 pt-3 text-white">
-      <div className="container pb-5 pt-5">
+      <div className="mx-auto max-w-7xl pb-5 pt-5">
         <div className="flex items-center">
           <div className="flex-1">
             <h2 className="text-2xl mb-3">Join Our Amazing Community</h2>

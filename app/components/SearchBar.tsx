@@ -4,7 +4,6 @@
 import React, { useState, useEffect } from 'react';
 import Fuse from 'fuse.js';
 import listings from '../data/listings.json';
-import { Card, CardBody, CardTitle, CardText } from 'reactstrap';
 import Link from 'next/link';
 
 // Define the Listing interface based on expected JSON structure and Fuse search keys
@@ -48,17 +47,16 @@ const SearchBar: React.FC = () => {
         placeholder="Search..."
         value={query}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => setQuery(e.target.value)}
+        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
       />
       <div>
         {results.map((item: Listing, index: number) => (
-          <div key={index}>
-            <Card>
-              <CardBody>
-                <CardTitle tag="h5">{item.name}</CardTitle>
-                <CardText>{item.description}</CardText>
-              </CardBody>
-            </Card>
-            <Link href={`/listings/${item.id}`}>
+          <div key={index} className="max-w-sm rounded overflow-hidden shadow-lg">
+            <div className="px-6 py-4">
+              <div className="font-bold text-xl mb-2">{item.name}</div>
+              <p className="text-gray-700 text-base">{item.description}</p>
+            </div>
+            <Link href={`/listings/${item.id}`} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
               View Listing
             </Link>
           </div>

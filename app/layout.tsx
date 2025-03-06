@@ -1,12 +1,12 @@
 //app/layout.tsx
 
-import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap CSS
+import React from 'react';
+
 import '../styles/globals.css'; // Global CSS
-import '../styles/article.css'; // Article-specific CSS
 import Header from './components/Header'; // Adjust the import path if necessary
 import Footer from './components/Footer'; // Adjust the import path if necessary
-import { Auth0Provider } from '@auth0/nextjs-auth0'; // Using server-side Auth0 provider
 import Head from 'next/head'; // Import Head for metadata
+import Auth0ClientProvider from './components/DynamicAuth0ClientProvider';
 
 // Define the props interface for the layout
 interface RootLayoutProps {
@@ -19,27 +19,19 @@ export const metadata: { title: string; description: string } = {
   description: 'Access directory of informal Markets and Vendors',
 };
 
-// Auth0 redirectUri needs window.location.origin, handled dynamically
-const redirectUri: string = typeof window !== 'undefined' ? window.location.origin : '';
-
-
 export default function RootLayout({ children }: RootLayoutProps): JSX.Element {
   return (
     <html lang="en">
       <body>
         <Head>
-      <title>{metadata.title}</title>
-      <meta name="description" content={metadata.description} />
-    </Head>
-        <Auth0Provider
-          clientId="AT0KJzvX5F2CbR9TmYfhj18oLXe92U2z"
-          domain="netbones.us.auth0.com"
-          redirectUri={redirectUri}
-        >
+          <title>{metadata.title}</title>
+          <meta name="description" content={metadata.description} />
+        </Head>
+        <Auth0ClientProvider>
           <Header isAuthenticated={false} /> {/* Pass appropriate props */}
           <main>{children}</main>
           <Footer />
-        </Auth0Provider>
+        </Auth0ClientProvider>
       </body>
     </html>
   );
