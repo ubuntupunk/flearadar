@@ -38,7 +38,7 @@ export const metadata = {
 };
 
 async function getLatestArticles(): Promise<Article[]> {
-  const articlesDirectory: string = path.join(process.cwd(), 'articles');
+  const articlesDirectory: string = path.join(process.cwd(), 'src/articles');
   const filenames: string[] = fs.readdirSync(articlesDirectory);
 
   const articles: Article[] = filenames.map((filename: string) => {
