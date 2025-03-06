@@ -1,16 +1,5 @@
 import React from 'react';
-import { styled } from '@mui/material/';
-import Card from '@mui/material/';
-import CardHeader from '@mui/material/';
-import CardMedia from '@mui/material/';
-import CardContent from '@mui/material/';
-import CardActions from '@mui/material/';
-import Collapse from '@mui/material/';
-import Avatar from '@mui/material/';
-import IconButton, { IconButtonProps } from '@mui/material/';
-import Typography from '@mui/material/';
-import ExpandMoreIcon from '@mui/icons-material/';
-import { red } from '@mui/material/colors';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 // Define the Item interface
 interface Item {
@@ -28,20 +17,7 @@ interface ExpandableCardProps {
   item: Item;
 }
 
-// Extend IconButtonProps with custom expand property
-interface ExpandMoreProps extends IconButtonProps {
-  expand: boolean;
-}
-
-const ExpandMore = styled(({ expand, ...props }: ExpandMoreProps) => (
-  <IconButton {...props} />
-))(({ theme, expand }) => ({
-  marginLeft: '10px',
-  transition: 'transform 0.2s',
-  transform: expand ? 'rotate(180deg)' : 'rotate(0deg)',
-}));
-
-export default function ExpandableCard({ item }: ExpandableCardProps): JSX.Element {
+export default function ExpandableCard({ item }: ExpandableCardProps): React.ReactElement {
   const [expanded, setExpanded] = React.useState<boolean>(false);
 
   const handleExpandClick = (): void => {
@@ -49,53 +25,35 @@ export default function ExpandableCard({ item }: ExpandableCardProps): JSX.Eleme
   };
 
   return (
-    <Card sx={{ maxWidth: 345 }}>
-      <CardHeader
-        avatar={
-          <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-            {item.name.charAt(0)}
-          </Avatar>
-        }
-        title={item.name}
-        subheader={item.location}
-      />
-      <CardMedia
-        component="img"
-        height="194"
-        image={item.image}
-        alt={item.name}
-      />
-      <CardContent>
-        <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-          {item.description}
-        </Typography>
-      </CardContent>
-      <CardActions disableSpacing>
-        <ExpandMore
-          expand={expanded}
-          onClick={handleExpandClick}
-          aria-expanded={expanded}
-          aria-label="show more"
-        >
+    <div className="max-w-sm rounded overflow-hidden shadow-lg">
+      <div className="px-6 py-4">
+        <div className="font-bold text-xl mb-2">{item.name}</div>
+        <p className="text-gray-700 text-base">{item.location}</p>
+      </div>
+      <img className="w-full" src={item.image} alt={item.name} />
+      <div className="px-6 pt-4 pb-2">
+        <p className="text-gray-700 text-base">{item.description}</p>
+        <button onClick={handleExpandClick} className="inline-flex items-center mt-2 px-4 py-2 bg-gray-100 text-gray-500 rounded-full">
+          <span className="mr-2">More Info</span>
           <ExpandMoreIcon />
-        </ExpandMore>
-      </CardActions>
-      <Collapse in={expanded} timeout="auto" unmountOnExit>
-        <CardContent>
-          <Typography variant="body2">
+        </button>
+      </div>
+      {expanded && (
+        <div className="px-6 pt-4 pb-2">
+          <p className="text-gray-700 text-base">
             <strong>Type:</strong> {String(item.type)}
-          </Typography>
-          <Typography variant="body2">
+          </p>
+          <p className="text-gray-700 text-base">
             <strong>Rating:</strong> {String(item.rating)}
-          </Typography>
-          <Typography variant="body2">
+          </p>
+          <p className="text-gray-700 text-base">
             <strong>Location:</strong> {String(item.location)}
-          </Typography>
-          <Typography variant="body2">
+          </p>
+          <p className="text-gray-700 text-base">
             <strong>GPS:</strong> {String(item.gps)}
-          </Typography>
-        </CardContent>
-      </Collapse>
-    </Card>
+          </p>
+        </div>
+      )}
+    </div>
   );
 }

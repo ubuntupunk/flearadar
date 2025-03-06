@@ -1,8 +1,6 @@
 // app/explorer/page.tsx
 import React from 'react';
 import Explorer from '../components/Explorer'; // Adjust the path if necessary
-import Header from '../components/Header';
-import Footer from '../components/Footer';
 
 // Define props interface if passing data
 interface ExplorerPageProps {
@@ -16,9 +14,7 @@ export default async function ExplorerPage(/* props: ExplorerPageProps */): Prom
 
   return (
     <div>
-      <Header isAuthenticated={false} />
       <Explorer />
-      <Footer />
     </div>
   );
 }

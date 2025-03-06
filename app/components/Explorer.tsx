@@ -1,3 +1,4 @@
+"use client";
 import React from 'react';
 import Slider from 'react-slick';
 import ExpandableCard from './ExpandableCard'; // Import the new card component
@@ -36,11 +37,11 @@ const Explorer: React.FC = () => {
   };
 
   return (
-    <div className="text-center">
-      <h1>Explore Vendors, Markets, and Food Trucks</h1>
+    <div className="text-center py-4">
+      <h1 className="text-2xl font-bold mb-4">Explore Vendors, Markets, and Food Trucks</h1>
       <Slider {...settings}>
         {(listings as Item[]).map((item: Item) => (
-          <div key={item.id}>
+          <div key={item.id} className="px-2">
             <ExpandableCard item={item} />
           </div>
         ))}
