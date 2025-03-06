@@ -1,5 +1,6 @@
 import React from 'react';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import Image from 'next/image';
 
 // Define the Item interface
 interface Item {

@@ -9,7 +9,7 @@ const BlogPage = ({ articles }) => {
   return <Blog articles={articles} />;
 };
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   const articlesDirectory = path.join(process.cwd(), 'articles');
   const filenames = fs.readdirSync(articlesDirectory);
 
