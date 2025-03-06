@@ -6,7 +6,7 @@ import '../styles/globals.css'; // Global CSS
 import Header from './components/Header'; // Adjust the import path if necessary
 import Footer from './components/Footer'; // Adjust the import path if necessary
 import Head from 'next/head'; // Import Head for metadata
-import Auth0ClientProvider from './components/DynamicAuth0ClientProvider';
+import { Auth0ClientProvider } from './components/Auth0ClientProvider';
 
 // Define the props interface for the layout
 interface RootLayoutProps {
@@ -19,7 +19,7 @@ export const metadata: { title: string; description: string } = {
   description: 'Access directory of informal Markets and Vendors',
 };
 
-export default function RootLayout({ children }: RootLayoutProps): JSX.Element {
+export default function RootLayout({ children }: RootLayoutProps): React.ReactNode {
   return (
     <html lang="en">
       <body>
@@ -28,7 +28,7 @@ export default function RootLayout({ children }: RootLayoutProps): JSX.Element {
           <meta name="description" content={metadata.description} />
         </Head>
         <Auth0ClientProvider>
-          <Header isAuthenticated={false} /> {/* Pass appropriate props */}
+          <Header /> {/* Pass appropriate props */}
           <main>{children}</main>
           <Footer />
         </Auth0ClientProvider>

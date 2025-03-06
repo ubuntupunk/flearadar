@@ -31,6 +31,7 @@ export function Auth0ClientProvider({ children }: Auth0ClientProviderProps) {
       clientId={process.env.NEXT_PUBLIC_AUTH0_CLIENT_ID || ""}
       authorizationParams={{
         redirect_uri: redirectUri,
+        audience: process.env.NEXT_PUBLIC_AUTH0_AUDIENCE,
       }}
       onRedirectCallback={onRedirectCallback}
     >

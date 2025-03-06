@@ -6,12 +6,14 @@ import AuthButton from './AuthButton';
 import SearchBar from './SearchBar';
 
 // Define props interface
+import { useUser } from '@auth0/nextjs-auth0';
+
 interface HeaderProps {
-  isAuthenticated: boolean;
 }
 
-const Header: React.FC<HeaderProps> = ({ isAuthenticated }) => {
+const Header: React.FC<HeaderProps> = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { user, error, isLoading } = useUser();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -33,6 +35,9 @@ const Header: React.FC<HeaderProps> = ({ isAuthenticated }) => {
         <div className="flex items-center space-x-2">
           <SearchBar />
           <AuthButton />
+          {user && (
+            <span className="text-gray-700">Welcome, {user.name}!</span>
+          )}
         </div>
       </div>
       </div>

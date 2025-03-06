@@ -11,7 +11,7 @@ interface AuthButtonProps {
 }
 
 function AuthButton(/* props: AuthButtonProps */) {
-  const { user, error, isLoading }: { user: any, error: Error | undefined, isLoading: boolean } = useUser();
+  const { user, error, isLoading }: { user: any, error: Error | undefined | null, isLoading: boolean } = useUser();
 
   console.log('User:', user);
   console.log('Error:', error);
