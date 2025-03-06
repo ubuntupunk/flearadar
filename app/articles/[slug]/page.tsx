@@ -18,9 +18,12 @@ async function getArticle(slug: string) {
   const fileContents = fs.readFileSync(filePath, 'utf8');
   const { data, content } = matter(fileContents);
 
+  // Remove the first h1 heading from the content
+  const contentWithoutHeading = content.replace(/^#\s[^\n]+\n/, '');
+
   return {
     frontmatter: data,
-    content,
+    content: contentWithoutHeading,
   };
 }
 
