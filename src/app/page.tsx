@@ -1,6 +1,5 @@
 // app/page.tsx
 import Head from "next/head";
-import Header from "./components/Header";
 import Hero from "./components/Hero";
 import Categories from "./components/Categories";
 import TrendingListings from "./components/TrendingListings";
@@ -11,7 +10,6 @@ import DynamicArticles from "./components/DynamicArticles";
 import ReachMillions from "./components/ReachMillions";
 import RssPosts from "./components/RssPosts";
 import Stats from "./components/Stats";
-import Footer from "./components/Footer";
 import fs from "fs";
 import path from 'path';
 import matter from "gray-matter";

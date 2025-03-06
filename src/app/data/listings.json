@@ -8,7 +8,7 @@
       "location": "456 Oak Ave",
       "gps": "37.7749,-122.4194",
       "image": "https://placehold.co/150x150/gray/white",
-      "rating": 4.7
+      "rating": [4, 5]
     },
     {
       "id": 2,
@@ -19,7 +19,7 @@
       "location": "789 Pine St",
       "gps": "37.7749,-122.4194",
       "image": "https://placehold.co/150x150/gray/white",
-      "rating": 4.8
+      "rating": [4, 5]
     },
     {
       "id": 3,
@@ -30,7 +30,7 @@
       "location": "321 Elm Rd",
       "gps": "37.7749,-122.4194",
       "image": "https://placehold.co/150x150/gray/white",
-      "rating": 4.6
+      "rating": [4, 5]
     },
     {
       "id": 4,
@@ -41,18 +41,18 @@
       "location": "456 Oak Ave",
       "gps": "37.7749,-122.4194",
       "image": "https://placehold.co/150x150/gray/white",
-      "rating": 4.7
+      "rating": [4, 5]
     },
     {
       "id": 5,
       "name": "Coffee Truck",
-      "type": "Food Truck - Cafe", 
-      "description": "A delicious truck selling authentic Mexican food.", 
+      "type": "Food Truck - Cafe",
+      "description": "A delicious truck selling authentic Mexican food.",
       "date": "Open Now",
       "location": "789 Pine St",
       "gps": "37.7749,-122.4194",
       "image": "https://placehold.co/150x150/gray/white",
-      "rating": 4.8
+      "rating": [4, 5]
     },
     {
       "id": 6,
@@ -63,7 +63,7 @@
       "location": "321 Elm Rd",
       "gps": "37.7749,-122.4194",
       "image": "https://placehold.co/150x150/gray/white",
-      "rating": 4.6
+      "rating": [4, 5]
     }
-   
+
   ]

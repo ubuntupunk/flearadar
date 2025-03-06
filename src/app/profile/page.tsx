@@ -3,19 +3,17 @@
 
 import React from 'react';
 import { Row, Col } from 'reactstrap';
-import { useUser, withPageAuthRequired, UserProfile, WithPageAuthRequiredProps } from '@auth0/nextjs-auth0/client';
+import { useUser, withPageAuthRequired } from '@auth0/nextjs-auth0/dist/client';
+import Image from 'next/image';
 
 import Loading from '../components/Loading';
 import ErrorMessage from '../components/ErrorMessage';
 import Highlight from '../components/Highlight';
 
-// Define component props (extending Auth0 props if needed)
-interface ProfileProps extends WithPageAuthRequiredProps {
-  // Add additional props here if needed in the future
-}
+interface ProfileProps {}
 
-function Profile(/* props: ProfileProps */): JSX.Element {
-  const { user, isLoading }: { user: UserProfile | undefined; isLoading: boolean } = useUser();
+function Profile(): JSX.Element {
+  const { user, isLoading } = useUser();
 
   return (
     <>
@@ -24,11 +22,13 @@ function Profile(/* props: ProfileProps */): JSX.Element {
         <>
           <Row className="align-items-center profile-header mb-5 text-center text-md-left" data-testid="profile">
             <Col md={2}>
-              <img
-                src={user.picture as string} // Type assertion since picture is optional in UserProfile
+              <Image
+                src={user.picture as string}
                 alt="Profile"
+                width={100}
+                height={100}
                 className="rounded-circle img-fluid profile-picture mb-3 mb-md-0"
-                decoding="async" // Changed decode to decoding for correct HTML attribute
+                decoding="async"
                 data-testid="profile-picture"
               />
             </Col>
@@ -50,5 +50,5 @@ function Profile(/* props: ProfileProps */): JSX.Element {
 
 export default withPageAuthRequired(Profile, {
   onRedirecting: () => <Loading />,
-  onError: (error: Error) => <ErrorMessage>{error.message}</ErrorMessage>,
+  onError: (error: Error) => <ErrorMessage data-testid="error-message">{error.message}</ErrorMessage>,
 });

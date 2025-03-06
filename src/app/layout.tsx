@@ -6,7 +6,8 @@ import '../styles/globals.css'; // Global CSS
 import Header from './components/Header'; // Adjust the import path if necessary
 import Footer from './components/Footer'; // Adjust the import path if necessary
 import Head from 'next/head'; // Import Head for metadata
-import { Auth0ClientProvider } from './components/Auth0ClientProvider';
+//import { Auth0ClientProvider } from './components/Auth0ClientProvider';
+import { Auth0Provider } from '@auth0/nextjs-auth0/';
 
 // Define the props interface for the layout
 interface RootLayoutProps {
@@ -27,11 +28,11 @@ export default function RootLayout({ children }: RootLayoutProps): React.ReactNo
           <title>{metadata.title}</title>
           <meta name="description" content={metadata.description} />
         </Head>
-        <Auth0ClientProvider>
+        <Auth0Provider>
           <Header /> {/* Pass appropriate props */}
           <main>{children}</main>
           <Footer />
-        </Auth0ClientProvider>
+        </Auth0Provider>
       </body>
     </html>
   );

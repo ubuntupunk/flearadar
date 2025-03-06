@@ -1,6 +1,8 @@
+import React from 'react';
 //components/TrendingListings
 import listings from "../data/listings.json";
 import Image from 'next/image';
+import Score from './Score';
 
 // Define the Listing interface based on expected JSON structure
 interface Listing {
@@ -8,8 +10,7 @@ interface Listing {
   name: string;
   image: string;
   location: string;
-  rating: number | string; // Flexible type since it's used as a count of reviews
-  // Add more fields from listings.json if present
+  rating: number[];
 }
 
 // Optional props interface for future use
@@ -29,12 +30,12 @@ export default function TrendingListings(/* props: TrendingListingsProps */): JS
           {(listings as Listing[]).map((listing: Listing) => (
             <div key={listing.id} className="border rounded-lg shadow-sm">
               <a href="#" className="d-block">
-                <Image 
-                  src={listing.image} 
-                  width={600} 
-                  height={300} 
-                  className="w-full h-48 object-cover rounded-t-lg" 
-                  alt={listing.name} 
+                <Image
+                  src={listing.image}
+                  width={600}
+                  height={300}
+                  className="w-full h-48 object-cover rounded-t-lg"
+                  alt={listing.name}
                 />
               </a>
               <div className="p-4">
@@ -44,12 +45,12 @@ export default function TrendingListings(/* props: TrendingListingsProps */): JS
                       <h3 className="text-lg mb-1">{listing.name}</h3>
                     </a>
                     <div className="flex items-center">
-                      <svg 
-                        xmlns="http://www.w3.org/2000/svg" 
-                        viewBox="0 0 24 24" 
-                        fill="currentColor" 
-                        width="1.125em" 
-                        height="1.125em" 
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                        width="1.125em"
+                        height="1.125em"
                         className="mr-1 text-red-500"
                       >
                         <path fill="none" d="M0 0h24v24H0z"></path>
@@ -59,12 +60,12 @@ export default function TrendingListings(/* props: TrendingListingsProps */): JS
                     </div>
                   </div>
                   <a href="#" className="btn bg-red-500 text-white p-2 rounded-full" aria-label="add to favorite">
-                    <svg 
-                      xmlns="http://www.w3.org/2000/svg" 
-                      viewBox="0 0 24 24" 
-                      fill="currentColor" 
-                      width="1em" 
-                      height="1em" 
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                      width="1em"
+                      height="1em"
                       className="inline-block"
                     >
                       <path fill="none" d="M0 0H24V24H0z"></path>
@@ -74,24 +75,7 @@ export default function TrendingListings(/* props: TrendingListingsProps */): JS
                 </div>
                 <hr className="my-2" />
                 <div className="flex justify-between items-center">
-                  <div>
-                    <span className="text-red-500">
-                      {Array.from({ length: 5 }, (_, i: number) => (
-                        <svg 
-                          key={i} 
-                          xmlns="http://www.w3.org/2000/svg" 
-                          viewBox="0 0 24 24" 
-                          fill="currentColor" 
-                          width="1.125em" 
-                          height="1.125em"
-                        >
-                          <path fill="none" d="M0 0h24v24H0z"></path>
-                          <path d="M12 18.26l-7.053 3.948 1.575-7.928L.587 8.792l8.027-.952L12 .5l3.386 7.34 8.027.952-5.935 5.488 1.575 7.928z"></path>
-                        </svg>
-                      ))}
-                    </span>
-                    <span className="text-gray-600 ml-1">{listing.rating} reviews</span>
-                  </div>
+                  <Score rating={listing.rating} />
                   <span className="font-bold text-gray-800">Rands</span>
                 </div>
               </div>

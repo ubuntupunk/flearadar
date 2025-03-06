@@ -6,12 +6,12 @@ import { useUser } from '@auth0/nextjs-auth0';
 import Link from 'next/link';
 
 // Optional: Define props interface even if not used yet
-interface AuthButtonProps {
+//interface AuthButtonProps {
   // Add props here if needed in the future
-}
+//}
 
 function AuthButton(/* props: AuthButtonProps */) {
-  const { user, error, isLoading }: { user: any, error: Error | undefined | null, isLoading: boolean } = useUser();
+  const { user, error, isLoading }: { user: { email?: string, name?: string, nickname?: string, picture?: string } | undefined | null, error: Error | undefined | null, isLoading: boolean } = useUser();
 
   console.log('User:', user);
   console.log('Error:', error);

@@ -7,9 +7,9 @@ interface Category {
 }
 
 // Optional props interface for future use
-interface CategoriesProps {
+//interface CategoriesProps {
   // Add props here if needed
-}
+//}
 
 export default function Categories(/* props: CategoriesProps */): JSX.Element {
   const categories: Category[] = [

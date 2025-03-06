@@ -2,11 +2,7 @@
 "use client";
 
 import React, { useState } from 'react';
-import Header from '../components/Header'; // Adjust the import path if necessary
-import Footer from '../components/Footer'; // Adjust the import path if necessary
-import fs from 'fs';
-import path from 'path';
-import matter from 'gray-matter';
+
 
 // Define props interface (optional for now since no props are passed)
 //interface AddListingProps {
@@ -17,7 +13,7 @@ const AddListing: React.FC = () => {
   const [name, setName] = useState<string>('');
   const [type, setType] = useState<string>('');
   const [description, setDescription] = useState<string>('');
-  const [buttonType, setButtonType] = useState<string>('');
+  //const [buttonType, setButtonType] = useState<string>('');
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     console.log('Listing submitted:', { name, type, description });

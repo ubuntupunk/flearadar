@@ -1,5 +1,5 @@
 {
-  "name": "flearadar-grok",
+  "name": "flearadar",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -20,9 +20,11 @@
     "fuse.js": "^6.4.6",
     "gray-matter": "^4.0.3",
     "markdown-to-jsx": "^7.7.4",
-    "next": "^15.2.1",
-    "react": "^18.0.0",
+    "next": "latest",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
     "react-slick": "^0.30.3",
+    "reactstrap": "^9.2.3",
     "remark": "^15.0.1",
     "remark-html": "^16.0.1",
     "slick-carousel": "^1.8.1"
@@ -36,6 +38,7 @@
     "@types/react-dom": "^19.0.4",
     "@types/react-slick": "^0.23.13",
     "autoprefixer": "^10.4.20",
+    "cypress": "^14.1.0",
     "eslint": "^9",
     "eslint-config-next": "15.1.7",
     "postcss": "^8",
