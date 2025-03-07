@@ -70,10 +70,12 @@ const SearchBar: React.FC = () => {
                 <Link href={`/directory/${item.id}`} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                   View Listing
                 </Link>
-                <Link href={`/explorer?gps=${item.gps}`} className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded ml-2">
-                  <ExploreIcon />
-                  Explore
-                </Link>
+                {item.gps && (
+                  <Link href={`/explorer?gps=${item.gps}`} className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded ml-2">
+                    <ExploreIcon />
+                    Explore
+                  </Link>
+                )}
               </div>
             </div>
           </div>
