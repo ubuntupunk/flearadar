@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { withPageAuthRequired, WithPageAuthRequiredProps, useUser } from '@auth0/nextjs-auth0/client';
+import { withPageAuthRequired, WithPageAuthRequiredProps, useUser } from '@auth0/nextjs-auth0';
 
 interface CSRPageProps extends WithPageAuthRequiredProps {
   // Add any additional props here if needed

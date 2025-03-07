@@ -4,7 +4,7 @@ import matter from 'gray-matter';
 import Markdown from 'markdown-to-jsx';
 
 export async function generateStaticParams() {
-  const articlesDirectory = path.join(process.cwd(), 'articles');
+  const articlesDirectory = path.join(process.cwd(), 'src/articles');
   const filenames = fs.readdirSync(articlesDirectory);
 
   return filenames.map((filename) => ({
@@ -13,7 +13,7 @@ export async function generateStaticParams() {
 }
 
 async function getArticle(slug: string) {
-  const articlesDirectory = path.join(process.cwd(), 'articles');
+  const articlesDirectory = path.join(process.cwd(), 'src/articles');
   const filePath = path.join(articlesDirectory, `${slug}.md`);
   const fileContents = fs.readFileSync(filePath, 'utf8');
   const { data, content } = matter(fileContents);

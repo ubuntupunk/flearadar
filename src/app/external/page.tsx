@@ -1,24 +1,39 @@
 //app/external/page.tsx
 'use client';
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React, { useState, useEffect } from 'react';
 import { Row, Col, Button } from 'reactstrap';
-import { useUser, withPageAuthRequired, UserProfile, WithPageAuthRequiredProps } from '@auth0/nextjs-auth0/client';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { useUser, UserProfile, WithPageAuthRequiredProps } from '@auth0/nextjs-auth0';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { withPageAuthRequired } from '@auth0/nextjs-auth0';
 
 import Loading from '../components/Loading';
 import ErrorMessage from '../components/ErrorMessage';
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 import Highlight from '../components/Highlight';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 // Define the state type (adjust response type based on your API)
 interface FetchState {
   isLoading: boolean;
-  response: any | undefined; // Use 'any' temporarily; replace with actual type (e.g., { shows: string[] })
+  response: unknown | undefined; // Use 'any' temporarily; replace with actual type (e.g., { shows: string[] })
   error: string | undefined;
 }
 
-// Define component props
-interface ExternalProps extends WithPageAuthRequiredProps {}
+interface ShowsResponse {
+  shows: string[];
+}
 
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+// Define component props
+interface ExternalProps {}
+
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+// eslint-disable-next-line @typescript-eslint/ban-types
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+// eslint-disable-next-line react/display-name
 function External(/* props: ExternalProps */): JSX.Element {
   const [state, setState] = useState<FetchState>({
     isLoading: false,
@@ -57,11 +72,12 @@ function External(/* props: ExternalProps */): JSX.Element {
             This will call a local API on port 3001 that would have been started if you run <code>npm run dev</code>.
           </p>
           <p>
-            An access token is sent as part of the request's <code>Authorization</code> header and the API will validate
-            it using the API's audience value. The audience is the identifier of the API that you want to call (see{' '}
+            An access token is sent as part of the {`request's`} <code>Authorization</code> header and the API will validate
+            it using the {`API's`} audience value. The audience is the identifier of the API that you want to call (see{/* eslint-disable-next-line react/no-unescaped-entities */` `}
             <a href="https://auth0.com/docs/get-started/dashboard/tenant-settings#api-authorization-settings">
               API Authorization Settings
-            </a>{' '}
+            </a>
+            {/* eslint-disable-next-line react/no-unescaped-entities */}
             for more info).
           </p>
         </div>
@@ -75,20 +91,22 @@ function External(/* props: ExternalProps */): JSX.Element {
         </Button>
       </div>
       <div className="result-block-container">
-        {isLoading && <Loading />}
-        {(error || response) && (
-          <div className="result-block" data-testid="external-result">
-            <h6 className="muted">Result</h6>
-            {error && <ErrorMessage>{error}</ErrorMessage>}
-            {response && <Highlight children={JSON.stringify(response, null, 2)} testId="external-response" />}
-          </div>
-        )}
+            {isLoading && <Loading />}
+            {(error || response) && (
+              <div className="result-block" data-testid="external-result">
+                <h6 className="muted">Result</h6>
+                {error && <ErrorMessage>{error}</ErrorMessage>}
+                <Highlight testId="external-response">{JSON.stringify(response, null, 2)}</Highlight>
+              </div>
+            )}
       </div>
     </>
   );
 }
 
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export default withPageAuthRequired(External, {
   onRedirecting: () => <Loading />,
   onError: (error: Error) => <ErrorMessage>{error.message}</ErrorMessage>,
-});
+})

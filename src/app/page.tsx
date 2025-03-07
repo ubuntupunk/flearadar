@@ -21,7 +21,7 @@ interface Article {
   description: string;
   date: string;
   slug: string;
-  [key: string]: any; // Allow additional frontmatter fields
+  [key: string]: string | number | boolean; // Allow additional frontmatter fields
 }
 
 // Define props interface for the Home component
@@ -57,7 +57,7 @@ export default async function Home() {
   const latestArticles = await getLatestArticles();
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-gray-100" style={{ zIndex: 200, paddingBottom: '50px' }}>
       <Head>
         <title>FleaRadar Directory</title>
         <meta name="description" content="Informal Market & Food Truck Directory" />

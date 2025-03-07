@@ -1,31 +1,25 @@
-// pages/blog.js
-import Blog from '../components/Blog'; // Import the Blog component
-
+// app/blog/page.tsx
+import Blog from '../components/Blog';
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
+import { Article } from '../components/Blog';
 
-const BlogPage = ({ articles }) => {
-  return <Blog articles={articles} />;
-};
-
-export async function getServerSideProps() {
-  const articlesDirectory = path.join(process.cwd(), 'articles');
+async function getArticles(): Promise<Article[]> {
+  const articlesDirectory = path.join(process.cwd(), 'src/articles');
   const filenames = fs.readdirSync(articlesDirectory);
 
   const articles = filenames.map((filename) => {
     const filePath = path.join(articlesDirectory, filename);
     const fileContents = fs.readFileSync(filePath, 'utf8');
-    const { data, content } = matter(fileContents);
-    return { ...data, content };
+    const { data } = matter(fileContents);
+    return { ...data, slug: filename.replace(/\.md$/, '') } as Article;
   });
 
-  return {
-    props: {
-      articles,
-    },
-  };
+  return articles;
 }
 
-
-export default BlogPage;
+export default async function BlogPage() {
+  const articles = await getArticles();
+  return <Blog articles={articles} />;
+}

@@ -31,7 +31,7 @@ export default function ExpandableCard({ item }: ExpandableCardProps): React.Rea
         <div className="font-bold text-xl mb-2">{item.name}</div>
         <p className="text-gray-700 text-base">{item.location}</p>
       </div>
-      <img className="w-full" src={item.image} alt={item.name} />
+      <Image className="w-full" src={item.image} alt={item.name} width={150} height={150} />
       <div className="px-6 pt-4 pb-2">
         <p className="text-gray-700 text-base">{item.description}</p>
         <button onClick={handleExpandClick} className="inline-flex items-center mt-2 px-4 py-2 bg-gray-100 text-gray-500 rounded-full">

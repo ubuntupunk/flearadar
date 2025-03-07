@@ -1,8 +1,9 @@
 // app/ssr/page.tsx
 import React from 'react';
-import { getSession, withPageAuthRequired, UserProfile } from '@auth0/nextjs-auth0';
+import { getSession, withPageAuthRequired, UserProfile } from '@auth0/nextjs-auth0/server';
 
-//import Highlight from '../../components/Highlight';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import Highlight from '../components/Highlight';
 
 // Define the props interface (though not directly used due to async nature)
 interface SSRPageProps {
@@ -30,7 +31,7 @@ export default withPageAuthRequired(
         <div className="result-block-container" data-testid="ssr-json">
           <div className="result-block">
             <h6 className="muted">User</h6>
-            <Highlight>{JSON.stringify(user, null, 2)}</Highlight>
+            <Highlight testId="highlight">{JSON.stringify(user, null, 2)}</Highlight>
           </div>
         </div>
       </>

@@ -21,7 +21,11 @@ export function Auth0ClientProvider({ children }: Auth0ClientProviderProps) {
     setRedirectUri(window.location.origin);
   }, []);
 
-  const onRedirectCallback = (appState: any) => {
+  interface AppState {
+    returnTo?: string;
+  }
+
+  const onRedirectCallback = (appState?: AppState) => {
     router.push(appState?.returnTo || window.location.pathname);
   };
 

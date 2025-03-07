@@ -1,3 +1,4 @@
+import React from 'react';
 import Image from 'next/image';
 
 // Define the Featured interface
@@ -12,9 +13,9 @@ interface Featured {
 }
 
 // Optional props interface for future use
-interface FeaturedListingProps {
+//interface FeaturedListingProps {
   // Add props here if needed
-}
+//}
 
 export default function FeaturedListing(/* props: FeaturedListingProps */): JSX.Element {
   const featured: Featured = {

@@ -8,7 +8,7 @@ interface Article {
   description: string;
   date: string;
   slug: string;
-  [key: string]: any; // Allow for additional frontmatter fields
+  [key: string]: string | number | boolean; // Allow for additional frontmatter fields
 }
 
 // Define props interface

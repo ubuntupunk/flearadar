@@ -2,16 +2,22 @@
 'use client';
 
 import React from 'react';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Row, Col } from 'reactstrap';
-import { useUser, withPageAuthRequired } from '@auth0/nextjs-auth0/dist/client';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { useUser, withPageAuthRequired } from '@auth0/nextjs-auth0';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import Image from 'next/image';
 
 import Loading from '../components/Loading';
 import ErrorMessage from '../components/ErrorMessage';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import Highlight from '../components/Highlight';
 
-interface ProfileProps {}
-
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+// eslint-disable-next-line @typescript-eslint/ban-types
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function Profile(): JSX.Element {
   const { user, isLoading } = useUser();
 
@@ -40,6 +46,7 @@ function Profile(): JSX.Element {
             </Col>
           </Row>
           <Row data-testid="profile-json">
+            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
             <Highlight>{JSON.stringify(user, null, 2)}</Highlight>
           </Row>
         </>
@@ -50,5 +57,5 @@ function Profile(): JSX.Element {
 
 export default withPageAuthRequired(Profile, {
   onRedirecting: () => <Loading />,
-  onError: (error: Error) => <ErrorMessage data-testid="error-message">{error.message}</ErrorMessage>,
+  onError: (error: Error) => <ErrorMessage>{error.message}</ErrorMessage>,
 });

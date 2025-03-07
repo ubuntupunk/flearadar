@@ -29,7 +29,7 @@ export default function RootLayout({ children }: RootLayoutProps): React.ReactNo
           <meta name="description" content={metadata.description} />
         </Head>
         <Auth0Provider>
-          <Header /> {/* Pass appropriate props */}
+          <Header isAuthenticated={false} /> {/* Pass appropriate props */}
           <main>{children}</main>
           <Footer />
         </Auth0Provider>

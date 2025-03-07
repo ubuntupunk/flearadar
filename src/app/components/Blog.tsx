@@ -43,4 +43,5 @@ const Blog: React.FC<BlogProps> = ({ articles }) => {
   );
 };
 
+export type { Article };
 export default Blog;

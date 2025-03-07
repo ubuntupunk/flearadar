@@ -1,7 +1,7 @@
 // Optional props interface for future use
-interface FooterProps {
+//interface FooterProps {
   // Add props here if needed
-}
+//}
 
 export default function Footer(/* props: FooterProps */): JSX.Element {
   return (
