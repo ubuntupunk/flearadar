@@ -8,6 +8,7 @@ interface Spot {
 }
 
 // Optional props interface for future use
+//eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface PopularSpotsProps {
   // Add props here if needed
 }

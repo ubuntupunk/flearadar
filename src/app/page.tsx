@@ -120,7 +120,8 @@ export default async function Home() {
       <HowItWorks />
       <JoinCommunity />
       <PopularSpots />
-      <DynamicArticles latestArticles={latestArticles} />
+      <DynamicArticles latestArticles={latestArticles} 
+      />
       <ReachMillions />
       <RssPosts rssPosts={rssPosts} />
       <Stats />

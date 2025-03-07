@@ -7,12 +7,11 @@ import AuthButton from './AuthButton';
 import SearchBar from './SearchBar';
 
 import { useUser } from '@auth0/nextjs-auth0';
-
+//eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface HeaderProps {
-  isAuthenticated: boolean;
 }
 
-const Header: React.FC<HeaderProps> = ({ isAuthenticated }) => {
+const Header: React.FC<HeaderProps> = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { user } = useUser();
 

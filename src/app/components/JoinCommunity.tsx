@@ -1,11 +1,5 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React from 'react';
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-// Optional props interface for future use
-interface JoinCommunityProps {
-  // Add props here if needed
-}
 
 export default function JoinCommunity(/* props: JoinCommunityProps */): JSX.Element {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

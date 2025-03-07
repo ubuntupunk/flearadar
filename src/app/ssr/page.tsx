@@ -2,10 +2,10 @@
 import React from 'react';
 import { getSession, withPageAuthRequired, UserProfile } from '@auth0/nextjs-auth0/server';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import Highlight from '../components/Highlight';
 
 // Define the props interface (though not directly used due to async nature)
+//eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface SSRPageProps {
   // No props needed currently, but can be extended if additional props are passed
 }

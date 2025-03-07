@@ -14,6 +14,7 @@ interface Listing {
 }
 
 // Optional props interface for future use
+//eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface TrendingListingsProps {
   // Add props here if needed
 }

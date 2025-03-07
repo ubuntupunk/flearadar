@@ -3,6 +3,7 @@ import React from 'react';
 import Link from 'next/link'; // Import Link for navigation
 
 // Optional props interface for future use
+//eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface ReachMillionsProps {
   // Add props here if needed
 }
