@@ -22,7 +22,7 @@ export default function PopularSpots(/* props: PopularSpotsProps */): JSX.Elemen
     { 
       city: "Johannesburg, Gauteng", 
       listings: "784+", 
-      image: "https://www.expatica.com/app/uploads/sites/12/2021/10/johannesburg-1920x1080.jpg" 
+      image: "https://media.gadventures.com/media-server/cache/bb/47/bb47fd44498068cc614e4d08610b3dad.jpg" 
     },
     { 
       city: "Durban, Kwazulu-Natal", 
