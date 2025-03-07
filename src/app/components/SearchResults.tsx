@@ -30,9 +30,9 @@ interface SearchResultsProps {
 
 const SearchResults: React.FC<SearchResultsProps> = ({ results }) => {
   return (
-    <div>
+    <div className="flex flex-wrap justify-center">
       {results.map((item, index) => (
-        <div key={index} className="max-w-sm rounded overflow-hidden shadow-lg">
+        <div key={index} className="w-1/3 max-w-sm rounded overflow-hidden shadow-lg m-2">
           <div className="px-6 py-4">
             <div className="font-bold text-xl mb-2">{item.name}</div>
             <p className="text-gray-700 text-base">{item.description}</p>

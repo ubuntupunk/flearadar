@@ -34,9 +34,10 @@ interface FuseResult {
 
 interface HeroSearchProps {
     setResults: (results: Listing[]) => void;
+    listings: Listing[];
 }
 
-export default function HeroSearch({ setResults }: HeroSearchProps): JSX.Element {
+export default function HeroSearch({ setResults, listings }: HeroSearchProps): JSX.Element {
   const [query, setQuery] = useState<string>('');
 
   useEffect(() => {

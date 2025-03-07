@@ -12,14 +12,10 @@ interface HomeClientProps {
 const HomeClient: React.FC<HomeClientProps> = ({ listings }) => {
   const [searchResults, setSearchResults] = useState<Listing[]>([]);
 
-  useEffect(() => {
-    setSearchResults(listings);
-  }, [listings]);
-
   return (
     <div>
-      <HeroSearch setResults={setSearchResults} />
-      <SearchResults results={searchResults} />
+      <HeroSearch setResults={setSearchResults} listings={listings} />
+      {searchResults.length > 0 && <SearchResults results={searchResults} />}
     </div>
   );
 };
