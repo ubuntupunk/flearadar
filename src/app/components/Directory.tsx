@@ -1,8 +1,8 @@
 "use client";
 
 import React from 'react';
+import Map from './Map';
 import Image from 'next/image';
-import CategoryIcon from '@mui/icons-material/Category';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import EmailIcon from '@mui/icons-material/Email';
 import LanguageIcon from '@mui/icons-material/Language';
@@ -13,7 +13,10 @@ import StarIcon from '@mui/icons-material/Star';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import { useState } from 'react';
-
+import WbSunnyIcon from '@mui/icons-material/WbSunny';
+import NightlightRoundIcon from '@mui/icons-material/NightlightRound';
+import LocalShippingIcon from '@mui/icons-material/LocalShipping';
+import MercuryMap from './MercuryMap';
 interface Listing {
   id: number;
   name: string;
@@ -51,8 +54,14 @@ const Directory: React.FC<DirectoryProps> = ({ listings }) => {
             <div key={listing.id} className="bg-white shadow-md rounded-lg p-4 mb-4">
               <h2 className="text-xl font-semibold mb-2">{listing.name}</h2>
               <Image src={listing.image} alt={listing.name} width={600} height={300} className="w-full h-48 object-cover mb-2" />
-              <p className="text-gray-700">{listing.description}</p>
-              <p className="text-gray-700"><strong>Type:</strong> <CategoryIcon /> {listing.type}</p>
+              <p className="text-gray-700 italic">{listing.description}</p>
+              <p className="text-gray-700">
+                <strong>Type:</strong>
+                {listing.type === 'Food Truck' ? <LocalShippingIcon /> : null}
+                {listing.type === 'Day Market' ? <WbSunnyIcon /> : null}
+                {listing.type === 'Night Market' ? <NightlightRoundIcon /> : null}
+                {listing.type}
+              </p>
               <p className="text-gray-700"><strong>Location:</strong> <LocationOnIcon /> {listing.location}</p>
               <p className="text-gray-700"><strong>Email:</strong> <EmailIcon /> {listing.email}</p>
               <p className="text-gray-700"><strong>Website:</strong> <LanguageIcon /> <a href={listing.url} target="_blank" rel="noopener noreferrer">{listing.url}</a></p>
@@ -68,6 +77,13 @@ const Directory: React.FC<DirectoryProps> = ({ listings }) => {
                   Review and Explore
                 </a>
               </div>
+              {listing.gps && (
+                <div className="map-container">
+                  <MercuryMap
+                    gps={listing.gps.split(",").map(parseFloat) as [number, number]}
+                  />
+                </div>
+              )}
             </div>
           );
         })}

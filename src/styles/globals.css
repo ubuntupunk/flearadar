@@ -8,6 +8,20 @@
     --text-color: #333; /* Dark gray text */
 }
 
+.map-container {
+  height: 100vh;
+  width: 100wh;
+  margin-bottom: 1rem;
+  overflow: hidden;
+  position: relative;
+}
+
+.map-content {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
+
 .custom-dots {
   bottom: 30px;
 }
@@ -83,3 +97,9 @@ body {
   button {
     cursor: pointer;
   }
+  
+  .leaflet-container {
+    height: 100vh;
+    width: 100wh;
+  }
+  /* you can have custom dimension according to your use case */
