@@ -18,6 +18,18 @@ const nextConfig: NextConfig = {
           port: '',
           pathname: '/**',
         },
+        {
+          protocol: 'https',
+          hostname: '**',
+          port: '',
+          pathname: '/**',
+        },
+        {
+          protocol: 'http',
+          hostname: '**',
+          port: '',
+          pathname: '/**',
+        },
       ],
     },
   webpack: (config: any, { isServer }: { isServer: boolean }) => {

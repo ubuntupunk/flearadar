@@ -3,13 +3,14 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Image from 'next/image';
 
 // Define the Item interface
-interface Item {
+export interface Item {
+  id: string | number;
   name: string;
   location: string;
   image: string;
   description: string;
   type: string;
-  rating: string | number;
+  rating: string | number | number[];
   gps: string;
 }
 

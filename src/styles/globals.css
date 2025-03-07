@@ -6,8 +6,11 @@
     --primary-color: #e41e26; /* Red from mockup for buttons */
     --secondary-color: #f5f5f5; /* Light gray background */
     --text-color: #333; /* Dark gray text */
-  }
-  
+}
+
+.custom-dots {
+  bottom: 30px;
+}
   body {
     font-family: 'Arial', sans-serif;
     background-color: var(--secondary-color);
