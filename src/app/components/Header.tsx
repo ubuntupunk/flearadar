@@ -32,7 +32,7 @@ const Header: React.FC<HeaderProps> = () => {
           <li><Link className="nav-link" href="/explorer">Explorer</Link></li>
           <li><Link className="nav-link" href="/add-listing">Add Listing</Link></li>
         </ul>
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center space-x-2 ml-4 rounded-md">
           <SearchBar />
           <AuthButton />
           {user && (

@@ -30,7 +30,7 @@ const Directory: React.FC<DirectoryProps> = ({ listings }) => {
         {listings.map((listing: Listing) => (
           <div key={listing.id} className="bg-white shadow-md rounded-lg p-4 mb-4">
             <h2 className="text-xl font-semibold mb-2">{listing.name}</h2>
-            <Image src={listing.image} alt={listing.name} className="w-full h-48 object-cover mb-2" />
+            <Image src={listing.image} alt={listing.name} width={600} height={300} className="w-full h-48 object-cover mb-2" />
             <p className="text-gray-700">{listing.description}</p>
             <p className="text-gray-700"><strong>Type:</strong> {listing.type}</p>
             <p className="text-gray-700"><strong>Location:</strong> {listing.location}</p>

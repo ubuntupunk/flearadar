@@ -39,7 +39,7 @@ export default function RssPosts({ rssPosts }: RssPostsProps): JSX.Element {
         )}
          <Link
           href="/add-review"
-          className="btn bg-red-500 text-white px-4 py-2 rounded-full hover:bg-red-600"
+          className="btn bg-red-500 text-white px-4 py-2 rounded-full hover:bg-red-600 mt-4"
         >
           Add Your Review
         </Link>

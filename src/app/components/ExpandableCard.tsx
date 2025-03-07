@@ -4,6 +4,9 @@ import Image from 'next/image';
 import LockIcon from '@mui/icons-material/Lock';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import { useRouter } from 'next/navigation';
+import LocalShipping from '@mui/icons-material/LocalShipping';
+import WbSunny from '@mui/icons-material/WbSunny';
+import NightlightRound from '@mui/icons-material/NightlightRound';
 
 // Define the Item interface
 export interface Item {
@@ -41,7 +44,7 @@ export default function ExpandableCard({ item }: ExpandableCardProps): React.Rea
   };
 
   return (
-    <div className="max-w-sm rounded overflow-hidden shadow-lg">
+    <div className={`max-w-sm rounded overflow-hidden shadow-lg relative ${expanded ? 'z-10' : ''}`}>
       <div className="px-6 py-4">
         <div className="font-bold text-xl mb-2">{item.name}</div>
         <p className="text-gray-700 text-base">{item.location}</p>
@@ -67,6 +70,11 @@ export default function ExpandableCard({ item }: ExpandableCardProps): React.Rea
       </div>
       {expanded && (
         <div className="px-6 pt-4 pb-2">
+          <div className="absolute bottom-0 left-0 px-6 py-4">
+            {item.type === 'Food Truck' && <LocalShipping className="inline-block h-5 w-5" />}
+            {item.type === 'Day Market' && <WbSunny className="inline-block h-5 w-5" />}
+            {item.type === 'Night Market' && <NightlightRound className="inline-block h-5 w-5" />}
+          </div>
           <p className="text-gray-700 text-base">
             <strong>Type:</strong> {String(item.type)}
           </p>

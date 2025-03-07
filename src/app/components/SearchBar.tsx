@@ -5,6 +5,10 @@ import React, { useState, useEffect } from 'react';
 import Fuse from 'fuse.js';
 import listings from '../data/listings.json';
 import Link from 'next/link';
+import LocalShipping from '@mui/icons-material/LocalShipping';
+import WbSunny from '@mui/icons-material/WbSunny';
+import NightlightRound from '@mui/icons-material/NightlightRound';
+import ExploreIcon from '@mui/icons-material/Explore';
 
 // Define the Listing interface based on expected JSON structure and Fuse search keys
 interface Listing {
@@ -16,7 +20,7 @@ interface Listing {
   date: string;
   gps: string;
   image: string;
-  rating: number;
+  rating: number[];
   // Add other fields from listings.json if present
 }
 
@@ -56,9 +60,22 @@ const SearchBar: React.FC = () => {
               <div className="font-bold text-xl mb-2">{item.name}</div>
               <p className="text-gray-700 text-base">{item.description}</p>
             </div>
-            <Link href={`/listings/${item.id}`} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-              View Listing
-            </Link>
+            <div className="px-6 pt-4 pb-2 flex items-center justify-between">
+              <div>
+                {item.type === 'Food Truck' && <LocalShipping className="inline-block h-5 w-5" />}
+                {item.type === 'Day Market' && <WbSunny className="inline-block h-5 w-5" />}
+                {item.type === 'Night Market' && <NightlightRound className="inline-block h-5 w-5" />}
+              </div>
+              <div>
+                <Link href={`/directory/${item.id}`} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                  View Listing
+                </Link>
+                <Link href={`/explorer?gps=${item.gps}`} className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded ml-2">
+                  <ExploreIcon />
+                  Explore
+                </Link>
+              </div>
+            </div>
           </div>
         ))}
       </div>
