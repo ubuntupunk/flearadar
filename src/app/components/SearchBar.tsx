@@ -62,20 +62,20 @@ const SearchBar: React.FC = () => {
             </div>
             <div className="px-6 pt-4 pb-2 flex items-center justify-between">
               <div>
-                {item.type === 'Food Truck' && <LocalShipping className="inline-block h-5 w-5" />}
-                {item.type === 'Day Market' && <WbSunny className="inline-block h-5 w-5" />}
-                {item.type === 'Night Market' && <NightlightRound className="inline-block h-5 w-5" />}
+                {item.type === 'Food Truck' ? <LocalShipping className="inline-block h-5 w-5" /> :
+                 item.type === 'Day Market' ? <WbSunny className="inline-block h-5 w-5" /> :
+                 item.type === 'Night Market' ? <NightlightRound className="inline-block h-5 w-5" /> : null}
               </div>
               <div>
                 <Link href={`/directory/${item.id}`} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                   View Listing
                 </Link>
-                {item.gps && (
+                {item.gps ? (
                   <Link href={`/explorer?gps=${item.gps}`} className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded ml-2">
                     <ExploreIcon />
                     Explore
                   </Link>
-                )}
+                ) : null}
               </div>
             </div>
           </div>
