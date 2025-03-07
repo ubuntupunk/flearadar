@@ -11,7 +11,68 @@
 .custom-dots {
   bottom: 30px;
 }
-  body {
+
+.custom-dots {
+  bottom: 30px;
+}
+
+.rss-posts {
+  padding: 20px;
+}
+
+.rss-posts h2 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.rss-posts-list {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.rss-posts-item {
+  width: 300px;
+  margin: 10px;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out;
+}
+
+.rss-posts-item:hover {
+  transform: translateY(-5px);
+}
+
+.rss-posts-item a {
+  font-weight: bold;
+  color: #333;
+  text-decoration: none;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.rss-posts-item a:hover {
+  text-decoration: underline;
+}
+
+.rss-posts-date {
+  font-size: 0.8rem;
+  color: #777;
+  margin-bottom: 5px;
+}
+
+.rss-posts-content {
+  font-size: 1rem;
+  color: #555;
+}
+
+body {
     font-family: 'Arial', sans-serif;
     background-color: var(--secondary-color);
     color: var(--text-color);

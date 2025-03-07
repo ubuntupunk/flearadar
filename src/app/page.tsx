@@ -10,10 +10,12 @@ import DynamicArticles from "./components/DynamicArticles";
 import ReachMillions from "./components/ReachMillions";
 import RssPosts from "./components/RssPosts";
 import Stats from "./components/Stats";
+import Directory from "./components/Directory";
 import fs from "fs";
 import path from 'path';
 import matter from "gray-matter";
 import { Analytics } from "@vercel/analytics/react";
+import Parser from 'rss-parser';
 
 // Define the Article interface for the fetched articles
 interface Article {
@@ -24,10 +26,38 @@ interface Article {
   [key: string]: string | number | boolean; // Allow additional frontmatter fields
 }
 
+interface RssItem {
+  title: string;
+  link: string;
+  pubDate: string;
+  contentSnippet: string;
+}
+
+interface Listing {
+  id: number;
+  name: string;
+  type: string;
+  description: string;
+  date: string;
+  location: string;
+  gps: string;
+  contact: string;
+  email: string;
+  url: string;
+  image: string;
+  "trade-days": string;
+  "trade-hours": string;
+  rating: number[];
+}
+
 // Define props interface for the Home component
 interface HomeProps {
   latestArticles: Article[];
+  rssPosts: RssItem[];
+  listings: Listing[];
 }
+
+const RSS_FEED_URL = 'https://muizenmesh.co.za/wp/web/flearadar/feed';
 
 export const metadata = {
   title: 'FleaRadar Directory',
@@ -53,8 +83,28 @@ async function getLatestArticles(): Promise<Article[]> {
   return latestArticles;
 }
 
+async function getRssPosts(): Promise<RssItem[]> {
+  try {
+    const parser = new Parser();
+    const feed = await parser.parseURL(RSS_FEED_URL);
+    return feed.items.slice(0, 4) as RssItem[];
+  } catch (error: any) {
+    console.error("Error fetching RSS feed:", error);
+    return [];
+  }
+}
+
+async function getListings(): Promise<Listing[]> {
+  const listingsDirectory: string = path.join(process.cwd(), 'src/app/data/listings.json');
+  const fileContents: string = fs.readFileSync(listingsDirectory, 'utf8');
+  const listings: Listing[] = JSON.parse(fileContents);
+  return listings;
+}
+
 export default async function Home() {
   const latestArticles = await getLatestArticles();
+  const rssPosts = await getRssPosts();
+  const listings = await getListings();
 
   return (
     <div className="min-h-screen bg-gray-100" style={{ zIndex: 200, paddingBottom: '50px' }}>
@@ -72,7 +122,7 @@ export default async function Home() {
       <PopularSpots />
       <DynamicArticles latestArticles={latestArticles} />
       <ReachMillions />
-      <RssPosts />
+      <RssPosts rssPosts={rssPosts} />
       <Stats />
       <Analytics />
     </div>

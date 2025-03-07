@@ -29,6 +29,7 @@
     "reactstrap": "^9.2.3",
     "remark": "^15.0.1",
     "remark-html": "^16.0.1",
+    "rss-parser": "^3.13.0",
     "slick-carousel": "^1.8.1"
   },
   "devDependencies": {
