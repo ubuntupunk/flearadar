@@ -4,6 +4,10 @@ import React from 'react';
 import Map from './Map';
 import Image from 'next/image';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
+import { CurrencyExchange, WheelchairPickupOutlined } from '@mui/icons-material';
+import { PeopleOutline } from '@mui/icons-material';
+import { WheelchairPickup } from '@mui/icons-material';
+import { PaymentsOutlined } from '@mui/icons-material';
 import EmailIcon from '@mui/icons-material/Email';
 import LanguageIcon from '@mui/icons-material/Language';
 import EventIcon from '@mui/icons-material/Event';
@@ -31,6 +35,10 @@ interface Listing {
   image: string;
   "trade-days": string;
   "trade-hours": string;
+  currency: string;
+  payments: string
+  crowd: string;
+  access: string
   rating: number[];
 }
 
@@ -63,11 +71,15 @@ const Directory: React.FC<DirectoryProps> = ({ listings }) => {
                 {listing.type}
               </p>
               <p className="text-gray-700"><strong>Location:</strong> <LocationOnIcon /> {listing.location}</p>
+              <p className="text-gray-700"><strong>GPS:</strong> <GpsFixedIcon /> {listing.gps}</p>
               <p className="text-gray-700"><strong>Email:</strong> <EmailIcon /> {listing.email}</p>
               <p className="text-gray-700"><strong>Website:</strong> <LanguageIcon /> <a href={listing.url} target="_blank" rel="noopener noreferrer">{listing.url}</a></p>
               <p className="text-gray-700"><strong>Trade Days:</strong> <EventIcon /> {listing["trade-days"]} </p>
               <p className="text-gray-700"><strong>Trade Hours:</strong> <AccessTimeIcon /> {listing["trade-hours"]}</p>
-              <p className="text-gray-700"><strong>GPS:</strong> <GpsFixedIcon /> {listing.gps}</p>
+              <p className="text-gray-700"><strong>Currency:</strong> <CurrencyExchange /> {listing.currency}</p>
+              <p className="text-gray-700"><strong>Payments:</strong> <PaymentsOutlined /> {listing.payments}</p>
+              <p className="text-gray-700"><strong>Crowd:</strong> <PeopleOutline /> {listing.crowd}</p>
+              <p className="text-gray-700"><strong>Access:</strong> <WheelchairPickupOutlined /> {listing.access}</p>
               <p className="text-gray-700"><strong>Rating:</strong> <StarIcon /> {listing.rating}</p>
               <div className="flex justify-between items-center">
                 <button className="cursor-pointer" onClick={toggleBookmark}>
