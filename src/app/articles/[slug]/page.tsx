@@ -41,8 +41,8 @@ export default async function ArticlePage({ params }: { params: Params }) {
     <div className="container mx-auto py-8">
       <h1 className="text-3xl font-bold mb-4">{article.frontmatter.title}</h1>
       <p className="text-gray-700 leading-relaxed">{article.frontmatter.description}</p>
-      <p className="text-gray-500 text-sm mb-4">Author: {article.author}</p>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <p className="text-gray-500 text-sm mb-4">By {article.author}</p>
+      <div className="grid grid-cols-2 gap-4">
         <Markdown
           options={{
             overrides: {
@@ -53,7 +53,7 @@ export default async function ArticlePage({ params }: { params: Params }) {
               },
               p: {
                 component: (props) => (
-                  <p className="text-gray-700 leading-relaxed mb-4" {...props} />
+                  <p className="text-gray-700 leading-relaxed mb-6" {...props} />
                 ),
               },
               // Add more overrides as needed
@@ -62,20 +62,20 @@ export default async function ArticlePage({ params }: { params: Params }) {
         >
           {article.content}
         </Markdown>
-      </div>
-      <div className="flex justify-end">
-        <Link
-          href={`/articles/${
-            (await generateStaticParams())[
-              (((await generateStaticParams()).findIndex((a) => a.slug === slug) +
-                1) %
-                (await generateStaticParams()).length)
-            ].slug
-          }`}
-          className="text-blue-500 hover:underline"
-        >
-          Next Article
-        </Link>
+        <div className="flex justify-end col-span-2">
+          <Link
+            href={`/articles/${
+              (await generateStaticParams())[
+                (((await generateStaticParams()).findIndex((a) => a.slug === slug) +
+                  1) %
+                  (await generateStaticParams()).length)
+              ].slug
+            }`}
+            className="text-blue-500 hover:underline"
+          >
+            Next Article
+          </Link>
+        </div>
       </div>
     </div >
   );
