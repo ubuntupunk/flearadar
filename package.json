@@ -28,10 +28,13 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-leaflet": "^5.0.0",
+    "react-markdown": "^10.1.0",
     "react-slick": "^0.30.3",
     "reactstrap": "^9.2.3",
+    "rehype-stringify": "^10.0.1",
     "remark": "^15.0.1",
     "remark-html": "^16.0.1",
+    "remark-parse": "^11.0.0",
     "rss-parser": "^3.13.0",
     "slick-carousel": "^1.8.1"
   },
