@@ -3,7 +3,7 @@
 
 import Link from "next/link";
 import React, { useState } from 'react';
-import AuthButton from './AuthButton';
+import AuthButton from './AltAuthButton';
 import SearchBar from './SearchBar';
 
 import { useUser } from '@auth0/nextjs-auth0';

@@ -2,8 +2,19 @@ import type { NextRequest } from "next/server"
 
 import { auth0 } from "../lib/auth0"
 
+import { NextResponse } from 'next/server';
+
 export async function middleware(request: NextRequest) {
-  return await auth0.middleware(request)
+  if (request.nextUrl.pathname === '/home') {
+    return;
+  }
+  try {
+    const url = new URL(request.url);
+    return await auth0.middleware(request);
+  } catch (error) {
+    console.error("Invalid URL:", request.url, error);
+    return NextResponse.error();
+  }
 }
 
 export const config = {

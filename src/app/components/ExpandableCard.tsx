@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import LocalShipping from '@mui/icons-material/LocalShipping';
 import WbSunny from '@mui/icons-material/WbSunny';
 import NightlightRound from '@mui/icons-material/NightlightRound';
+import Score from './Score';
 
 // Define the Item interface
 export interface Item {
@@ -78,8 +79,8 @@ export default function ExpandableCard({ item }: ExpandableCardProps): React.Rea
           <p className="text-gray-700 text-base">
             <strong>Type:</strong> {String(item.type)}
           </p>
-          <p className="text-gray-700 text-base">
-            <strong>Rating:</strong> {String(item.rating)}
+          <p className="text-gray-700 text-base text-center">
+            <strong>Rating:</strong> <Score rating={Array.isArray(item.rating) ? item.rating : [Number(item.rating)]} />
           </p>
           <p className="text-gray-700 text-base">
             <strong>Location:</strong> {String(item.location)}
