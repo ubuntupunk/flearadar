@@ -37,8 +37,8 @@ function AuthButton(/* props: AuthButtonProps */) {
 
   // User does not exist, show login button
   return (
-    <Link 
-      href="/api/auth/login" 
+    <Link
+      href="/api/auth/login?screen_hint=signup"
       className="btn bg-red-500 text-white px-4 py-2 rounded-full hover:bg-red-600"
     >
       Login / Register

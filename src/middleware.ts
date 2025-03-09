@@ -1,30 +1,22 @@
-import type { NextRequest } from "next/server"
-
-import { auth0 } from "../lib/auth0"
-
+import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
+import { auth0 } from './lib/auth0';
 
-export async function middleware(request: NextRequest) {
-  if (request.nextUrl.pathname === '/home') {
-    return;
-  }
+export async function middleware(request: NextRequest): Promise<NextResponse> {
   try {
-    const url = new URL(request.url);
-    return await auth0.middleware(request);
+    const session = await auth0.getSession(request);
+    if (!session?.user && !request.nextUrl.pathname.startsWith('/api/auth')) {
+      return (await auth0.handleLogin(request, {
+        returnTo: request.nextUrl.pathname,
+      })) as NextResponse;
+    }
+    return NextResponse.next();
   } catch (error) {
-    console.error("Invalid URL:", request.url, error);
-    return NextResponse.error();
+    console.error('Middleware error:', error);
+    return NextResponse.next();
   }
 }
 
 export const config = {
-  matcher: [
-    /*
-     * Match all request paths except for the ones starting with:
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico, sitemap.xml, robots.txt (metadata files)
-     */
-    "/((?!_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)",
-  ],
-}
+  matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'],
+};
