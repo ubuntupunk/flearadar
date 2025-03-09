@@ -17,6 +17,7 @@ import StarIcon from '@mui/icons-material/Star';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import { useState } from 'react';
+import Score from './Score';
 import WbSunnyIcon from '@mui/icons-material/WbSunny';
 import NightlightRoundIcon from '@mui/icons-material/NightlightRound';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
@@ -80,7 +81,7 @@ const Directory: React.FC<DirectoryProps> = ({ listings }) => {
               <p className="text-gray-700"><strong>Payments:</strong> <PaymentsOutlined /> {listing.payments}</p>
               <p className="text-gray-700"><strong>Crowd:</strong> <PeopleOutline /> {listing.crowd}</p>
               <p className="text-gray-700"><strong>Access:</strong> <WheelchairPickupOutlined /> {listing.access}</p>
-              <p className="text-gray-700"><strong>Rating:</strong> <StarIcon /> {listing.rating}</p>
+              <p className="text-gray-700"><strong>Rating:</strong> <Score rating={listing.rating} /></p>
               <div className="flex justify-between items-center">
                 <button className="cursor-pointer" onClick={toggleBookmark}>
                   {isBookmarked ? <BookmarkIcon /> : <BookmarkBorderIcon />}
