@@ -1,4 +1,7 @@
-import React from 'react';
+"use client";
+
+import React, { useState } from 'react';
+import { JSX } from 'react';
 //components/TrendingListings
 import listings from "../data/listings.json";
 import Image from 'next/image';
@@ -20,6 +23,14 @@ interface TrendingListingsProps {
 }
 
 export default function TrendingListings(/* props: TrendingListingsProps */): JSX.Element {
+  const [displayedListings, setDisplayedListings] = useState(4);
+
+  const handleViewMore = () => {
+    setDisplayedListings(displayedListings + 4);
+  };
+
+  const visibleListings = (listings as Listing[]).slice(0, displayedListings);
+
   return (
     <section className="pb-5 pt-5">
       <div className="container">
@@ -28,7 +39,7 @@ export default function TrendingListings(/* props: TrendingListingsProps */): JS
           <p className="text-gray-600">These are the highest rated places to shop and trade</p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 justify-center">
-          {(listings as Listing[]).map((listing: Listing) => (
+          {visibleListings.map((listing: Listing) => (
             <div key={listing.id} className="border rounded-lg shadow-sm">
               <a href="#" className="d-block">
                 <Image
@@ -84,9 +95,14 @@ export default function TrendingListings(/* props: TrendingListingsProps */): JS
           ))}
         </div>
         <div className="pb-3 pt-3 text-center">
-          <a href="#" className="btn bg-red-500 text-white px-4 py-2 rounded-full hover:bg-red-600">
-            View More
-          </a>
+          {displayedListings < (listings as Listing[]).length && (
+            <button
+              onClick={handleViewMore}
+              className="btn bg-red-500 text-white px-4 py-2 rounded-full hover:bg-red-600"
+            >
+              View More
+            </button>
+          )}
         </div>
       </div>
     </section>
