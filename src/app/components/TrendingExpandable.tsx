@@ -34,7 +34,7 @@ const TrendingExpandable: React.FC<TrendingExpandableProps> = ({ listing, isAuth
           <button onClick={handleReadMoreClick}>{isExpanded ? 'Read Less' : 'Read More'}</button>
         ) : (
           <div>
-            <a href="/register" data-tooltip-content="Register to unlock">
+            <a href="/api/auth/[auth0]/login?screen_hint=signup" data-tooltip-content="Register to unlock">
               <span>🔒</span>
             </a>
             <Tooltip anchorSelect="[data-tooltip-content]"/>

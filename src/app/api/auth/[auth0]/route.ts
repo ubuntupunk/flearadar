@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 import { Auth0Client } from "@auth0/nextjs-auth0/server"
+import { handleLogin, handleLogout, handleCallback, handleProfile } from "@auth0/nextjs-auth0";
 
 export const auth0 = new Auth0Client({
   routes: {
