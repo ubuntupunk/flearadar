@@ -1,12 +1,13 @@
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
-import { auth0 } from "@/lib/auth0";
+import { getSession, loginWithRedirect } from "@/lib/auth0";
 
 export async function middleware(request: NextRequest): Promise<NextResponse> {
   try {
-    const session = await auth0.getSession(request);
+    const session = await getSession();
     if (!session?.user && !request.nextUrl.pathname.startsWith('/api/auth')) {
-      return (await auth0.middleware(request));
+      const url = new URL(`/api/auth/login`, request.url)
+      return NextResponse.redirect(url)
     }
     return NextResponse.next();
   } catch (error) {

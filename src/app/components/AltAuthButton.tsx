@@ -1,8 +1,9 @@
 "use client";
 
-import { auth0 } from "@/lib/auth0";
+import { loginWithRedirect, logout } from '@/lib/auth0';
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
+import { Auth0Client } from '@auth0/nextjs-auth0/server';
 
 interface SessionData {
   user: {
@@ -16,27 +17,47 @@ export default function AltAuthButton() {
 
   useEffect(() => {
     const getSession = async () => {
-      const session = await auth0.getSession();
+      const session = await Auth0Client.getSession();
       setSession(session as SessionData | null);
     };
 
     getSession();
   }, []);
 
+  const handleLogin = async () => {
+    try {
+      await loginWithRedirect();
+      router.push('/'); // Redirect to home page after successful login
+    } catch (error) {
+      console.error('Login failed:', error);
+    }
+  };
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      router.push('/'); // Redirect to home page after logout
+    } catch (error) {
+      console.error('Logout failed:', error);
+    }
+  };
+
   if (!session) {
     return (
       <main>
-        <button className="auth-button" onClick={() => router.push('/api/auth/login?screen_hint=signup')}>Login</button>
+        <button className="auth-button" onClick={handleLogin}>
+          Login
+        </button>
       </main>
     );
   }
 
   return (
     <main>
-      <h1>Welcome, {session.user.name}!</h1>
-      <form action="/api/auth/logout" method="post">
-        <button className="auth-button" type="submit">Logout</button>
-      </form>
+      <p>Welcome, {session.user.name}!</p>
+      <button className="auth-button" onClick={handleLogout}>
+        Logout
+      </button>
     </main>
   );
 }

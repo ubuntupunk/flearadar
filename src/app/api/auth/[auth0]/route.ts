@@ -1,26 +1,21 @@
+// pages/api/auth0/route.ts
 import { NextRequest, NextResponse } from 'next/server';
+import { Auth0Client } from '@auth0/auth0-spa-js';
 
-import { Auth0Client } from "@auth0/nextjs-auth0/server"
-import { handleLogin, handleLogout, handleCallback, handleProfile } from "@auth0/nextjs-auth0";
+const auth0 = new Auth0Client({
+  domain: process.env.AUTH0_DOMAIN!,
+  clientId: process.env.AUTH0_CLIENT_ID!,
+});
 
-export const auth0 = new Auth0Client({
-  routes: {
-    login: "/login",
-    logout: "/logout",
-    callback: "/callback",
-    backChannelLogout: "/backchannel-logout",
-  },
-})
-
-
-export const runtime = 'edge';
-
-const authentication = {
-  login: handleLogin,
-  logout: handleLogout,
-  callback: handleCallback,
-  profile: handleProfile,
-};
-
-export const GET = authentication;
-export const POST = authentication;
+export async function POST(req: NextRequest) {
+  try {
+    await auth0.loginWithRedirect({
+      authorizationParams: {
+        redirect_uri: `${process.env.NEXT_PUBLIC_APP_URL}/api/auth0/callback`,
+      },
+    });
+    return NextResponse.redirect(new URL('/', req.url));
+  } catch (error) {
+    return new Response(JSON.stringify({ error: 'Login failed' }), { status: 400 });
+  }
+}

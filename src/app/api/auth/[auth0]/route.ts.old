@@ -1,0 +1,48 @@
+// pages/api/auth/[auth0]/route.ts
+import { Auth0Client } from '@auth0/auth0-spa-js';
+
+const auth0 = new Auth0Client({
+  domain: process.env.AUTH0_DOMAIN!,
+  clientId: process.env.AUTH0_CLIENT_ID!,
+});
+
+export async function GET(req: Request, res: Response) {
+  try {
+    const isAuthenticated = await auth0.isAuthenticated();
+    if (isAuthenticated) {
+      const user = await auth0.getUser();
+      return new Response(JSON.stringify({ user }), { status: 200 });
+    } else {
+      return new Response(JSON.stringify({ error: 'Not authenticated' }), { status: 401 });
+    }
+  } catch (error) {
+    return new Response(JSON.stringify({ error: 'Internal Server Error' }), { status: 500 });
+  }
+}
+
+export async function POST(req: Request, res: Response) {
+  try {
+    const { email, password } = await req.json();
+    await auth0.loginWithRedirect({
+      authorizationParams: {
+        redirect_uri: `${process.env.NEXT_PUBLIC_APP_URL}/api/auth0/callback`,
+      },
+    });
+    return new Response(JSON.stringify({ message: 'Login initiated' }), { status: 200 });
+  } catch (error) {
+    return new Response(JSON.stringify({ error: 'Login failed' }), { status: 400 });
+  }
+}
+
+export async function DELETE(req: Request, res: Response) {
+  try {
+    await auth0.logout({
+      logoutParams: {
+        returnTo: `${process.env.NEXT_PUBLIC_APP_URL}`,
+      },
+    });
+    return new Response(JSON.stringify({ message: 'Logout successful' }), { status: 200 });
+  } catch (error) {
+    return new Response(JSON.stringify({ error: 'Internal Server Error' }), { status: 500 });
+  }
+}

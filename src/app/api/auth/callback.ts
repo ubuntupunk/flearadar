@@ -1,0 +1,18 @@
+// pages/api/auth0/callback.ts
+import { NextRequest, NextResponse } from 'next/server';
+import { Auth0Client } from '@auth0/auth0-spa-js';
+
+const auth0 = new Auth0Client({
+  domain: process.env.AUTH0_DOMAIN!,
+  client_id: process.env.AUTH0_CLIENT_ID!,
+});
+
+export default async function handler(req: NextRequest) {
+  try {
+    await auth0.handleRedirectCallback();
+    const user = await auth0.getUser();
+    return NextResponse.redirect(new URL('/', req.url));
+  } catch (error) {
+    return new Response(JSON.stringify({ error: 'Internal Server Error' }), { status: 500 });
+  }
+}
