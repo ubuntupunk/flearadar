@@ -37,10 +37,10 @@ Food trucks aren’t just about food—they’re a jol. In Soweto, you might cat
 
 Not sure where to start? Here’s a cheat sheet:
 
-    Joburg: 44 Stanley for artisanal eats (think pulled pork bao) or Soweto Food Truck Fest for township classics.
-    Cape Town: V&A Food Truck Fridays—sea breeze and fish tacos—or Khayelitsha’s Mobile Munchies for kota and vetkoek.
-    Durban: Station Drive Precinct—curry bowls and bunny chow—or Umlazi Street Eats for spicy shisanyama.
-    Pretoria: Market@TheShed blends boerie with craft beer. Township pop-ups? Follow the smoke.
+Joburg: 44 Stanley for artisanal eats (think pulled pork bao) or Soweto Food Truck Fest for township classics.
+Cape Town: V&A Food Truck Fridays—sea breeze and fish tacos—or Khayelitsha’s Mobile Munchies for kota and vetkoek.
+Durban: Station Drive Precinct—curry bowls and bunny chow—or Umlazi Street Eats for spicy shisanyama.
+Pretoria: Market@TheShed blends boerie with craft beer. Township pop-ups? Follow the smoke.
 
 ## Step 8: Respect the Hustle
 

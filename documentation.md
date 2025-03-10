@@ -25,6 +25,14 @@ This document provides an overview of the FleaRadar article system, including th
 5.  The `getArticle` function reads the markdown file for the specified slug and extracts the frontmatter data and content.
 6.  The `ArticlePage` component renders the article title, description, author, and content.
 
+## Pages System
+
+The article system uses a dynamic routing system based on Next.js pages. Each article is rendered using the `ArticlePage` component in `src/app/articles/[slug]/page.tsx`.
+
+The `ArticlePage` component uses CSS media queries and the `splitArticle` function to provide a responsive layout. On larger screens, the article content is split into three columns, while on smaller screens, the content is displayed in a single column.
+
+The `splitArticle` function is responsible for splitting the article content into three parts based on word count. If the article is short or the screen is small, the function returns the entire content as a single element.
+
 ## Future Improvements
 
 *   Add pagination to the `DynamicArticles` component.

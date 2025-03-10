@@ -118,3 +118,7 @@ body {
     width: 100wh;
   }
   /* you can have custom dimension according to your use case */
+
+.indent {
+  text-indent: 2pt;
+}
