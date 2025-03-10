@@ -5,7 +5,7 @@ import { getSession, loginWithRedirect } from "@/lib/auth0";
 export async function middleware(request: NextRequest): Promise<NextResponse> {
   try {
     const session = await getSession();
-    if (!session?.user && !request.nextUrl.pathname.startsWith('/api/auth')) {
+    if (!session?.user && !request.nextUrl.pathname.startsWith('/api/auth') && request.nextUrl.pathname !== '/login') {
       const url = new URL(`/api/auth/login`, request.url)
       return NextResponse.redirect(url)
     }
