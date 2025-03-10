@@ -23,8 +23,8 @@ const TrendingExpandable: React.FC<TrendingExpandableProps> = ({ listing, isAuth
         />
       </a>
       <div className="p-4">
-        <h3>{listing.name}</h3>
-        <p>{listing.location}</p>
+        <h3 className="font-bold">{listing.name}</h3>
+        <p className="text-sm">{listing.location}</p>
         {isExpanded && (
           <div>
             <p>Extra details: {listing.extraDetails}</p>
