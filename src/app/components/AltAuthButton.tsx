@@ -1,6 +1,6 @@
 "use client";
 
-import { auth0 } from '../../../lib/auth0';
+import { auth0 } from "@/lib/auth0";
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 

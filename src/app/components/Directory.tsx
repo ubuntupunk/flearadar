@@ -4,11 +4,8 @@ import React from 'react';
 import Map from './Map';
 import Image from 'next/image';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-import { CurrencyExchange, WheelchairPickupOutlined } from '@mui/icons-material';
-import { PeopleOutline } from '@mui/icons-material';
-import { WheelchairPickup } from '@mui/icons-material';
-import { PaymentsOutlined } from '@mui/icons-material';
-import EmailIcon from '@mui/icons-material/Email';
+import { CurrencyExchange, Email, FacebookOutlined, Nature, People, Person2Outlined, Phone, WheelchairPickupOutlined } from '@mui/icons-material';
+import { PaymentsOutlined, FlashAuto } from '@mui/icons-material';
 import LanguageIcon from '@mui/icons-material/Language';
 import EventIcon from '@mui/icons-material/Event';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
@@ -21,6 +18,8 @@ import Score from './Score';
 import WbSunnyIcon from '@mui/icons-material/WbSunny';
 import NightlightRoundIcon from '@mui/icons-material/NightlightRound';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
+import Home from '@mui/icons-material/Home';
+import Calendar from '@mui/icons-material/CalendarToday';
 import MercuryMap from './MercuryMap';
 interface Listing {
   id: number;
@@ -30,16 +29,21 @@ interface Listing {
   date: string;
   location: string;
   gps: string;
+  organiser: string;
   contact: string;
   email: string;
   url: string;
+  social: string;
   image: string;
+  environment: string;
+  frequency: string;
   "trade-days": string;
   "trade-hours": string;
   currency: string;
   payments: string
   crowd: string;
-  access: string
+  access: string;
+  status: string;
   rating: number[];
 }
 
@@ -73,14 +77,24 @@ const Directory: React.FC<DirectoryProps> = ({ listings }) => {
               </p>
               <p className="text-gray-700"><strong>Location:</strong> <LocationOnIcon /> {listing.location}</p>
               <p className="text-gray-700"><strong>GPS:</strong> <GpsFixedIcon /> {listing.gps}</p>
-              <p className="text-gray-700"><strong>Email:</strong> <EmailIcon /> {listing.email}</p>
+              <p className="text-gray-700"><strong>Organiser:</strong> <Person2Outlined /> {listing.organiser} </p>
+              <p className="text-gray-700"><strong>Contact:</strong> <Phone /> {listing.contact} </p>
+              <p className="text-gray-700"><strong>Email:</strong> <Email /> {listing.email}</p>
               <p className="text-gray-700"><strong>Website:</strong> <LanguageIcon /> <a href={listing.url} target="_blank" rel="noopener noreferrer">{listing.url}</a></p>
+              <p className="text-gray-700"><strong>Social Media:</strong> <FacebookOutlined /> {listing.social} </p>
+              <p className="text-gray-700"><strong>Environment:</strong> 
+                {listing.environment == 'Indoors' ? <Home /> : null}
+                {listing.environment == 'Outdoors' ? <Nature /> : null}
+                {listing.environment} 
+                </p>
+              <p className="text-gray-700"><strong>Frequency:</strong> <EventIcon /> {listing.frequency} </p>
               <p className="text-gray-700"><strong>Trade Days:</strong> <EventIcon /> {listing["trade-days"]} </p>
               <p className="text-gray-700"><strong>Trade Hours:</strong> <AccessTimeIcon /> {listing["trade-hours"]}</p>
               <p className="text-gray-700"><strong>Currency:</strong> <CurrencyExchange /> {listing.currency}</p>
               <p className="text-gray-700"><strong>Payments:</strong> <PaymentsOutlined /> {listing.payments}</p>
-              <p className="text-gray-700"><strong>Crowd:</strong> <PeopleOutline /> {listing.crowd}</p>
+              <p className="text-gray-700"><strong>Crowd:</strong> <People /> {listing.crowd}</p>
               <p className="text-gray-700"><strong>Access:</strong> <WheelchairPickupOutlined /> {listing.access}</p>
+              <p className="text-gray-700"><strong>Status:</strong> <FlashAuto /> {listing.status} </p>
               <p className="text-gray-700"><strong>Rating:</strong> <Score rating={listing.rating} /></p>
               <div className="flex justify-between items-center">
                 <button className="cursor-pointer" onClick={toggleBookmark}>

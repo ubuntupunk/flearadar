@@ -1,10 +1,6 @@
 // src/lib/auth0.ts
-import {
-  getAccessToken,
-  handleLogout,
-  handleCallback,
-  handleProfile,
-} from '@auth0/nextjs-auth0'; // Root import
+
+import { Auth0Client } from "@auth0/nextjs-auth0/server"
 
 const auth0Config = {
   secret: process.env.AUTH0_SECRET!,
@@ -14,12 +10,4 @@ const auth0Config = {
   clientSecret: process.env.AUTH0_CLIENT_SECRET!,
 };
 
-export const auth0 = {
-  getAccessToken: (req: Request) => getAccessToken(req, auth0Config),
-  handleLogin: withPageAuthRequired,
-  handleLogin: (req: Request, res: Response) => handleLogin(req, res, auth0Config),
-  handleCallback: (req: Request) => handleCallback(req, auth0Config),
-  handleProfile: (req: Request) => handleProfile(req, auth0Config),
-};
-
-export default auth0;
+export const auth0 = new Auth0Client()
