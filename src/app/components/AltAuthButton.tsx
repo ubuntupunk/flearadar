@@ -3,7 +3,8 @@
 import { loginWithRedirect, logout, getSession } from '@/lib/auth0';
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
-import { cookies } from 'next/headers';
+
+import Cookies from 'js-cookie';
 
 interface SessionData {
   user: {
@@ -26,7 +27,7 @@ export default function AltAuthButton() {
 
   const handleLogin = async () => {
     try {
-      document.cookie = 'loginInitiated=true; path=/';
+      Cookies.set('loginInitiated', 'true', { path: '/' });
       await loginWithRedirect();
       router.push('/');
     } catch (error) {

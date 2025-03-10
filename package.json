@@ -23,6 +23,7 @@
     "fuse.js": "^6.4.6",
     "gray-matter": "^4.0.3",
     "highlight.js": "^11.11.1",
+    "js-cookie": "^3.0.5",
     "leaflet": "^1.9.4",
     "markdown-to-jsx": "^7.7.4",
     "next": "latest",
@@ -44,6 +45,7 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@types/auth0": "^3.3.10",
+    "@types/js-cookie": "^3.0.6",
     "@types/node": "^20",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",

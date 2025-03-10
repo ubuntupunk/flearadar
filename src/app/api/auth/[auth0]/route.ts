@@ -11,7 +11,7 @@ export async function POST(req: NextRequest) {
   try {
     await auth0.loginWithRedirect({
       authorizationParams: {
-        redirect_uri: `${process.env.NEXT_PUBLIC_APP_URL}/api/auth0/callback`,
+        redirect_uri: `${process.env.AUTH0_BASE_URL}/api/auth0/callback`,
       },
     });
     return NextResponse.redirect(new URL('/', req.url));
