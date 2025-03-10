@@ -1,9 +1,9 @@
 "use client";
 
-import { loginWithRedirect, logout } from '@/lib/auth0';
+import { loginWithRedirect, logout, getSession } from '@/lib/auth0';
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
-import { Auth0Client } from '@auth0/nextjs-auth0/server';
+import { cookies } from 'next/headers';
 
 interface SessionData {
   user: {
@@ -16,18 +16,19 @@ export default function AltAuthButton() {
   const router = useRouter();
 
   useEffect(() => {
-    const getSession = async () => {
-      const session = await Auth0Client.getSession();
+    const fetchSession = async () => {
+      const session = await getSession();
       setSession(session as SessionData | null);
     };
 
-    getSession();
+    fetchSession();
   }, []);
 
   const handleLogin = async () => {
     try {
+      document.cookie = 'loginInitiated=true; path=/';
       await loginWithRedirect();
-      router.push('/'); // Redirect to home page after successful login
+      router.push('/');
     } catch (error) {
       console.error('Login failed:', error);
     }

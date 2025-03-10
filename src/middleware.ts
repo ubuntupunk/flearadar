@@ -5,10 +5,19 @@ import { getSession, loginWithRedirect } from "@/lib/auth0";
 export async function middleware(request: NextRequest): Promise<NextResponse> {
   try {
     const session = await getSession();
-    if (!session?.user && !request.nextUrl.pathname.startsWith('/api/auth') && request.nextUrl.pathname !== '/login') {
-      const url = new URL(`/api/auth/login`, request.url)
-      return NextResponse.redirect(url)
+    const loginInitiated = request.cookies.get('loginInitiated');
+
+    if (loginInitiated && !session?.user && !request.nextUrl.pathname.startsWith('/api/auth')) {
+      const url = new URL(`/api/auth/login`, request.url);
+      const response = NextResponse.redirect(url);
+      response.cookies.delete('loginInitiated');
+      return response;
     }
+
+    if (!session?.user && !request.nextUrl.pathname.startsWith('/api/auth') && request.nextUrl.pathname !== '/login') {
+      return NextResponse.next();
+    }
+
     return NextResponse.next();
   } catch (error) {
     console.error('Middleware error:', error);
