@@ -1,20 +1,20 @@
 // app/page.tsx
 import Head from "next/head";
-import HeroSearch from "./components/HeroSearch";
-import Categories from "./components/Categories";
-import TrendingListings from "./components/TrendingListings";
-import HowItWorks from "./components/HowItWorks";
-import JoinCommunity from "./components/JoinCommunity";
-import PopularSpots from "./components/PopularSpots";
-import DynamicArticles from "./components/DynamicArticles";
-import ReachMillions from "./components/ReachMillions";
-import RssPosts from "./components/RssPosts";
-import Stats from "./components/Stats";
-import Directory from "./components/Directory";
+import HeroSearch from "../components/HeroSearch";
+import Categories from "../components/Categories";
+import TrendingListings from "../components/TrendingListings";
+import HowItWorks from "../components/HowItWorks";
+import JoinCommunity from "../components/JoinCommunity";
+import PopularSpots from "../components/PopularSpots";
+import DynamicArticles from "../components/DynamicArticles";
+import ReachMillions from "../components/ReachMillions";
+import RssPosts from "../components/RssPosts";
+import Stats from "../components/Stats";
+import Directory from "../components/Directory";
 import { Analytics } from "@vercel/analytics/react";
 import { getListings } from "@/lib/data";
 import { getLatestArticles, getRssPosts } from "@/lib/articles";
-import HomeClient from "./components/HomeClient";
+import HomeClient from "../components/HomeClient";
 
 // Define the Article interface for the fetched articles
 interface Article {
