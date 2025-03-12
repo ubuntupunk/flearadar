@@ -5,8 +5,28 @@ import { supabase } from '@/lib/supabase'
 
 interface ListingForm {
   title: string
-  price: number
+  category: string
+  type: string
+  description: string
+  date: string
   location: string
+  gps: string
+  organiser: string
+  contact: string
+  email: string
+  url: string
+  social: string
+  image: string
+  environment: string
+  frequency: string
+  tradeDays: string
+  tradeHours: string
+  currency: string
+  payments: string
+  crowd: string
+  access: string
+  status: string
+  verified: boolean
 }
 
 export default function ListingsManager() {
@@ -43,10 +63,6 @@ export default function ListingsManager() {
         <div>
           <label>Title</label>
           <input {...register('title', { required: true })} className="border p-2 w-full" />
-        </div>
-        <div>
-          <label>Price</label>
-          <input type="number" {...register('price', { required: true })} className="border p-2 w-full" />
         </div>
         <div>
           <label>Location</label>

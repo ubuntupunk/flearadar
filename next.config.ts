@@ -28,17 +28,6 @@ const nextConfig: NextConfig = {
         },
       ],
     },
-  webpack: (config: any, { isServer }: { isServer: boolean }) => {
-    config.plugins.push(new webpack.EnvironmentPlugin(process.env));
-
-    if (!isServer) {
-      config.resolve.fallback = {
-        fs: false,
-      };
-    }
-
-    return config;
-  },
 };
 
 export default nextConfig;
