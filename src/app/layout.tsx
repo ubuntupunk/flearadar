@@ -6,9 +6,7 @@ import '../styles/globals.css'; // Global CSS
 import Header from '../components/Header'; // Adjust the import path if necessary
 import Footer from '../components/Footer'; // Adjust the import path if necessary
 import Head from 'next/head'; // Import Head for metadata
-//import { Auth0ClientProvider } from './components/Auth0ClientProvider';
-import { Auth0Provider } from '@auth0/nextjs-auth0/';
-import { AuthProvider } from '@/lib/providers/auth-provider';
+import { AuthProvider } from '@/lib/providers/auth-provider'; // Import AuthProvider
 
 // Define the props interface for the layout
 interface RootLayoutProps {
@@ -22,6 +20,8 @@ export const metadata: { title: string; description: string } = {
 };
 
 export default function RootLayout({ children }: RootLayoutProps): React.ReactNode {
+
+
   return (
     <html lang="en">
       <body>
@@ -36,7 +36,7 @@ export default function RootLayout({ children }: RootLayoutProps): React.ReactNo
             crossOrigin="">
           </script>
         </Head>
-        <AuthProvider>
+        <AuthProvider> {/* Wrap children with AuthProvider */}
           <Header />
           {children}
           <Footer />

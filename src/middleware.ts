@@ -1,30 +1,62 @@
-import type { NextRequest } from 'next/server';
-import { NextResponse } from 'next/server';
-import { getSession, loginWithRedirect } from "@/lib/auth0";
+// src/middleware.ts
+import { createServerSupabaseClient } from "@/lib/supabase/server";
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
 
-export async function middleware(request: NextRequest): Promise<NextResponse> {
-  try {
-    const session = await getSession();
-    const loginInitiated = request.cookies.has('loginInitiated');
+export async function middleware(request: NextRequest) {
+  const response = NextResponse.next({
+    request: {
+      headers: request.headers,
+    },
+  });
 
-    if (loginInitiated && !session?.user && !request.nextUrl.pathname.startsWith('/api/auth')) {
-      const url = new URL(`/api/auth/login`, request.url);
-      const response = NextResponse.redirect(url);
-      response.cookies.delete('loginInitiated');
-      return response;
-    }
+  // Add security headers
+  response.headers.set("X-Content-Type-Options", "nosniff");
+  response.headers.set("X-Frame-Options", "DENY");
+  response.headers.set("X-XSS-Protection", "1; mode=block");
+  response.headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
+  response.headers.set(
+    "Permissions-Policy",
+    "camera=(), microphone=(), geolocation=()"
+  );
 
-    if (!session?.user && !request.nextUrl.pathname.startsWith('/api/auth') && request.nextUrl.pathname !== '/login') {
-      return NextResponse.next();
-    }
-
-    return NextResponse.next();
-  } catch (error) {
-    console.error('Middleware error:', error);
-    return NextResponse.next();
+  // Add CORS headers for API routes
+  if (request.nextUrl.pathname.startsWith("/api/")) {
+    response.headers.set(
+      "Access-Control-Allow-Origin",
+      process.env.NEXT_PUBLIC_APP_URL || "*"
+    );
+    response.headers.set(
+      "Access-Control-Allow-Methods",
+      "GET, POST, PUT, DELETE, OPTIONS"
+    );
+    response.headers.set(
+      "Access-Control-Allow-Headers",
+      "Content-Type, Authorization"
+    );
   }
+
+  const supabase = await createServerSupabaseClient();
+
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+
+  // Protected routes pattern
+  const isProtectedRoute = request.nextUrl.pathname.startsWith("/profile");
+  const isAuthRoute = request.nextUrl.pathname.startsWith("/auth");
+
+  if (isProtectedRoute && !session) {
+    return NextResponse.redirect(new URL("/auth/login", request.url));
+  }
+
+  if (isAuthRoute && session) {
+    return NextResponse.redirect(new URL("/dashboard", request.url));
+  }
+
+  return response;
 }
 
 export const config = {
-  matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'],
+  matcher: ["/api/:path*", "/((?!api|_next/static|_next/image|favicon.ico).*)"],
 };

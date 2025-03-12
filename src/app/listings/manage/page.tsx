@@ -1,6 +1,6 @@
 'use client'
 
-import ListingsManager from '@/app/components/ListingsManager'
+import ListingsManager from '@/components/ListingsManager'
 
 export default function ManageListingsPage() {
   return (
