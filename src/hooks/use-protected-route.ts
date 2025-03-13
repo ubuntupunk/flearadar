@@ -1,5 +1,5 @@
 // src/hooks/use-protected-route.ts
-import { useAuthStore } from '@/lib/stores/use-auth-store'
+import { useAuthStore } from '@/lib/store/use-auth-store'
 import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 

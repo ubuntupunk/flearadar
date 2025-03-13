@@ -19,7 +19,7 @@ const SupaAuthButton = () => {
   };
 
   return (
-    <Button onClick={handleSignIn} disabled={isLoading}>
+    <Button variant="red" onClick={handleSignIn} disabled={isLoading}>
       {isLoading ? "Signing in..." : "Sign In with Supabase"}
     </Button>
   );

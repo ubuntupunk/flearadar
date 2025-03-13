@@ -1,6 +1,6 @@
 // src/lib/utils/auth-utils.ts
 import { createClientSupabaseClient } from "@/lib/supabase/client";
-import { useAuthStore } from "@/lib/stores/use-auth-store";
+import { useAuthStore } from "@/lib/store/use-auth-store";
 import { useRouter } from "next/navigation";
 import { useCallback } from "react";
 
