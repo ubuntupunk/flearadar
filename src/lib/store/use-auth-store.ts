@@ -11,6 +11,7 @@ interface AuthState {
   setLoading: (isLoading: boolean) => void
   setSessionExpiry: (expiry: number | null) => void
   clearSession: () => void
+  logout: () => void // Add logout function
 }
 
 export const useAuthStore = create<AuthState>()(
@@ -23,6 +24,7 @@ export const useAuthStore = create<AuthState>()(
       setLoading: (isLoading) => set({ isLoading }),
       setSessionExpiry: (expiry) => set({ sessionExpiry: expiry }),
       clearSession: () => set({ user: null, sessionExpiry: null }),
+      logout: () => set({ user: null, sessionExpiry: null }), // Implement logout function
     }),
     {
       name: 'auth-storage',

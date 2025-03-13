@@ -43,11 +43,13 @@ export async function middleware(request: NextRequest) {
   } = await supabase.auth.getSession();
 
   // Protected routes pattern
-  const isProtectedRoute = request.nextUrl.pathname.startsWith("/profile");
+  const isProtectedRoute =
+    request.nextUrl.pathname.startsWith("/profile") ||
+    request.nextUrl.pathname.startsWith("/listings/manage");
   const isAuthRoute = request.nextUrl.pathname.startsWith("/auth");
 
   if (isProtectedRoute && !session) {
-    return NextResponse.redirect(new URL("/auth/login", request.url));
+    return NextResponse.redirect(new URL("/auth", request.url));
   }
 
   if (isAuthRoute && session) {

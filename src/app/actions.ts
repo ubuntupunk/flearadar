@@ -1,7 +1,11 @@
 'use server';
 
+'use server';
+
 import fs from 'fs';
 import path from 'path';
+import { createServerSupabaseClient } from "@/lib/supabase/server";
+import { redirect } from "next/navigation";
 
 export async function getArticleContent(slug: string): Promise<string> {
   try {
@@ -12,4 +16,10 @@ export async function getArticleContent(slug: string): Promise<string> {
     console.error(`Error fetching content for ${slug}:`, error);
     return 'Error loading content.';
   }
+}
+
+export async function logout() {
+  const supabase = await createServerSupabaseClient();
+  await supabase.auth.signOut();
+  redirect("/");
 }

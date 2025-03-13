@@ -12,14 +12,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     async function loadSession() {
-      const { data: { session } } = await supabaseClient.auth.getSession();
+      const { data: { session } } = await supabaseClient.auth.getSession()
       if (session?.user) {
-        setUser(session.user);
+        setUser(session.user)
+      } else {
+        setUser(null)
       }
-      setLoading(false); // Set isLoading to false after session is loaded (or attempted to load)
+      setLoading(false)
     }
-    loadSession();
-  }, [supabaseClient, setLoading, setUser]);
+    loadSession()
+  }, [supabaseClient, setLoading, setUser])
 
   return (
     <SessionContextProvider supabaseClient={supabaseClient}>
