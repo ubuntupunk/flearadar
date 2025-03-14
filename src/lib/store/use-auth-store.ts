@@ -1,5 +1,5 @@
 // src/lib/stores/use-auth-store.ts
-import { User } from '@supabase/supabase-js'
+import { Session, User } from '@supabase/supabase-js'
 import { create } from 'zustand'
 import { createJSONStorage, persist } from 'zustand/middleware'
 
@@ -24,7 +24,14 @@ export const useAuthStore = create<AuthState>()(
       setLoading: (isLoading) => set({ isLoading }),
       setSessionExpiry: (expiry) => set({ sessionExpiry: expiry }),
       clearSession: () => set({ user: null, sessionExpiry: null }),
-      logout: () => set({ user: null, sessionExpiry: null }), // Implement logout function
+      logout: () => set({ user: null, sessionExpiry: null }),
+      setUserFromSession: (session: Session | null) => {
+        if (session?.user) {
+          set({ user: session.user });
+        } else {
+          set({ user: null });
+        }
+      },
     }),
     {
       name: 'auth-storage',

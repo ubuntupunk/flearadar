@@ -1,4 +1,4 @@
-import listings from "../data/listings.json";
+import listings from "../app/data/listings.json";
 import Image from 'next/image';
 
 // Define the Listing interface based on expected JSON structure

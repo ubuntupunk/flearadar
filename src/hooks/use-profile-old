@@ -36,12 +36,9 @@ export function useProfile(): UseProfile {
           avatar_url: user.user_metadata.avatar_url || null,
         });
       } catch (error) {
-        toast({
-          variant: "destructive",
-          title: "Error",
-          description:
+        toast(
             error instanceof Error ? error.message : "Failed to fetch profile",
-        });
+        );
         setProfile(null);
       }
     }

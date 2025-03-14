@@ -12,16 +12,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     async function loadSession() {
-      const { data: { session } } = await supabaseClient.auth.getSession()
-      if (session?.user) {
-        setUser(session.user)
+      const { data: { user } } = await supabaseClient.auth.getUser();
+      if (user) {
+        setUser(user);
       } else {
-        setUser(null)
+        setUser(null);
       }
-      setLoading(false)
+      setLoading(false);
     }
-    loadSession()
-  }, [supabaseClient, setLoading, setUser])
+    loadSession();
+  }, [supabaseClient, setLoading, setUser]);
 
   return (
     <SessionContextProvider supabaseClient={supabaseClient}>
