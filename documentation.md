@@ -1,4 +1,4 @@
-# FleaRadar Article System Documentation
+# FleaRadar Documentation
 
 ## Overview
 
@@ -7,7 +7,9 @@ This document provides an overview of FleaRadar.
 1. Article System
 2. Authentication System
 
-## File Structure
+## Article System
+
+### File Structure
 
 *   `src/articles/`: Contains the markdown files for each article.
 *   `src/app/articles/[slug]/page.tsx`: The main component for rendering articles.

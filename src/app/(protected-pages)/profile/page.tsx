@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
-import { useProfile } from "@/hooks/use-profile";
+import { useProfile } from "@/hooks/use-profile-ts";
 import { ProfileFormData, profileSchema } from "@/lib/validations/profile";
 
 export default function ProfilePage() {
