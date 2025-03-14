@@ -1,7 +1,7 @@
 // src/app/(protected-pages)/profile/page.tsx
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
@@ -18,6 +18,7 @@ import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { useProfile } from "@/hooks/useProfile";
 import { ProfileFormData, profileSchema } from "@/lib/validations/profile";
+import { useRouter } from 'next/navigation';
 
 export default function ProfilePage() {
   const { profile, updateProfile } = useProfile();
@@ -29,6 +30,19 @@ export default function ProfilePage() {
       avatar_url: "",
     },
   });
+  const router = useRouter();
+  const [profileType, setProfileType] = useState<string | null>(null);
+
+
+  useEffect(() => {
+    const storedProfileType = localStorage.getItem('profileType');
+    if (storedProfileType) {
+      setProfileType(storedProfileType);
+    } else {
+      router.push('/auth/profile-selection'); // Redirect if no profile type is selected
+    }
+  }, [router]);
+
 
   useEffect(() => {
     if (profile) {
@@ -40,6 +54,17 @@ export default function ProfilePage() {
     }
   }, [profile, form]);
 
+  const onSubmit = async (data: ProfileFormData) => {
+    await updateProfile(data);
+    router.push('/dashboard'); // Redirect to dashboard after profile update
+  };
+
+
+  if (!profileType) {
+    return <div>Loading profile type...</div>; // Or a loading spinner
+  }
+
+
   return (
     <div className="container mx-auto py-8">
       <div className="max-w-2xl mx-auto space-y-6">
@@ -48,11 +73,12 @@ export default function ProfilePage() {
           <p className="text-muted-foreground">
             Manage your account settings and profile information
           </p>
+          <p>Profile Type: {profileType}</p> {/* Display profile type */}
         </div>
 
         <Form {...form}>
           <form
-            onSubmit={form.handleSubmit(updateProfile)}
+            onSubmit={form.handleSubmit(onSubmit)}
             className="space-y-6"
           >
             <FormField

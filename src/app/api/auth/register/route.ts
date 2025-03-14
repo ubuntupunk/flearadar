@@ -20,12 +20,29 @@ export async function POST(request: NextRequest) {
 
     if (error) throw error
 
-    return NextResponse.json({ data })
+    // Create user profile in profiles table
+    const supabaseServerClient = await createServerSupabaseClient();
+    const { error: profileCreationError } = await supabaseServerClient
+      .from('profiles')
+      .insert({
+        id: data.user?.id, // Use the newly created user's ID
+        email: validatedData.email,
+        profile_type: null, // Set initial profile_type to null
+      });
+
+    if (profileCreationError) {
+      console.error("Profile creation error:", profileCreationError);
+      // Consider whether to throw an error or handle it differently
+      // For now, let's log and continue to redirection
+    }
+
+
+    return NextResponse.redirect(`${request.nextUrl.origin}/auth/profile-selection`);
   } catch (error) {
-    console.log(error)
+    console.error("Registration error:", error); // More specific error logging
     return NextResponse.json(
       { error: error instanceof Error ? error.message : "Failed to register" },
       { status: 400 }
-    )
+    );
   }
 }
