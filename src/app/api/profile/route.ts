@@ -21,16 +21,16 @@ export async function GET(request: NextRequest) {
     }
 
     const supabase = await createServerSupabaseClient();
-    const { data: profile, error } = await supabase
+    const { data: profile, error: profileError } = await supabase
       .from("profiles")
       .select("*")
-      .eq("id", userId)
+      .eq("user_id", userId)
       .single();
 
-    if (error) {
-      console.error("Supabase error fetching profile:", error);
+    if (profileError) {
+      console.error("Supabase error fetching profile:", profileError);
       return NextResponse.json(
-        { error: "Failed to fetch profile", details: error.message },
+        { error: "Failed to fetch profile", details: profileError.message },
         { status: 500 }
       );
     }
@@ -39,7 +39,21 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: "Profile not found" }, { status: 404 });
     }
 
-    return NextResponse.json({ data: profile });
+    const { data: user, error: userError } = await supabase
+      .from("users")
+      .select("username")
+      .eq("id", userId)
+      .single();
+
+    if (userError) {
+      console.error("Supabase error fetching username:", userError);
+      return NextResponse.json(
+        { error: "Failed to fetch username", details: userError.message },
+        { status: 500 }
+      );
+    }
+
+    return NextResponse.json({ data: { ...profile, username: user?.username } });
   });
 }
 
@@ -58,7 +72,7 @@ export async function PUT(request: NextRequest) {
       const { error } = await supabase
         .from("profiles")
         .upsert({
-          id: userId, // Use userId for row identification
+          user_id: userId, // Use userId for row identification
           ...updateData,
         })
 
