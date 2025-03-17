@@ -4,17 +4,17 @@ import Link from "next/link";
 import React, { useState } from 'react';
 import SupaAuthButton from './SupaAuthButton';
 import SearchBar from './SearchBar';
+import Image from "next/image";
+import { useSessionContext } from '@supabase/auth-helpers-react';
 
-import { useUser, useSessionContext } from '@supabase/auth-helpers-react';
-//eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface HeaderProps {
-}
 
-const Header: React.FC<HeaderProps> = () => {
+const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  // const { user } = useUser() as any; // Removed useUser() call
-  // console.log('User object from useUser:', user);
   const { supabaseClient } = useSessionContext();
+  const [imageSize, setimageSize] = useState({
+    width: 1,
+    height: 1
+   });
   console.log('Supabase client from useSessionContext:', supabaseClient);
 
   const toggleMenu = () => {
@@ -24,7 +24,24 @@ const Header: React.FC<HeaderProps> = () => {
   return (
     <nav className="bg-light p-3">
       <div className="container mx-auto flex items-center justify-between">
-        <Link className="text-lg font-bold" href="/">FleaRadar</Link>
+<Link className="text-lg font-bold flex items-center" href="/">
+    <Image src="/images/flea.png"
+     alt="Flea Logo" 
+     className="h-6 w-auto mr-2"
+     priority={true}
+     onLoad={(event: React.SyntheticEvent<HTMLImageElement, Event>) => {
+      const img = event.currentTarget;
+      console.log("Image loading complete:", img);
+      setimageSize({
+       width: (img as HTMLImageElement).naturalWidth,
+       height: (img as HTMLImageElement).naturalHeight
+      });
+     }}
+     width={imageSize.width}
+     height={imageSize.height}
+     />
+    FleaRadar
+</Link>
       <button className="navbar-toggler md:hidden" type="button" onClick={toggleMenu} aria-controls="basic-navbar-nav" aria-expanded={isMenuOpen} aria-label="Toggle navigation">
         <span className="navbar-toggler-icon"></span>
       </button>

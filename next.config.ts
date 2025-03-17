@@ -5,15 +5,8 @@ dotenv.config({ path: '.env.local' });
 
 const nextConfig: NextConfig = {
   /* config options here */
-    images: {
-        domains: ["localhost", "flearadar.supabase.co", "placehold.co", "flearadar.vercel.app"],
+    images: { 
         remotePatterns: [
-          {
-            protocol: 'https',
-            hostname: 'placehold.co',
-            port: '',
-            pathname: '/**',
-          },
           {
             protocol: 'https',
             hostname: '**',
@@ -27,6 +20,7 @@ const nextConfig: NextConfig = {
             pathname: '/**',
           },
         ],
+        unoptimized: true,
     },
     };
 
