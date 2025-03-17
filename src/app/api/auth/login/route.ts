@@ -17,7 +17,43 @@ export async function POST(request: NextRequest) {
 
     if (error) throw error
 
-    return NextResponse.json({ data })
+    // Check if user has user_type
+    const { data: userWithProfile, error: userProfileError } = await supabase
+      .from('users')
+      .select('user_type')
+      .eq('id', data.user?.id)
+      .single();
+
+    if (userProfileError) {
+      console.error('Error fetching user profile:', userProfileError);
+      // Handle error appropriately, maybe return an error response
+    }
+
+    if (!userWithProfile?.user_type) {
+      // Redirect to onboarding if user_type is missing
+      return NextResponse.redirect('/onboarding')
+    }
+
+    // Redirect to appropriate dashboard based on user_type
+    const userType = userWithProfile.user_type;
+    let redirectPath = '';
+
+    switch (userType) {
+      case 'user':
+        redirectPath = '/user-dash';
+        break;
+      case 'vendor':
+        redirectPath = '/vendor-dash';
+        break;
+      case 'market':
+        redirectPath = '/market-dash';
+        break;
+      default:
+        redirectPath = '/user-dash'; // Default to user-dash if user_type is unexpected
+        console.warn(`Unexpected user_type: ${userType}, redirecting to user-dash`);
+    }
+
+    return NextResponse.redirect(redirectPath);
   } catch (error) {
     console.log(error)
     return NextResponse.json(

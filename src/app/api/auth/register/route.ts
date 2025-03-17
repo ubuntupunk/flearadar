@@ -20,6 +20,26 @@ export async function POST(request: NextRequest) {
 
     if (error) throw error
 
+    // Get user_type from cookies
+    const userType = request.cookies.get('user_type')?.value;
+
+    if (userType) {
+      // Update user table with user_type
+      const { error: userUpdateError } = await supabase
+        .from('users')
+        .update({ user_type: userType })
+        .eq('id', data.user?.id); // Assuming 'data.user?.id' contains the newly registered user's ID
+
+      if (userUpdateError) {
+        console.error('Failed to update user_type in users table:', userUpdateError);
+        // Consider how to handle this error - maybe log it and continue or return an error response
+      }
+    } else {
+      console.warn('user_type cookie not found after registration');
+      // Handle case where user_type is not found, maybe log a warning
+    }
+
+
     return NextResponse.json({ data })
   } catch (error) {
     console.log(error)
