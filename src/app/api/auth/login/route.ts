@@ -31,7 +31,8 @@ export async function POST(request: NextRequest) {
 
     if (!userWithProfile?.user_type) {
       // Redirect to onboarding if user_type is missing
-      return NextResponse.redirect('/onboarding')
+      const redirectUrl = `/onboarding?callbackUrl=${request.nextUrl.pathname}`;
+      return NextResponse.redirect(redirectUrl)
     }
 
     // Redirect to appropriate dashboard based on user_type

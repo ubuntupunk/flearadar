@@ -56,6 +56,46 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL("/dashboard", request.url));
   }
 
+  if (session) {
+    const supabaseMiddlewareClient = await createServerSupabaseClient();
+    const { data: userWithProfile, error: userProfileError } = await supabaseMiddlewareClient
+      .from('users')
+      .select('user_type')
+      .eq('id', session?.user?.id)
+      .single();
+
+    if (userProfileError) {
+      console.error('Error fetching user profile in middleware:', userProfileError);
+      // Consider how to handle this error - for now, just continue without redirection
+    } else if (!userWithProfile?.user_type) {
+      // Redirect to onboarding if user_type is missing
+      return NextResponse.redirect(new URL("/onboarding", request.nextUrl.origin));
+    } else {
+      // Redirect to appropriate dashboard based on user_type (similar logic as in login route)
+      const userType = userWithProfile.user_type;
+      let redirectPath = '';
+
+      switch (userType) {
+        case 'user':
+          redirectPath = '/user-dash';
+          break;
+        case 'vendor':
+          redirectPath = '/vendor-dash';
+          break;
+        case 'market':
+          redirectPath = '/market-dash';
+          break;
+        default:
+          redirectPath = '/dashboard'; // Default to dashboard if user_type is unexpected - changed from user-dash
+          console.warn(`Unexpected user_type: ${userType}, redirecting to dashboard in middleware`);
+      }
+      if (redirectPath) {
+        return NextResponse.redirect(new URL(redirectPath, request.nextUrl.origin));
+      }
+    }
+  }
+
+
   return response;
 }
 

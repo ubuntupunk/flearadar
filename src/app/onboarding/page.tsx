@@ -1,21 +1,32 @@
 'use client'
 
 import { useRouter } from 'next/navigation';
-import React from 'react';
+import { useEffect } from 'react';
+import { useSearchParams } from 'next/navigation'
 
-const OnboardingPage = () => {
+function OnboardingPage() {
   const router = useRouter();
+  const searchParams = useSearchParams()
+  const callbackUrl = searchParams.get('callbackUrl') || '/';
+
+
+  useEffect(() => {
+    const session = localStorage.getItem('supabase.auth.token');
+    if (session) {
+      router.push(callbackUrl);
+    }
+  }, [router, callbackUrl]);
 
   const handleUserTypeSelection = (userType: string) => {
     document.cookie = `user_type=${userType}; path=/`;
-    router.push('/auth/register');
+    router.push(`/auth?callbackUrl=${encodeURIComponent(callbackUrl)}`);
   };
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
       <div className="bg-white p-8 rounded shadow-md w-96">
-        <h1 className="text-2xl font-semibold text-center mb-6">Welcome!</h1>
-        <p className="text-gray-700 text-center mb-4">Please select your user type to continue.</p>
+        <h1 className="text-2xl font-bold text-center mb-4">Welcome!</h1>
+        <p className="text-center text-gray-700 mb-6">Please select your user type to continue.</p>
         <div className="flex flex-col space-y-4">
           <button
             onClick={() => handleUserTypeSelection('user')}
@@ -39,6 +50,6 @@ const OnboardingPage = () => {
       </div>
     </div>
   );
-};
+}
 
 export default OnboardingPage;
