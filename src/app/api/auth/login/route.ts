@@ -5,19 +5,26 @@ import { NextResponse } from "next/server"
 import { type NextRequest } from "next/server"
 
 export async function POST(request: NextRequest) {
+  console.log('Login route called');
   try {
-    const body = await request.json()
-    const validatedData = loginSchema.parse(body)
+    const body = await request.json();
+    const validatedData = loginSchema.parse(body);
 
-    const supabase = await createServerSupabaseClient()
+    const supabase = await createServerSupabaseClient();
+    console.log('Attempting supabase sign in with password');
     const { data, error } = await supabase.auth.signInWithPassword({
       email: validatedData.email,
       password: validatedData.password,
-    })
+    });
 
-    if (error) throw error
+    if (error) {
+      console.error('Supabase sign in error:', error);
+      throw error;
+    }
+    console.log('Supabase sign in successful', data);
 
     // Check if user has user_type
+    console.log('Checking for user_type');
     const { data: userWithProfile, error: userProfileError } = await supabase
       .from('users')
       .select('user_type')

@@ -5,20 +5,27 @@ import { NextResponse } from "next/server"
 import { type NextRequest } from "next/server"
 
 export async function POST(request: NextRequest) {
+  console.log('Register route called');
   try {
-    const body = await request.json()
-    const validatedData = registerSchema.parse(body)
+    const body = await request.json();
+    const validatedData = registerSchema.parse(body);
 
-    const supabase = await createServerSupabaseClient()
+    const supabase = await createServerSupabaseClient();
+    console.log('Attempting supabase signup');
     const { data, error } = await supabase.auth.signUp({
       email: validatedData.email,
       password: validatedData.password,
       options: {
         emailRedirectTo: `${request.nextUrl.origin}/auth/callback`,
       },
-    })
+    });
 
-    if (error) throw error
+    if (error) {
+      console.error('Supabase signup error:', error);
+      throw error;
+    }
+    console.log('Supabase signup successful', data);
+
 
     // Get user_type from cookies
     const userType = request.cookies.get('user_type')?.value;
@@ -40,12 +47,12 @@ export async function POST(request: NextRequest) {
     }
 
 
-    return NextResponse.json({ data })
+    return NextResponse.json({ data });
   } catch (error) {
-    console.log(error)
+    console.error('Registration error:', error);
     return NextResponse.json(
       { error: error instanceof Error ? error.message : "Failed to register" },
       { status: 400 }
-    )
+    );
   }
 }

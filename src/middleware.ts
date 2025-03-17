@@ -38,9 +38,15 @@ export async function middleware(request: NextRequest) {
 
   const supabase = await createServerSupabaseClient();
 
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
+  const { data: authUser, error: authError } = await supabase.auth.getUser();
+
+  if (authError) {
+    console.error('Error fetching user in middleware:', authError);
+    // In case of error, do not redirect, allow the request to proceed
+    return response;
+  }
+
+  const user = authUser.user;
 
   // Protected routes pattern
   const isProtectedRoute =
@@ -48,49 +54,53 @@ export async function middleware(request: NextRequest) {
     request.nextUrl.pathname.startsWith("/listings/manage");
   const isAuthRoute = request.nextUrl.pathname.startsWith("/auth");
 
-  if (isProtectedRoute && !session) {
+  // Redirect unauthenticated users from protected routes to auth
+  if (isProtectedRoute && !user) {
     return NextResponse.redirect(new URL("/auth", request.url));
   }
 
-  if (isAuthRoute && session) {
-    return NextResponse.redirect(new URL("/dashboard", request.url));
-  }
-
-  if (session) {
+  if (user) {
     const supabaseMiddlewareClient = await createServerSupabaseClient();
     const { data: userWithProfile, error: userProfileError } = await supabaseMiddlewareClient
       .from('users')
       .select('user_type')
-      .eq('id', session?.user?.id)
+      .eq('id', user.id)
       .single();
 
     if (userProfileError) {
       console.error('Error fetching user profile in middleware:', userProfileError);
-      // Consider how to handle this error - for now, just continue without redirection
+      // Do not redirect on profile fetch error, allow access
     } else if (!userWithProfile?.user_type) {
-      // Redirect to onboarding if user_type is missing
-      return NextResponse.redirect(new URL("/onboarding", request.nextUrl.origin));
-    } else {
-      // Redirect to appropriate dashboard based on user_type (similar logic as in login route)
-      const userType = userWithProfile.user_type;
-      let redirectPath = '';
-
-      switch (userType) {
-        case 'user':
-          redirectPath = '/user-dash';
-          break;
-        case 'vendor':
-          redirectPath = '/vendor-dash';
-          break;
-        case 'market':
-          redirectPath = '/market-dash';
-          break;
-        default:
-          redirectPath = '/dashboard'; // Default to dashboard if user_type is unexpected - changed from user-dash
-          console.warn(`Unexpected user_type: ${userType}, redirecting to dashboard in middleware`);
+      // Redirect to onboarding if user_type is missing and not already on auth or onboarding
+      if (!isAuthRoute && !request.nextUrl.pathname.startsWith('/onboarding')) {
+        return NextResponse.redirect(new URL('/onboarding', request.nextUrl.origin));
       }
-      if (redirectPath) {
-        return NextResponse.redirect(new URL(redirectPath, request.nextUrl.origin));
+    } else {
+      // User has user_type, redirect to dashboard if not on auth, onboarding, or root
+      if (!isAuthRoute && !request.nextUrl.pathname.startsWith('/onboarding') && request.nextUrl.pathname !== '/') {
+        const userType = userWithProfile.user_type;
+        let redirectPath = '';
+
+        switch (userType) {
+          case 'user':
+            redirectPath = '/user-dash';
+            break;
+          case 'vendor':
+            redirectPath = '/vendor-dash';
+            break;
+          case 'market':
+            redirectPath = '/market-dash';
+            break;
+          case 'admin':
+              redirectPath = '/admin-dash'; // Added AdminDash case
+              break;
+          default:
+            redirectPath = '/dashboard'; // Default to dashboard if user_type is unexpected
+            console.warn(`Unexpected user_type: ${userType}, redirecting to dashboard in middleware`);
+        }
+        if (redirectPath) {
+          return NextResponse.redirect(new URL(redirectPath, request.nextUrl.origin));
+        }
       }
     }
   }
