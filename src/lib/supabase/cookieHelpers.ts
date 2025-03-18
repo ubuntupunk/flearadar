@@ -1,5 +1,5 @@
 // src/lib/supabase/cookieHelpers.ts
-import type { CookieOptions, CookieHelpers } from '../types/cookies'
+import type { CookieOptions, CookieHelpers } from './types/cookies'
 
 export const cookieHelpers: CookieHelpers = {
   get(name: string): string | undefined {

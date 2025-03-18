@@ -1,6 +1,6 @@
 // src/lib/supabase/client.ts
 import { createBrowserClient } from '@supabase/ssr'
-import { Database } from './types'
+import { Database, TypedSupabaseClient } from './types'
 import { cookieHelpers } from './cookieHelpers'
 import { 
   SessionStatus, 

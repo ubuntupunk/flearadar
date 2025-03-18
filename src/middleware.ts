@@ -82,9 +82,6 @@ async function handleMiddleware(request: NextRequest) {
   
   response.headers.set('Set-Cookie', cookieAttributes);
   
-
-  
-
   // Apply CORS headers for API routes
   if (request.nextUrl.pathname.startsWith("/api/")) {
     Object.entries(corsHeaders).forEach(([key, value]) => {
