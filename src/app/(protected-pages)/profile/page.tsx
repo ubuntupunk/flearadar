@@ -40,6 +40,13 @@ export default function ProfilePage() {
     }
   }, [profile, form]);
 
+   // Add last seen display
+  const formatLastSeen = (lastSeen: string | null): string => {
+    if (!lastSeen) return 'Never visited';
+    const date = new Date(lastSeen);
+    return date.toLocaleString();
+  }; 
+
   return (
     <div className="container mx-auto py-8">
       <div className="max-w-2xl mx-auto space-y-6">

@@ -1,12 +1,13 @@
 // src/lib/types/session.ts
 import { Session } from '@supabase/supabase-js'
 import type { CookieOptions } from './cookies'
+import { type AuthChangeEvent } from '@supabase/supabase-js'
 
 export interface SessionStatus {
   userId?: string
   expiresAt: string
   timeUntilExpiry: number
-  event?: AuthStateEvent
+  event?: AuthChangeEvent
 }
 
 export interface SessionWarning {

@@ -6,6 +6,7 @@ export const profileSchema = z.object({
   username: z.string().min(3, 'Username must be at least 3 characters').optional(),
   avatar_url: z.string().url().optional().or(z.literal('')),
   website: z.string().url().optional().or(z.literal('')),
+  // last_seen_at is managed by the system, not user input
 })
 
 export type ProfileFormData = z.infer<typeof profileSchema>

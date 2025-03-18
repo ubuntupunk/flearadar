@@ -1,6 +1,3 @@
- // src/lib/types/database.ts
-import { SupabaseClient } from '@supabase/supabase-js'
-
 export type Json =
   | string
   | number
@@ -1259,44 +1256,3 @@ export type CompositeTypes<
   : PublicCompositeTypeNameOrOptions extends keyof PublicSchema["CompositeTypes"]
     ? PublicSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
     : never
-
-
-     // Q Added these helper types
- 
-    // export type Tables<T extends keyof Database['public']['Tables']> = 
-    //   Database['public']['Tables'][T]['Row']
-    
-    export type Views<T extends keyof Database['public']['Views']> = 
-      Database['public']['Views'][T]['Row']
-    
-    // export type TablesInsert<T extends keyof Database['public']['Tables']> = 
-    //   Database['public']['Tables'][T]['Insert']
-    
-    // export type TablesUpdate<T extends keyof Database['public']['Tables']> = 
-    //   Database['public']['Tables'][T]['Insert']
-    
-    // Common table types
-    export type Profile = Tables<'profiles'>
-    export type User = Tables<'users'>
-    export type Content = Tables<'content'>
-    export type Listing = Tables<'listings'>
-    export type Bookmark = Tables<'bookmarks'>
-    export type Image = Tables<'images'>
-    
-    // Insert types
-    export type InsertProfile = TablesInsert<'profiles'>
-    export type InsertListing = TablesInsert<'listings'>
-    export type InsertBookmark = TablesInsert<'bookmarks'>
-    
-    // Update types
-    export type UpdateProfile = TablesUpdate<'profiles'>
-    export type UpdateListing = TablesUpdate<'listings'>
-    
-    // View types (if you're using them)
-    export type VendorSocialCredit = Views<'vendor_social_credits'>
-    export type SecurityScore = Views<'security_scores'>
-    
-    // Type for the Supabase client
-    export type TypedSupabaseClient = SupabaseClient<Database>
-  
-  
