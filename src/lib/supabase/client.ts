@@ -8,52 +8,76 @@ export function createClientSupabaseClient() {
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
       // Add cookie options to the browser client
-      cookies: {
-        get(name: string) {
-          const cookies = document.cookie.split(';')
-            .map(cookie => cookie.trim())
-            .reduce((acc: { [key: string]: string }, current) => {
-              const [name, value] = current.split('=')
-              acc[name] = value
-              return acc
-            }, {})
-          return cookies[name]
-        },
-        set(name: string, value: string, options: { [key: string]: string }) {
-          try {
-            // Ensure value is properly stringified if it's an object
-            const cookieValue = typeof value === 'object' 
-              ? JSON.stringify(value) 
-              : value
-
-            let cookieString = `${name}=${cookieValue}`
-            
-            if (options.path) cookieString += `; path=${options.path}`
-            if (options.maxAge) cookieString += `; max-age=${options.maxAge}`
-            if (options.domain) cookieString += `; domain=${options.domain}`
-            if (options.secure) cookieString += '; secure'
-            if (options.sameSite) cookieString += `; samesite=${options.sameSite}`
-
-            document.cookie = cookieString
-            return true
-          } catch (error) {
-            console.error('Error setting cookie:', { name, error })
-            return false
-          }
-        },
-        remove(name: string, options: { [key: string]: string }) {
-          try {
-            // Remove cookie by setting expired date
-            const cookieString = `${name}=; path=${options.path || '/'}; expires=Thu, 01 Jan 1970 00:00:01 GMT`
-            document.cookie = cookieString
-            return true
-          } catch (error) {
-            console.error('Error removing cookie:', { name, error })
-            return false
-          }
-        }
-      }
-    }
+     cookies: {
+       get(key: string): string | undefined {
+         try {
+           const cookies = document.cookie.split(';')
+             .map(cookie => cookie.trim())
+             .reduce((acc: { [key: string]: string }, current) => {
+               const [cookieName, ...rest] = current.split('=')
+               const cookieValue = rest.join('=')
+               acc[cookieName.trim()] = cookieValue
+               return acc
+             }, {})
+           
+           const value = cookies[key]
+           if (!value) return undefined
+           
+           return decodeURIComponent(value)
+         } catch (error) {
+           console.error('Error reading cookie:', { key, error })
+           return undefined
+         }
+       },
+     
+       set(key: string, value: string, options?: {
+         domain?: string
+         path?: string
+         maxAge?: number
+         secure?: boolean
+         sameSite?: 'strict' | 'lax' | 'none'
+       }): void {
+         try {
+           let cookieValue = encodeURIComponent(value)
+           const cookieParts = [`${key}=${cookieValue}`]
+           
+           if (options?.path) cookieParts.push(`path=${options.path}`)
+           if (options?.maxAge) cookieParts.push(`max-age=${options.maxAge}`)
+           if (options?.domain) cookieParts.push(`domain=${options.domain}`)
+           if (options?.secure) cookieParts.push('secure')
+           if (options?.sameSite) cookieParts.push(`samesite=${options.sameSite}`)
+           
+           document.cookie = cookieParts.join('; ')
+         } catch (error) {
+           console.error('Error setting cookie:', { key, error })
+         }
+       },
+     
+       remove(key: string, options?: {
+         domain?: string
+         path?: string
+         secure?: boolean
+         sameSite?: 'strict' | 'lax' | 'none'
+       }): void {
+         try {
+           const cookieParts = [
+             `${key}=`,
+             'expires=Thu, 01 Jan 1970 00:00:01 GMT'
+           ]
+     
+           if (options?.path) cookieParts.push(`path=${options.path}`)
+           if (options?.domain) cookieParts.push(`domain=${options.domain}`)
+           if (options?.secure) cookieParts.push('secure')
+           if (options?.sameSite) cookieParts.push(`samesite=${options.sameSite}`)
+     
+           document.cookie = cookieParts.join('; ')
+         } catch (error) {
+           console.error('Error removing cookie:', { key, error })
+         }
+       }
+     } as const
+      
+    }  
   )
 
   // Improved session monitoring and debugging
