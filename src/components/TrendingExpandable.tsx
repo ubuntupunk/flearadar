@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Tooltip } from 'react-tooltip';
-
+import Image from 'next/image'
 interface TrendingExpandableProps {
   listing: any; // Replace with the actual listing type
   isAuthenticated: boolean;
@@ -16,10 +16,12 @@ const TrendingExpandable: React.FC<TrendingExpandableProps> = ({ listing, isAuth
   return (
     <div className="border rounded-lg shadow-sm">
       <a href="#" className="d-block">
-        <img
+        <Image
           src={listing.image}
           className="w-full h-48 object-cover rounded-t-lg"
           alt={listing.name}
+          width={500}
+          height={500}
         />
       </a>
       <div className="p-4">
