@@ -1,19 +1,45 @@
-// src/app/admin/rate-limits/page.tsx
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Card, LineChart, BarChart } from '@/components/ui'; // Your UI components
+import { Card, LineChart, BarChart } from '@/components/ui';
+import {Metric, RecentEvent} from '@/types/rate-limit';
+
+interface Metric {
+  totalHits: number;
+  totalBlocked: number;
+  uniqueIPs: number;
+  topPaths: { path: string; count: number }[];
+  totalHitsOverTime: {timestamp: string; count: number}[];
+}
+
+interface RecentEvent {
+  timestamp: string;
+  ip: string;
+  path: string;
+  blocked: boolean;
+}
 
 export default function RateLimitDashboard() {
-  const [metrics, setMetrics] = useState(null);
-  const [recentEvents, setRecentEvents] = useState([]);
+  const [metrics, setMetrics] = useState<Metric | null>(null);
+  const [recentEvents, setRecentEvents] = useState<RecentEvent[]>([]);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchMetrics = async () => {
-      const response = await fetch('/api/admin/rate-limits/metrics');
-      const data = await response.json();
-      setMetrics(data.metrics);
-      setRecentEvents(data.recentEvents);
+      try {
+        const response = await fetch('/api/admin/rate-limits/metrics');
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        setMetrics(data.metrics);
+        setRecentEvents(data.recentEvents);
+      } catch (error) {
+        setError((error as Error).message);
+      } finally {
+        setLoading(false);
+      }
     };
 
     fetchMetrics();
@@ -21,12 +47,19 @@ export default function RateLimitDashboard() {
     return () => clearInterval(interval);
   }, []);
 
-  if (!metrics) return <div>Loading...</div>;
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
+  if (!metrics) return <div>No data available.</div>;
+
+  const lineChartData = metrics.totalHitsOverTime.map(item => ({
+    x: new Date(item.timestamp),
+    y: item.count
+  }));
 
   return (
     <div className="p-6">
       <h1 className="text-2xl font-bold mb-6">Rate Limit Monitoring</h1>
-      
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         <Card title="Total Hits" value={metrics.totalHits} />
         <Card title="Total Blocked" value={metrics.totalBlocked} />
@@ -35,6 +68,10 @@ export default function RateLimitDashboard() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+          <h2 className="text-xl font-semibold mb-4">Total Hits Over Time</h2>
+          <LineChart data={lineChartData} />
+        </div>
         <div>
           <h2 className="text-xl font-semibold mb-4">Top Blocked Paths</h2>
           <BarChart data={metrics.topPaths} />

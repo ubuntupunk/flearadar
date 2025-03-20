@@ -44,7 +44,7 @@ export async function getRssPosts(): Promise<RssItem[]> {
     const parser = new Parser();
     const feed = await parser.parseURL(RSS_FEED_URL);
     return feed.items.slice(0, 4) as RssItem[];
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Error fetching RSS feed:", error);
     return [];
   }
