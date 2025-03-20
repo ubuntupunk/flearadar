@@ -1,191 +1,141 @@
 // src/middleware.ts
-import { createServerSupabaseClient } from "@/lib/supabase/server";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import { createServerSupabaseClient } from "@/lib/supabase/server";
+import { rateLimit, getRateLimitConfig } from "@/lib/utils/rate-limit";
 
-// Route patterns for better maintainability
-const ROUTE_PATTERNS = {
-  protected: ['/profile', '/listings/manage'],
-  auth: ['/auth'],
-  onboarding: ['/onboarding'],
-  public: ['/', '/about', '/contact'],
-  api: ['/api']
-} as const;
-
-// User type dashboard mappings
-const USER_DASHBOARDS = {
-  user: '/user-dash',
-  vendor: '/vendor-dash',
-  market: '/market-dash',
-  admin: '/admin-dash',
-  default: '/dashboard'
-} as const;
-
-// Cache Supabase client
-let supabaseClient: any = null;
-
-function getSupabaseClient() {
-  if (!supabaseClient) {
-    supabaseClient = createServerSupabaseClient();
-  }
-  return supabaseClient;
-}
-
-// Structured logging
-const logMiddlewareEvent = (event: string, details: object) => {
-  console.log(JSON.stringify({
-    timestamp: new Date().toISOString(),
-    event,
-    ...details
-  }));
-};
-
-// Security headers configuration
-const securityHeaders = {
-  'X-Content-Type-Options': 'nosniff',
-  'X-Frame-Options': 'DENY',
-  'X-XSS-Protection': '1; mode=block',
-  'Referrer-Policy': 'strict-origin-when-cross-origin',
-  'Permissions-Policy': 'camera=(), microphone=(), geolocation=()',
-  'Strict-Transport-Security': 'max-age=31536000; includeSubDomains',
-  'Content-Security-Policy': "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline';"
-} as const;
-
-// CORS headers configuration
-const corsHeaders = {
-  'Access-Control-Allow-Origin': process.env.NEXT_PUBLIC_APP_URL || "*",
-  'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-  'Access-Control-Allow-Headers': 'Content-Type, Authorization'
-} as const;
-
-async function handleMiddleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
+  // Initialize response with headers
   const response = NextResponse.next({
     request: {
       headers: request.headers,
     },
   });
 
-  // Apply general security headers
-  Object.entries(securityHeaders).forEach(([key, value]) => {
-    response.headers.set(key, value);
-  });
-  
-  // Add specific cookie security attributes
-  const existingCookie = response.headers.get('Set-Cookie');
-  const cookieAttributes = [
-    existingCookie,
-    'HttpOnly',
-    'Secure',
-    'SameSite=Strict',
-    'Path=/'
-  ].filter(Boolean).join(';');
-  
-  response.headers.set('Set-Cookie', cookieAttributes);
-  
-  // Apply CORS headers for API routes
+  // Apply rate limiting first
+  const rateLimitResult = await rateLimit(request, getRateLimitConfig(request));
+  if (rateLimitResult?.status === 429) {
+    return rateLimitResult;
+  }
+
+  // Add security headers
+  response.headers.set("X-Content-Type-Options", "nosniff");
+  response.headers.set("X-Frame-Options", "DENY");
+  response.headers.set("X-XSS-Protection", "1; mode=block");
+  response.headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
+  response.headers.set(
+    "Permissions-Policy",
+    "camera=(), microphone=(), geolocation=()"
+  );
+
+  // Add CORS headers for API routes
   if (request.nextUrl.pathname.startsWith("/api/")) {
-    Object.entries(corsHeaders).forEach(([key, value]) => {
-      response.headers.set(key, value);
-    });
-  }
-
-  try {
-    const supabase = await getSupabaseClient();
-    const { data: authUser, error: authError } = await supabase.auth.getUser();
-
-    if (authError) {
-      logMiddlewareEvent('auth_error', { error: authError });
-      return response;
-    }
-
-    const user = authUser.user;
-
-    // Check protected routes
-    const isProtectedRoute = ROUTE_PATTERNS.protected.some(path => 
-      request.nextUrl.pathname.startsWith(path)
+    response.headers.set(
+      "Access-Control-Allow-Origin",
+      process.env.NEXT_PUBLIC_APP_URL || "*"
     );
-    const isAuthRoute = request.nextUrl.pathname.startsWith("/auth");
+    response.headers.set(
+      "Access-Control-Allow-Methods",
+      "GET, POST, PUT, DELETE, OPTIONS"
+    );
+    response.headers.set(
+      "Access-Control-Allow-Headers",
+      "Content-Type, Authorization"
+    );
+  }
 
-    if (isProtectedRoute && !user) {
-      logMiddlewareEvent('unauthorized_access', { 
-        path: request.nextUrl.pathname 
-      });
-      return NextResponse.redirect(new URL("/auth", request.url));
-    }
+  const supabase = await createServerSupabaseClient();
+  const { data: authUser, error: authError } = await supabase.auth.getUser();
 
-    if (user) {
-      const { data: userWithProfile, error: userProfileError } = await supabase
-        .from('users')
-        .select('user_type')
-        .eq('id', user.id)
-        .single();
-
-      if (userProfileError) {
-        logMiddlewareEvent('profile_fetch_error', { 
-          error: userProfileError 
-        });
-      } else if (!userWithProfile?.user_type) {
-        if (!isAuthRoute && !request.nextUrl.pathname.startsWith('/onboarding')) {
-          logMiddlewareEvent('redirect_to_onboarding', { 
-            userId: user.id 
-          });
-          return NextResponse.redirect(new URL('/onboarding', request.nextUrl.origin));
-        }
-      } else {
-        if (!isAuthRoute && 
-            !request.nextUrl.pathname.startsWith('/onboarding') && 
-            request.nextUrl.pathname !== '/') {
-          
-          const userType = userWithProfile.user_type as keyof typeof USER_DASHBOARDS;
-          const redirectPath = USER_DASHBOARDS[userType] ?? USER_DASHBOARDS.default;
-
-          if (redirectPath) {
-            logMiddlewareEvent('user_redirect', { 
-              userType, 
-              redirectPath 
-            });
-            return NextResponse.redirect(new URL(redirectPath, request.nextUrl.origin));
-          }
-        }
-      }
-    }
-
+  if (authError) {
+    console.error('Error fetching user in middleware:', authError);
+    // In case of error, do not redirect, allow the request to proceed
     return response;
-  } catch (error) {
-    logMiddlewareEvent('critical_error', { error });
-    // Decide whether to fail open or closed based on your security requirements
-    return response; // failing open
   }
-}
 
-export async function middleware(request: NextRequest) {
-  const startTime = performance.now();
+  const user = authUser.user;
+
+  // Protected routes pattern
+  const isProtectedRoute =
+    request.nextUrl.pathname.startsWith("/profile") ||
+    request.nextUrl.pathname.startsWith("/listings/manage") ||
+    request.nextUrl.pathname.startsWith("/user-dash") ||
+    request.nextUrl.pathname.startsWith("/vendor-dash") ||
+    request.nextUrl.pathname.startsWith("/market-dash") ||
+    request.nextUrl.pathname.startsWith("/admin-dash");
+ 
+    const isAuthRoute = request.nextUrl.pathname.startsWith("/auth");
+    // Add onboarding route check
+    const isOnboardingRoute = request.nextUrl.pathname.startsWith("/onboarding");
   
-  // Basic request validation for API routes
-  if (request.nextUrl.pathname.startsWith('/api/')) {
-    if (request.method === 'POST') {
-      const contentType = request.headers.get('content-type');
-      if (!contentType?.includes('application/json')) {
-        return new NextResponse('Invalid Content-Type', { status: 415 });
+  
+  // Redirect authenticated users from auth to dashboard
+  if (isAuthRoute && user) {
+    return NextResponse.redirect(new URL("/dashboard", request.url));
+  }
+  const { data: userProfile, error: userProfileError } = await supabase
+    .from('user_profiles')
+    .select('onboarding_completed')
+    .eq('user_id', user?.id)
+    .single();
+    
+  if (user && !userProfile?.onboarding_completed && !isOnboardingRoute) {
+  return NextResponse.redirect(new URL("/onboarding", request.url));
+  }
+    // Redirect unauthenticated users from protected routes to auth
+  if (isProtectedRoute && !user) {
+    return NextResponse.redirect(new URL("/auth", request.url));
+  }
+
+  if (user) {
+    const supabaseMiddlewareClient = await createServerSupabaseClient();
+    const { data: userWithProfile, error: userProfileError } = await supabaseMiddlewareClient
+      .from('users')
+      .select('user_type')
+      .eq('id', user.id)
+      .single();
+
+    if (userProfileError) {
+      console.error('Error fetching user profile in middleware:', userProfileError);
+      // Do not redirect on profile fetch error, allow access
+    } else if (!userWithProfile?.user_type) {
+      // Redirect to onboarding if user_type is missing and not already on auth or onboarding
+      if (!isAuthRoute && !request.nextUrl.pathname.startsWith('/onboarding')) {
+        return NextResponse.redirect(new URL('/onboarding', request.nextUrl.origin));
+      }
+    } else {
+      // User has user_type, redirect to dashboard if not on auth, onboarding, or root
+      if (!isAuthRoute && !request.nextUrl.pathname.startsWith('/onboarding') && request.nextUrl.pathname !== '/') {
+        const userType = userWithProfile.user_type;
+        let redirectPath = '';
+
+        switch (userType) {
+          case 'user':
+            redirectPath = '/user-dash';
+            break;
+          case 'vendor':
+            redirectPath = '/vendor-dash';
+            break;
+          case 'market':
+            redirectPath = '/market-dash';
+            break;
+          case 'admin':
+              redirectPath = '/admin-dash'; // Added AdminDash case
+              break;
+          default:
+            redirectPath = '/dashboard'; // Default to dashboard if user_type is unexpected
+            console.warn(`Unexpected user_type: ${userType}, redirecting to dashboard in middleware`);
+        }
+        if (redirectPath) {
+          return NextResponse.redirect(new URL(redirectPath, request.nextUrl.origin));
+        }
       }
     }
   }
 
-  const response = await handleMiddleware(request);
-  
-  const duration = performance.now() - startTime;
-  logMiddlewareEvent('middleware_performance', { 
-    duration,
-    path: request.nextUrl.pathname 
-  });
-  
   return response;
 }
 
 export const config = {
-  matcher: [
-    "/api/:path*",
-    "/((?!api|_next/static|_next/image|favicon.ico).*)"
-  ]
+  matcher: ["/api/:path*", "/((?!api|_next/static|_next/image|favicon.ico).*)"],
 };
-

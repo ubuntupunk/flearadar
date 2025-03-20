@@ -13,11 +13,15 @@ export default function ProtectedLayout({
 
   if (isLoading) {
     return (
-      <div className="flex h-screen w-screen items-center justify-center">
+      <div className="flex h-screen w-screen items-center justify-center bg-grey-50">
         <Loader className="animate-spin" />
       </div>
     );
   }
 
-  return <>{children}</>;
+  return (
+    <div className="min-h-screen bg-gray-50">
+      {children}
+    </div>
+  );
 }

@@ -720,6 +720,8 @@ export type Database = {
           updated_at: string | null
           user_type: string
           username: string | null
+          business_name: string | null
+          onboarding_completed: boolean | null
         }
         Insert: {
           geofence_radius?: number | null
@@ -731,6 +733,8 @@ export type Database = {
           updated_at?: string | null
           user_type: string
           username?: string | null
+          business_name: string | null
+          onboarding_completed: boolean | null
         }
         Update: {
           geofence_radius?: number | null
@@ -742,6 +746,8 @@ export type Database = {
           updated_at?: string | null
           user_type?: string
           username?: string | null
+          business_name: string | null
+          onboarding_completed: boolean | null
         }
         Relationships: []
       }
@@ -1298,5 +1304,12 @@ export type CompositeTypes<
     
     // Type for the Supabase client
     export type TypedSupabaseClient = SupabaseClient<Database>
-  
+ 
+    export type UserProfile = {
+    id: string;
+    user_type: 'user' | 'vendor' | 'market' | 'admin';
+    // add other profile fields here
+    username: string;
+    social_credit: number;  
+  };
   
