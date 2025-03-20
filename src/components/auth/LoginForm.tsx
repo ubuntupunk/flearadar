@@ -3,7 +3,7 @@
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
+import { createClientComponentClient } from "@supabase/supabase-js"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Alert, AlertDescription } from "@/components/ui/alert"

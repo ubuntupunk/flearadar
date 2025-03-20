@@ -1,5 +1,5 @@
 // app/page.tsx
-import Head from "next/head";
+import type { Metadata } from 'next';
 import HeroSearch from "../components/HeroSearch";
 import Categories from "../components/Categories";
 import TrendingListings from "../components/TrendingListings";
@@ -16,6 +16,36 @@ import { getListings } from "@/lib/data";
 import { getLatestArticles, getRssPosts } from "@/lib/articles";
 import HomeClient from "../components/HomeClient";
 
+export const Metadata: Metadata = {
+  title: "FleaRadar Directory",
+  description: "Informal Market & Food Truck Directory",
+  keywords: "food truck, flea market, craft market",
+  openGraph: {
+    title: "FleaRadar Directory",
+    description: "Informal Market & Food Truck Directory",
+    images: [
+      {
+        url: "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+        width: 1200,
+        height: 630,
+        alt: "FleaRadar Directory",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "FleaRadar Directory",
+    description: "Informal Market & Food Truck Directory",
+    images: [
+      {
+        url: "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+        width: 1200,
+        height: 630,
+        alt: "FleaRadar Directory",
+      },
+    ],
+  },
+};
 // Define the Article interface for the fetched articles
 interface Article {
   title: string;
@@ -63,12 +93,12 @@ export default async function Home() {
 
   return (
     <div className="min-h-screen bg-gray-100" style={{ zIndex: 200, paddingBottom: '50px' }}>
-      <Head>
+      {/* <Head>
         <title>FleaRadar Directory</title>
         <meta name="description" content="Informal Market & Food Truck Directory" />
         <meta name="keywords" content="food truck, flea market, craft market" />
         <link rel="icon" href="/favicon.ico" />
-      </Head> 
+      </Head>  */}
       <HomeClient listings={listings} />
       <Categories />
       <TrendingListings />

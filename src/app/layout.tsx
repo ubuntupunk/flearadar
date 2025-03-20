@@ -5,7 +5,7 @@ import React from 'react';
 import '../styles/globals.css'; // Global CSS
 import Header from '../components/Header'; // Adjust the import path if necessary
 import Footer from '../components/Footer'; // Adjust the import path if necessary
-import Head from 'next/head'; // Import Head for metadata
+import type { Metadata } from 'next';
 import { AuthProvider } from '@/lib/providers/auth-provider'; // Import AuthProvider
 
 // Define the props interface for the layout
@@ -25,7 +25,6 @@ export default function RootLayout({ children }: RootLayoutProps): React.ReactNo
   return (
     <html lang="en">
       <body>
-        <Head>
           <title>{metadata.title}</title>
           <meta name="description" content={metadata.description} />
           <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
@@ -35,7 +34,6 @@ export default function RootLayout({ children }: RootLayoutProps): React.ReactNo
             integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
             crossOrigin="">
           </script>
-        </Head>
         <AuthProvider> {/* Wrap children with AuthProvider */}
           <Header />
           {children}
