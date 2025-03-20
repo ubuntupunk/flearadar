@@ -1,19 +1,19 @@
-// src/hooks/use-profile.ts
+// src/hooks/useProfile.ts
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import type { Database } from "@/lib/types/database";
 import { ProfileFormData } from "@/lib/validations/profile";
-import { timeFormats } from '@/lib/utils/time-formats';
+import { timeFormats } from "@/lib/utils/time-formats";
 
 // Use the existing Database type to define Profile
-type ProfileWithUsername = Database['public']['Views']['profile_with_username']['Row'];
+export type ProfileWithUsername = Database["public"]["Views"]["profile_with_username"]["Row"];
 
 interface UseProfile {
   profile: ProfileWithUsername | null;
   updateProfile: (data: ProfileFormData) => Promise<void>;
   isLoading: boolean;
-  formatLastSeen?: (date: string | null) => string;
-  isOnline?: boolean;
+  formatLastSeen: (date: string | null) => string;
+  isOnline: boolean;
 }
 
 export function useProfile(): UseProfile {
@@ -28,7 +28,7 @@ export function useProfile(): UseProfile {
 
         const { data } = await response.json();
         const profileData = data as ProfileWithUsername;
-        
+
         setProfile({
           id: profileData.id,
           full_name: profileData.full_name || null,
@@ -43,14 +43,12 @@ export function useProfile(): UseProfile {
           notification_preferences: profileData.notification_preferences || null,
           status_message: profileData.status_message || null,
           status_emoji: profileData.status_emoji || null,
-          timezone: profileData.timezone || null
+          timezone: profileData.timezone || null,
         });
         // Add last seen update
         void updateLastSeen();
       } catch (error) {
-        toast(
-          error instanceof Error ? error.message : "Failed to fetch profile"
-        );
+        toast(error instanceof Error ? error.message : "Failed to fetch profile");
         // Set profile to null in case of error
         setProfile(null);
       }
@@ -89,12 +87,14 @@ export function useProfile(): UseProfile {
 
       if (!response.ok) throw new Error("Failed to update profile");
 
-      setProfile((prev: any) => 
-        prev ? { 
-          ...prev, 
-          ...data,
-          last_seen_at: new Date().toISOString()
-        } : null
+      setProfile((prev: any) =>
+        prev
+          ? {
+              ...prev,
+              ...data,
+              last_seen_at: new Date().toISOString(),
+            }
+          : null
       );
 
       toast.success("Profile updated successfully");
@@ -108,16 +108,17 @@ export function useProfile(): UseProfile {
   };
 
   // Add time formatting utilities
-  const formatLastSeen = (date: string | null) => timeFormats.formatRelativeTime(date);
-  const isOnline = profile?.last_seen_at ? 
-    timeFormats.getOnlineStatus(profile.last_seen_at) === "Online" : 
-    false;
+  const formatLastSeen = (date: string | null) =>
+    timeFormats.formatRelativeTime(date);
+  const isOnline = profile?.last_seen_at
+    ? timeFormats.getOnlineStatus(profile.last_seen_at) === "Online"
+    : false;
 
-  return { 
-    profile, 
-    updateProfile, 
+  return {
+    profile,
+    updateProfile,
     isLoading,
     formatLastSeen,
-    isOnline
+    isOnline,
   };
 }

@@ -1,9 +1,12 @@
-import type { NextConfig } from "next";
+import NextConfig  from "next";
 import dotenv from 'dotenv';
 
 dotenv.config({ path: '.env.local' });
 
-const nextConfig: NextConfig = {
+const nextConfig = {
+  experimental: {
+    serverActions: true,
+  },
   /* config options here */
     images: { 
         remotePatterns: [

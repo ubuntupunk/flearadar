@@ -63,3 +63,7 @@ This system ensures secure and robust authentication by leveraging Supabase's ba
 *   Add pagination to the `DynamicArticles` component.
 *   Implement a search feature to allow users to search for articles.
 *   Add support for comments.
+
+
+## Revision to Authentication 
+

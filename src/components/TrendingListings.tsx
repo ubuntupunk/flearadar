@@ -7,7 +7,7 @@ import listings from "../app/data/listings.json";
 import Image from 'next/image';
 import Score from './Score';
 import TrendingExpandable from './TrendingExpandable';
-import { useAuth0 } from '@auth0/auth0-react';
+import { useAuthStore } from '@/hooks/useAuth';
 
 // Define the Listing interface based on expected JSON structure
 interface Listing {
@@ -26,7 +26,7 @@ interface TrendingListingsProps {
 
 export default function TrendingListings(/* props: TrendingListingsProps */): JSX.Element {
   const [displayedListings, setDisplayedListings] = useState(4);
-  const { isAuthenticated } = useAuth0();
+  const { isAuthenticated } = useAuthStore();
 
   const handleViewMore = () => {
     setDisplayedListings(displayedListings + 4);

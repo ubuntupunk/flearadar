@@ -1,101 +1,104 @@
-// src/components/auth/LoginForm.tsx
-"use client"
+"use client";
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { createClient } from '@supabase/supabase-js';
+import { Button } from '@/components/ui/button';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { useToast } from '@/hooks/use-toast';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import * as z from 'zod';
+import { useAuthStore } from '@/hooks/useAuth';
+import type { LoginFormData } from '@/lib/validations/auth';
 
-import { useState } from "react"
-import { useRouter } from "next/navigation"
-import { createClientComponentClient } from "@supabase/supabase-js"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Alert, AlertDescription } from "@/components/ui/alert"
-import Link from "next/link"
-import type { Database } from "@/lib/types/database"
+const formSchema = z.object({
+  email: z.string().email({
+    message: 'Please enter a valid email address.',
+  }),
+  password: z.string().min(8, {
+    message: 'Password must be at least 8 characters long.',
+  }),
+});
 
 export function LoginForm() {
-  const router = useRouter()
-  const supabase = createClientComponentClient<Database>()
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
+  const router = useRouter();
+  const { toast } = useToast();
+  const [isLoading, setIsLoading] = useState(false);
+  const { login } = useAuthStore();
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    setLoading(true)
-    setError(null)
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      email: '',
+      password: '',
+    },
+  });
 
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    setIsLoading(true);
     try {
-      const formData = new FormData(e.currentTarget)
-      const email = formData.get('email') as string
-      const password = formData.get('password') as string
-
-      const { error: signInError } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      })
-
-      if (signInError) throw signInError
-
-      router.refresh()
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to sign in')
+      await login(values);
+      toast({
+        title: 'Success!',
+        description: 'You have successfully logged in.',
+        open: true,
+        onOpenChange: () => {},
+      });
+      router.push('/dashboard');
+    } catch (error) {
+      toast({
+        title: 'Error',
+        description: 'Invalid credentials. Please try again.',
+        variant: 'destructive',
+        open: true,
+        onOpenChange: () => {},
+      });
     } finally {
-      setLoading(false)
+      setIsLoading(false);
     }
   }
 
   return (
-    <>
-      <div className="mb-4 text-center">
-        <h1 className="text-2xl font-bold">Welcome back</h1>
-        <p className="text-muted-foreground">
-          Sign in to your account to continue
-        </p>
-      </div>
-
-      <form onSubmit={handleSubmit} className="space-y-4">
-        {error && (
-          <Alert variant="destructive">
-            <AlertDescription>{error}</AlertDescription>
-          </Alert>
-        )}
-
-        <div className="space-y-2">
-          <Input
-            type="email"
-            name="email"
-            placeholder="Email"
-            required
-            disabled={loading}
-          />
-        </div>
-
-        <div className="space-y-2">
-          <Input
-            type="password"
-            name="password"
-            placeholder="Password"
-            required
-            disabled={loading}
-          />
-        </div>
-
-        <div className="flex items-center justify-between">
-          <Link
-            href="/reset-password"
-            className="text-sm text-muted-foreground hover:text-primary"
-          >
-            Forgot password?
-          </Link>
-          <Link
-            href="/register"
-            className="text-sm text-muted-foreground hover:text-primary"
-          >
-            Create account
-          </Link>
-        </div>
-
-        <Button type="submit" className="w-full" disabled={loading}>
-          {loading ? 'Signing in...' : 'Sign in'}
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+        <FormField
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Email</FormLabel>
+              <FormControl>
+                <Input placeholder="Enter your email" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="password"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Password</FormLabel>
+              <FormControl>
+                <Input type="password" placeholder="Enter your password" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <Button type="submit" className="w-full" disabled={isLoading}>
+          {isLoading ? 'Logging in...' : 'Log in'}
         </Button>
       </form>
-    </>
-  )
+    </Form>
+  );
 }

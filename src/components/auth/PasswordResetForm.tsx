@@ -3,7 +3,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { createBrowserClient, createServerClient, createServerActionClient } from '@supabase/ssr'
+import { createClient } from '@supabase/supabase-js'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -14,7 +14,7 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { useToast } from '@/components/ui/use-toast'
+import { useToast } from '@/hooks/use-toast'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
@@ -29,7 +29,7 @@ export function PasswordResetForm() {
   const router = useRouter()
   const { toast } = useToast()
   const [isLoading, setIsLoading] = useState(false)
-  const supabase = createClientComponentClient()
+  const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!)
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -52,6 +52,8 @@ export function PasswordResetForm() {
       toast({
         title: 'Check your email',
         description: 'We sent you a link to reset your password.',
+        open: true,
+        onOpenChange: () => {},
       })
 
       router.push('/auth/login')
@@ -60,6 +62,8 @@ export function PasswordResetForm() {
         title: 'Error',
         description: 'Something went wrong. Please try again.',
         variant: 'destructive',
+        open: true,
+        onOpenChange: () => {},
       })
     } finally {
       setIsLoading(false)
