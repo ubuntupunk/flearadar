@@ -7,7 +7,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint '*/**/*.{js,ts,jsx,tsx}' - quiet - fix",
+    "lint": "eslint '*/**/*.{js,ts,jsx,tsx}' --quiet --fix",
     "clean": "rimraf .next",
     "format": "prettier - write '*/**/*.{js,ts,jsx,tsx}",
     "cypress:run": "cypress run --browser chrome",

@@ -6,7 +6,7 @@ import { rateLimit, getRateLimitConfig } from "@/lib/utils/rate-limit"
 
 export async function middleware(request: NextRequest) {
   // Initialize response with headers
-  let response = NextResponse.next({
+  const response = NextResponse.next({
     request: {
       headers: request.headers,
     },

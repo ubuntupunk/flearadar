@@ -11,6 +11,8 @@ const PUBLIC_AUTH_ROUTES = [
   '/profile-selection'
 ] as const;
 
+console.log(PUBLIC_AUTH_ROUTES)
+
 function AuthHeader() {
   return (
     <header className="w-full py-6 border-b">
