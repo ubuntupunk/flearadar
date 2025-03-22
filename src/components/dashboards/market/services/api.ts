@@ -1,6 +1,7 @@
 // src/components/dashboards/market/types/api.ts
 import { ApiError } from '../types';
 
+
 export class ApiService {
   private static baseUrl = process.env.NEXT_PUBLIC_API_URL || '/api';
 

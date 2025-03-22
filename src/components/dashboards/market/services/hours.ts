@@ -1,5 +1,5 @@
 // services/hours.ts
-import { ApiService } from '../types/api';
+import { ApiService, ApiError } from '../types/api';
 import { OperatingHours } from '../types/hours';
 
 interface HoursResponse {
@@ -11,6 +11,11 @@ interface HoursResponse {
 export class HoursService {
   private static readonly BASE_PATH = '/markets';
 
+  /**
+   * Updates the operating hours for a specific market
+   * @param marketId - The ID of the market to update
+   * @param hours - The new operating hours data
+   */
   static async updateOperatingHours(
     marketId: string, 
     hours: OperatingHours
@@ -31,6 +36,11 @@ export class HoursService {
     }
   }
 
+  /**
+   * Retrieves the operating hours for a specific market
+   * @param marketId - The ID of the market to fetch hours for
+   * @returns Promise containing the operating hours data
+   */
   static async getOperatingHours(
     marketId: string
   ): Promise<OperatingHours> {
@@ -45,12 +55,27 @@ export class HoursService {
         }
       );
 
+      if (!response.data) {
+        throw new ApiError('No operating hours data received', 404);
+      }
+
       return response.data;
     } catch (error) {
-      throw this.handleError(error);
+      if (error instanceof ApiError) {
+        throw error;
+      }
+      throw new ApiError(
+        'Failed to fetch operating hours',
+        500
+      );
     }
   }
 
+  /**
+   * Handles error cases and converts unknown errors to proper Error objects
+   * @param error - The error to handle
+   * @returns A proper Error object
+   */
   private static handleError(error: unknown): Error {
     if (error instanceof Error) {
       return error;
@@ -59,5 +84,5 @@ export class HoursService {
   }
 }
 
+// Export individual methods for convenient destructuring
 export const { getOperatingHours, updateOperatingHours } = HoursService;
-
