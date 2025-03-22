@@ -120,7 +120,7 @@ export function ProfileSelectionForm() {
       <div className="text-center">
         <h2 className="text-2xl font-bold">Choose your profile type</h2>
         <p className="text-muted-foreground">
-          Select how you'll be using the platform
+          Select how you&apos;ll be using the platform
         </p>
       </div>
 

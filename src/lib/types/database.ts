@@ -67,34 +67,48 @@ export type Database = {
       }
       bookmarks: {
         Row: {
-          created_at: string | null
           id: string
-          item_id: string
-          item_type: Database["public"]["Enums"]["bookmark_item_type"]
+          created_at: string | null
           user_id: string
+          item_type: Database["public"]["Enums"]["bookmark_item_type"]
+          item_id: string  // Keep for backwards compatibility
+          title: string | null
+          description: string | null
+          metadata: Json | null
+          source_user_id: string | null
+          market_id: string | null
+          listing_id: number | null
+          content_id: number | null
         }
         Insert: {
-          created_at?: string | null
           id?: string
-          item_id: string
-          item_type: Database["public"]["Enums"]["bookmark_item_type"]
+          created_at?: string | null
           user_id: string
+          item_type: Database["public"]["Enums"]["bookmark_item_type"]
+          item_id: string
+          title?: string | null
+          description?: string | null
+          metadata?: Json | null
+          source_user_id?: string | null
+          market_id?: string | null
+          listing_id?: number | null
+          content_id?: number | null
         }
         Update: {
-          created_at?: string | null
           id?: string
-          item_id?: string
-          item_type?: Database["public"]["Enums"]["bookmark_item_type"]
+          created_at?: string | null
           user_id?: string
+          item_type?: Database["public"]["Enums"]["bookmark_item_type"]
+          item_id?: string
+          title?: string | null
+          description?: string | null
+          metadata?: Json | null
+          source_user_id?: string | null
+          market_id?: string | null
+          listing_id?: number | null
+          content_id?: number | null
         }
         Relationships: [
-          {
-            foreignKeyName: "bookmarks_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "user_social_credits"
-            referencedColumns: ["user_id"]
-          },
           {
             foreignKeyName: "bookmarks_user_id_fkey"
             columns: ["user_id"]
@@ -102,8 +116,37 @@ export type Database = {
             referencedRelation: "users"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "bookmarks_source_user_id_fkey"
+            columns: ["source_user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bookmarks_market_id_fkey"
+            columns: ["market_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bookmarks_listing_id_fkey"
+            columns: ["listing_id"]
+            isOneToOne: false
+            referencedRelation: "listings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bookmarks_content_id_fkey"
+            columns: ["content_id"]
+            isOneToOne: false
+            referencedRelation: "content"
+            referencedColumns: ["id"]
+          }
         ]
       }
+      
       colors: {
         Row: {
           blue: number | null
@@ -750,7 +793,7 @@ export type Database = {
           onboarding_completed: boolean | null
         }
         Relationships: []
-      }
+      }  
       vendor_reputation: {
         Row: {
           last_updated: string | null
@@ -1068,6 +1111,88 @@ export type Database = {
           },
         ]
       }
+
+      vendor_stats: {
+        Row: {
+          vendor_id: string
+          total_listings: number
+          active_listings: number
+          total_views: number
+          total_bookmarks: number
+          avg_rating: number | null
+          last_updated: string | null
+        }
+        Insert: {
+          vendor_id: string
+          total_listings?: number
+          active_listings?: number
+          total_views?: number
+          total_bookmarks?: number
+          avg_rating?: number | null
+          last_updated?: string | null
+        }
+        Update: {
+          vendor_id?: string
+          total_listings?: number
+          active_listings?: number
+          total_views?: number
+          total_bookmarks?: number
+          avg_rating?: number | null
+          last_updated?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "vendor_stats_vendor_id_fkey"
+            columns: ["vendor_id"]
+            isOneToOne: true
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      
+      activity_log: {
+        Row: {
+          id: string
+          user_id: string
+          type: Database["public"]["Enums"]["activity_type"]
+          message: string
+          metadata: Json | null
+          created_at: string | null
+          related_entity_id: string | null
+          related_entity_type: string | null
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          type: Database["public"]["Enums"]["activity_type"]
+          message: string
+          metadata?: Json | null
+          created_at?: string | null
+          related_entity_id?: string | null
+          related_entity_type?: string | null
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          type?: Database["public"]["Enums"]["activity_type"]
+          message?: string
+          metadata?: Json | null
+          created_at?: string | null
+          related_entity_id?: string | null
+          related_entity_type?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "activity_log_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+    }
       vendor_market_quality: {
         Row: {
           avg_market_quality: number | null
@@ -1118,6 +1243,7 @@ export type Database = {
     }
     Enums: {
       bookmark_item_type: "listing" | "content"
+      activity_type: 'listing_created' | 'listing_updated' | 'listing_deleted' | 'bookmark_added' | 'verification_received' | 'review_received'
       color_source:
         | "99COLORS_NET"
         | "ART_PAINTS_YG07S"
@@ -1305,11 +1431,58 @@ export type CompositeTypes<
     // Type for the Supabase client
     export type TypedSupabaseClient = SupabaseClient<Database>
  
-    export type UserProfile = {
+  export type ProfileSocialLink = {
     id: string;
-    user_type: 'user' | 'vendor' | 'market' | 'admin';
-    // add other profile fields here
-    username: string;
-    social_credit: number;  
+    platform: string;
+    url: string;
+    verified?: boolean;
+    profile_id: string;
+    created_at?: string;
+    updated_at?: string;
   };
+  
+  export type ProfileAvailability = {
+    id: string;
+    day: number;
+    start_time: string;
+    end_time: string;
+    profile_id: string;
+    created_at?: string;
+    updated_at?: string;
+  };
+  
+  export type UserProfile = {
+    id: string;
+    email: string;
+    full_name?: string;
+    avatar_url?: string;
+    chosen_color_id?: number;
+    profile_type?: string;
+    status_emoji?: string;
+    status_message?: string;
+    timezone?: string;
+    website?: string;
+    last_seen_at?: string;
+    updated_at?: string;
+    notification_preferences?: {
+      notification_types: {
+        replies: boolean;
+        mentions: boolean;
+        direct_messages: boolean;
+      };
+      push_notifications: boolean;
+      email_notifications: boolean;
+      sms_notifications: boolean;
+    };
+    // These come from related tables through the view
+    social_links?: ProfileSocialLink[];
+    availability?: ProfileAvailability[];
+    user_type: 'user' | 'vendor' | 'market' | 'admin';
+    username: string;
+    reputation_score?: number | null;
+  };
+  
+  // You might also want to add these helper types for working with the individual tables
+  export type SocialLink = Tables<'profile_social_links'>;
+  export type Availability = Tables<'profile_availability'>;
   

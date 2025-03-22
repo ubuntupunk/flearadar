@@ -1,14 +1,13 @@
 // src/lib/supabase/client.ts
 import { createBrowserClient } from '@supabase/ssr'
 import type { Database } from '../types/database'
-import { type AuthChangeEvent, type Session } from '@supabase/supabase-js'
+import { type AuthChangeEvent, } from '@supabase/supabase-js'
 
 import { cookieHelpers } from './cookieHelpers'
 import { 
   SessionStatus, 
   SessionWarning, 
   CookieDebugInfo,
-  AuthStateEvent,
   SESSION_CONSTANTS 
 } from './types/session'
 

@@ -1,77 +1,184 @@
-// src/contexts/AuthContext.tsx
 'use client'
 
 import { createContext, useContext, useEffect, useState } from 'react'
-import { createClient } from '@supabase/supabase-js'
-import type { User, AuthChangeEvent, Session } from '@supabase/supabase-js'
+import { createClient, User as SupabaseUser, AuthChangeEvent, Session } from '@supabase/supabase-js'
+import type { Database } from '@/lib/types/database'
+
+// Use the view type that includes all profile data
+type ProfileFullDetails = Database['public']['Views']['profile_full_details']['Row']
 
 type AuthContextType = {
-  user: User | null
+  user: SupabaseUser | null
+  userProfile: ProfileFullDetails | null
   loading: boolean
   isAuthenticated: boolean
-  userProfile: any | null // Type this based on your users table
 }
 
 const AuthContext = createContext<AuthContextType>({
   user: null,
+  userProfile: null,
   loading: true,
   isAuthenticated: false,
-  userProfile: null,
 })
 
+const supabase = createClient<Database>(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+)
+
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<User | null>(null)
-  const [userProfile, setUserProfile] = useState<any | null>(null)
+  const [user, setUser] = useState<SupabaseUser | null>(null)
+  const [userProfile, setUserProfile] = useState<ProfileFullDetails | null>(null)
   const [loading, setLoading] = useState(true)
   const [isAuthenticated, setIsAuthenticated] = useState(false)
-  const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!)
 
   useEffect(() => {
-    const fetchUser = async () => {
-      const { data: { user } } = await supabase.auth.getUser()
-      setUser(user)
-      setIsAuthenticated(!!user)
-      
-      if (user) {
-        const { data: profile } = await supabase
-          .from('users')
+    // Helper function to fetch complete user profile
+    const fetchUserProfile = async (userId: string): Promise<ProfileFullDetails | null> => {
+      try {
+        const { data, error } = await supabase
+          .from('profile_full_details')
           .select('*')
-          .eq('id', user.id)
+          .eq('id', userId)
           .single()
-        setUserProfile(profile)
+
+        if (error) {
+          console.error('Error fetching profile:', error.message)
+          return null
+        }
+
+        return data
+      } catch (error) {
+        console.error('Error in fetchUserProfile:', error)
+        return null
       }
-      
-      setLoading(false)
     }
 
+    // Initial user fetch
+    const fetchUser = async () => {
+      try {
+        const { data: { user }, error } = await supabase.auth.getUser()
+        
+        if (error) {
+          throw error
+        }
+
+        setUser(user)
+        setIsAuthenticated(!!user)
+
+        if (user) {
+          const profile = await fetchUserProfile(user.id)
+          setUserProfile(profile)
+        }
+      } catch (error) {
+        console.error('Error in fetchUser:', error)
+        setUser(null)
+        setUserProfile(null)
+        setIsAuthenticated(false)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    // Execute initial fetch
     fetchUser()
 
+    // Set up auth state change listener
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event: AuthChangeEvent, session: Session | null) => {
-        setUser(session?.user ?? null)
-        if (session?.user) {
-          const { data: profile } = await supabase
-            .from('users')
-            .select('*')
-            .eq('id', session.user.id)
-            .single()
-          setUserProfile(profile)
-        } else {
-          setUserProfile(null)
+        const currentUser = session?.user ?? null
+        
+        try {
+          switch (event) {
+            case 'SIGNED_IN':
+              setUser(currentUser)
+              setIsAuthenticated(true)
+              if (currentUser) {
+                const profile = await fetchUserProfile(currentUser.id)
+                setUserProfile(profile)
+              }
+              break
+
+            case 'SIGNED_OUT':
+              setUser(null)
+              setUserProfile(null)
+              setIsAuthenticated(false)
+              break
+
+            case 'TOKEN_REFRESHED':
+              setUser(currentUser)
+              break
+
+            case 'USER_UPDATED':
+              setUser(currentUser)
+              if (currentUser) {
+                const profile = await fetchUserProfile(currentUser.id)
+                setUserProfile(profile)
+              }
+              break
+
+            case 'PASSWORD_RECOVERY':
+            case 'MFA_CHALLENGE_VERIFIED':
+              // Handle these cases if needed
+              break
+
+            default:
+              // Handle any other auth events
+              if (currentUser) {
+                setUser(currentUser)
+                setIsAuthenticated(true)
+                const profile = await fetchUserProfile(currentUser.id)
+                setUserProfile(profile)
+              } else {
+                setUser(null)
+                setUserProfile(null)
+                setIsAuthenticated(false)
+              }
+          }
+        } catch (error) {
+          console.error(`Error handling auth event ${event}:`, error)
+        } finally {
+          setLoading(false)
         }
       }
     )
 
+    // Cleanup subscription on unmount
     return () => {
       subscription.unsubscribe()
     }
   }, [])
 
   return (
-    <AuthContext.Provider value={{ user, loading, isAuthenticated, userProfile }}>
+    <AuthContext.Provider 
+      value={{
+        user,
+        userProfile,
+        loading,
+        isAuthenticated,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   )
 }
 
-export const useAuth = () => useContext(AuthContext)
+export const useAuth = () => {
+  const context = useContext(AuthContext)
+  if (!context) {
+    throw new Error('useAuth must be used within an AuthProvider')
+  }
+  return context
+}
+
+// Optional: Export a hook for just the profile data
+export const useProfile = () => {
+  const { userProfile, loading } = useAuth()
+  return { profile: userProfile, loading }
+}
+
+// Optional: Export a hook for authentication status
+export const useAuthentication = () => {
+  const { isAuthenticated, loading } = useAuth()
+  return { isAuthenticated, loading }
+}

@@ -87,7 +87,7 @@ export function useProfile(): UseProfile {
 
       if (!response.ok) throw new Error("Failed to update profile");
 
-      setProfile((prev: any) =>
+      setProfile((prev: ProfileWithUsername | null) =>
         prev
           ? {
               ...prev,

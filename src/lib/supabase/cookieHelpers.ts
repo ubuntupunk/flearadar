@@ -3,6 +3,11 @@ import type { CookieOptions, CookieHelpers } from './types/cookies'
 
 export const cookieHelpers: CookieHelpers = {
   get(name: string): string | undefined {
+    // First validate the cookie name
+    if (!isValidCookieName(name)) {
+      throw new Error('Invalid cookie name')
+    }
+    
     const cookies = document.cookie.split(';')
     const cookie = cookies.find(c => c.trim().startsWith(`${name}=`))
     if (!cookie) return undefined
@@ -11,6 +16,16 @@ export const cookieHelpers: CookieHelpers = {
   },
 
   set(name: string, value: string, options: CookieOptions = {}): void {
+    if (!isValidCookieName(name)) {
+      throw new Error('Invalid cookie name')
+    }
+    if (!isValidCookieValue(value)) {
+      throw new Error('Invalid cookie value')
+    }
+    if (!isValidCookieOptions(options)) {
+      throw new Error('Invalid cookie options')
+    }
+    
     const {
       path = '/',
       domain,
@@ -35,6 +50,10 @@ export const cookieHelpers: CookieHelpers = {
   },
 
   remove(name: string, options: Pick<CookieOptions, 'path' | 'domain'> = {}): void {
+    if (!isValidCookieName(name)) {
+      throw new Error('Invalid cookie name')
+    }
+    
     const { path = '/', domain } = options
     
     // Set an expired date to remove the cookie
