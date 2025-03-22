@@ -1,4 +1,5 @@
 // src/components/dashboards/market/types/pricing.ts
+import { ApiResponse } from "../types";
 export interface MarketPricing {
   daily_rate: number;
   weekly_rate: number;

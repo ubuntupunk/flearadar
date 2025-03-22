@@ -3,3 +3,4 @@ export * from './bookings';
 export * from './payments';
 export * from './pricing';
 export * from './hours';
+export * from './api';

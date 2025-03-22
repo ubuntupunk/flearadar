@@ -1,18 +1,6 @@
 // src/components/dashboards/market/types/api.ts
 import { ApiError } from '../types';
 
-export interface ApiResponse<T> {
-  data: T;
-  message?: string;
-  status: 'success' | 'error';
-}
-
-export interface ApiError {
-  message: string;
-  code: string;
-  status: number;
-}
-
 export class ApiService {
   private static baseUrl = process.env.NEXT_PUBLIC_API_URL || '/api';
 

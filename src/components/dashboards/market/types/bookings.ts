@@ -1,4 +1,6 @@
 // src/components/dashboards/market/types/bookings.ts
+import { ApiResponse } from "../types";  
+
 export interface StallBooking {
   stall_id: string;
   vendor_name: string;
