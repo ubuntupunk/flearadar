@@ -8,9 +8,9 @@ import type { LoginFormData } from "@/lib/validations/auth"
 
 interface AuthState {
   user: User | null
-  isLoading: boolean
-  sessionExpiry: number | null
   isAuthenticated: boolean
+  isLoading: boolean
+  sessionExpiry: number | null 
 }
 
 interface AuthActions {

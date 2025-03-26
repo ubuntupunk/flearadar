@@ -10,19 +10,31 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const supabaseClient = createClientComponentClient();
   const { setLoading, setUser } = useAuthStore();
 
-  useEffect(() => {
-    async function loadSession() {
-      const { data: { user } } = await supabaseClient.auth.getUser();
-      if (user) {
-        setUser(user);
-      } else {
-        setUser(null);
-      }
-      setLoading(false);
-    }
-    loadSession();
-  }, [supabaseClient, setLoading, setUser]);
-
+ useEffect(() => {
+   const {
+     data: { subscription },
+   } = supabaseClient.auth.onAuthStateChange((event, session) => {
+     if (session) {
+       setUser(session.user);
+     } else {
+       setUser(null);
+     }
+     setLoading(false);
+   });
+ 
+   // Initial session check
+   supabaseClient.auth.getSession().then(({ data: { session } }) => {
+     if (session) {
+       setUser(session.user);
+     }
+     setLoading(false);
+   });
+ 
+   return () => {
+     subscription.unsubscribe();
+   };
+ }, [supabaseClient, setLoading, setUser]);
+  
   return (
     <SessionContextProvider supabaseClient={supabaseClient}>
       {children}

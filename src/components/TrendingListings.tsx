@@ -7,7 +7,7 @@ import listings from "../app/data/listings.json";
 import Image from 'next/image';
 import Score from './Score';
 import TrendingExpandable from './TrendingExpandable';
-import { useAuthStore } from '@/hooks/useAuth';
+import { useAuthStore } from '@/lib/store/use-auth-store';
 
 // Define the Listing interface based on expected JSON structure
 interface Listing {

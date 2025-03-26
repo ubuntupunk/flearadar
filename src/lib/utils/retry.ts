@@ -1,5 +1,5 @@
 // lib/utils/retry.ts
-import { RetryFunction } from '../types/utils';
+import { RetryFunction } from './types/utils';
 
 export const onRetry: RetryFunction = async (
   fn,

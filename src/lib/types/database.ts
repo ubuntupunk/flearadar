@@ -1,6 +1,8 @@
  // src/lib/types/database.ts
 import { SupabaseClient } from '@supabase/supabase-js'
 
+// Export via npx supabase gen types typescript --project-id vyledqnvjp
+// hgtgzihpey --schema public > src/lib/types/output.ts
 export type Json =
   | string
   | number
@@ -12,6 +14,131 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      activity_log: {
+        Row: {
+          created_at: string | null
+          id: string
+          message: string
+          metadata: Json | null
+          related_entity_id: string | null
+          related_entity_type: string | null
+          type: Database["public"]["Enums"]["activity_type"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          message: string
+          metadata?: Json | null
+          related_entity_id?: string | null
+          related_entity_type?: string | null
+          type: Database["public"]["Enums"]["activity_type"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          message?: string
+          metadata?: Json | null
+          related_entity_id?: string | null
+          related_entity_type?: string | null
+          type?: Database["public"]["Enums"]["activity_type"]
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "activity_log_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "market_metrics"
+            referencedColumns: ["market_id"]
+          },
+          {
+            foreignKeyName: "activity_log_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "user_social_credits"
+            referencedColumns: ["user_id"]
+          },
+          {
+            foreignKeyName: "activity_log_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      addresses: {
+        Row: {
+          address_one: string | null
+          address_two: string | null
+          city: string | null
+          country: string | null
+          created_at: string | null
+          id: string
+          postal_code: string | null
+          region_code: string | null
+          state_province: string | null
+          street_number: string | null
+          suburb: string | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          address_one?: string | null
+          address_two?: string | null
+          city?: string | null
+          country?: string | null
+          created_at?: string | null
+          id?: string
+          postal_code?: string | null
+          region_code?: string | null
+          state_province?: string | null
+          street_number?: string | null
+          suburb?: string | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          address_one?: string | null
+          address_two?: string | null
+          city?: string | null
+          country?: string | null
+          created_at?: string | null
+          id?: string
+          postal_code?: string | null
+          region_code?: string | null
+          state_province?: string | null
+          street_number?: string | null
+          suburb?: string | null
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fk_user"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "market_metrics"
+            referencedColumns: ["market_id"]
+          },
+          {
+            foreignKeyName: "fk_user"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "user_social_credits"
+            referencedColumns: ["user_id"]
+          },
+          {
+            foreignKeyName: "fk_user"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       attendance: {
         Row: {
           attendance_date: string | null
@@ -39,6 +166,13 @@ export type Database = {
             foreignKeyName: "attendance_market_id_fkey"
             columns: ["market_id"]
             isOneToOne: false
+            referencedRelation: "market_metrics"
+            referencedColumns: ["market_id"]
+          },
+          {
+            foreignKeyName: "attendance_market_id_fkey"
+            columns: ["market_id"]
+            isOneToOne: false
             referencedRelation: "user_social_credits"
             referencedColumns: ["user_id"]
           },
@@ -48,6 +182,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "attendance_vendor_id_fkey"
+            columns: ["vendor_id"]
+            isOneToOne: false
+            referencedRelation: "market_metrics"
+            referencedColumns: ["market_id"]
           },
           {
             foreignKeyName: "attendance_vendor_id_fkey"
@@ -67,67 +208,53 @@ export type Database = {
       }
       bookmarks: {
         Row: {
-          id: string
+          content_id: number | null
           created_at: string | null
-          user_id: string
-          item_type: Database["public"]["Enums"]["bookmark_item_type"]
-          item_id: string  // Keep for backwards compatibility
-          title: string | null
           description: string | null
+          id: string
+          item_id: string
+          item_type: Database["public"]["Enums"]["bookmark_item_type"]
+          listing_id: number | null
+          market_id: string | null
           metadata: Json | null
           source_user_id: string | null
-          market_id: string | null
-          listing_id: number | null
-          content_id: number | null
+          title: string | null
+          user_id: string
         }
         Insert: {
-          id?: string
+          content_id?: number | null
           created_at?: string | null
-          user_id: string
-          item_type: Database["public"]["Enums"]["bookmark_item_type"]
-          item_id: string
-          title?: string | null
           description?: string | null
+          id?: string
+          item_id: string
+          item_type: Database["public"]["Enums"]["bookmark_item_type"]
+          listing_id?: number | null
+          market_id?: string | null
           metadata?: Json | null
           source_user_id?: string | null
-          market_id?: string | null
-          listing_id?: number | null
-          content_id?: number | null
+          title?: string | null
+          user_id: string
         }
         Update: {
-          id?: string
+          content_id?: number | null
           created_at?: string | null
-          user_id?: string
-          item_type?: Database["public"]["Enums"]["bookmark_item_type"]
-          item_id?: string
-          title?: string | null
           description?: string | null
+          id?: string
+          item_id?: string
+          item_type?: Database["public"]["Enums"]["bookmark_item_type"]
+          listing_id?: number | null
+          market_id?: string | null
           metadata?: Json | null
           source_user_id?: string | null
-          market_id?: string | null
-          listing_id?: number | null
-          content_id?: number | null
+          title?: string | null
+          user_id?: string
         }
         Relationships: [
           {
-            foreignKeyName: "bookmarks_user_id_fkey"
-            columns: ["user_id"]
+            foreignKeyName: "bookmarks_content_id_fkey"
+            columns: ["content_id"]
             isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "bookmarks_source_user_id_fkey"
-            columns: ["source_user_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "bookmarks_market_id_fkey"
-            columns: ["market_id"]
-            isOneToOne: false
-            referencedRelation: "users"
+            referencedRelation: "content"
             referencedColumns: ["id"]
           },
           {
@@ -138,15 +265,77 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "bookmarks_content_id_fkey"
-            columns: ["content_id"]
+            foreignKeyName: "bookmarks_listing_id_fkey"
+            columns: ["listing_id"]
             isOneToOne: false
-            referencedRelation: "content"
+            referencedRelation: "security_scores"
+            referencedColumns: ["listing_id"]
+          },
+          {
+            foreignKeyName: "bookmarks_market_id_fkey"
+            columns: ["market_id"]
+            isOneToOne: false
+            referencedRelation: "market_metrics"
+            referencedColumns: ["market_id"]
+          },
+          {
+            foreignKeyName: "bookmarks_market_id_fkey"
+            columns: ["market_id"]
+            isOneToOne: false
+            referencedRelation: "user_social_credits"
+            referencedColumns: ["user_id"]
+          },
+          {
+            foreignKeyName: "bookmarks_market_id_fkey"
+            columns: ["market_id"]
+            isOneToOne: false
+            referencedRelation: "users"
             referencedColumns: ["id"]
-          }
+          },
+          {
+            foreignKeyName: "bookmarks_source_user_id_fkey"
+            columns: ["source_user_id"]
+            isOneToOne: false
+            referencedRelation: "market_metrics"
+            referencedColumns: ["market_id"]
+          },
+          {
+            foreignKeyName: "bookmarks_source_user_id_fkey"
+            columns: ["source_user_id"]
+            isOneToOne: false
+            referencedRelation: "user_social_credits"
+            referencedColumns: ["user_id"]
+          },
+          {
+            foreignKeyName: "bookmarks_source_user_id_fkey"
+            columns: ["source_user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bookmarks_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "market_metrics"
+            referencedColumns: ["market_id"]
+          },
+          {
+            foreignKeyName: "bookmarks_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "user_social_credits"
+            referencedColumns: ["user_id"]
+          },
+          {
+            foreignKeyName: "bookmarks_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
         ]
       }
-      
       colors: {
         Row: {
           blue: number | null
@@ -234,6 +423,13 @@ export type Database = {
             foreignKeyName: "content_created_by_fkey"
             columns: ["created_by"]
             isOneToOne: false
+            referencedRelation: "market_metrics"
+            referencedColumns: ["market_id"]
+          },
+          {
+            foreignKeyName: "content_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
             referencedRelation: "user_social_credits"
             referencedColumns: ["user_id"]
           },
@@ -276,6 +472,13 @@ export type Database = {
             foreignKeyName: "crime_reports_market_id_fkey"
             columns: ["market_id"]
             isOneToOne: false
+            referencedRelation: "market_metrics"
+            referencedColumns: ["market_id"]
+          },
+          {
+            foreignKeyName: "crime_reports_market_id_fkey"
+            columns: ["market_id"]
+            isOneToOne: false
             referencedRelation: "user_social_credits"
             referencedColumns: ["user_id"]
           },
@@ -285,6 +488,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "crime_reports_reporter_id_fkey"
+            columns: ["reporter_id"]
+            isOneToOne: false
+            referencedRelation: "market_metrics"
+            referencedColumns: ["market_id"]
           },
           {
             foreignKeyName: "crime_reports_reporter_id_fkey"
@@ -349,6 +559,13 @@ export type Database = {
           user_id?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "gps_logs_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "market_metrics"
+            referencedColumns: ["market_id"]
+          },
           {
             foreignKeyName: "gps_logs_user_id_fkey"
             columns: ["user_id"]
@@ -459,6 +676,13 @@ export type Database = {
             foreignKeyName: "listings_created_by_fkey"
             columns: ["created_by"]
             isOneToOne: false
+            referencedRelation: "market_metrics"
+            referencedColumns: ["market_id"]
+          },
+          {
+            foreignKeyName: "listings_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
             referencedRelation: "user_social_credits"
             referencedColumns: ["user_id"]
           },
@@ -468,6 +692,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "listings_owner_id_fkey"
+            columns: ["owner_id"]
+            isOneToOne: false
+            referencedRelation: "market_metrics"
+            referencedColumns: ["market_id"]
           },
           {
             foreignKeyName: "listings_owner_id_fkey"
@@ -506,11 +737,121 @@ export type Database = {
             foreignKeyName: "market_crime_stats_market_id_fkey"
             columns: ["market_id"]
             isOneToOne: true
+            referencedRelation: "market_metrics"
+            referencedColumns: ["market_id"]
+          },
+          {
+            foreignKeyName: "market_crime_stats_market_id_fkey"
+            columns: ["market_id"]
+            isOneToOne: true
             referencedRelation: "user_social_credits"
             referencedColumns: ["user_id"]
           },
           {
             foreignKeyName: "market_crime_stats_market_id_fkey"
+            columns: ["market_id"]
+            isOneToOne: true
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      market_reputation: {
+        Row: {
+          approved_verifications: number | null
+          avg_daily_visitors: number | null
+          avg_verification_points: number | null
+          bookmark_count: number | null
+          calculated_at: string | null
+          content_count: number | null
+          content_engagement_score: number | null
+          crowd_density_score: number | null
+          factor_scores: Json | null
+          flea_score: number | null
+          last_content_update: string | null
+          last_updated: string | null
+          market_id: string
+          reputation_score: number | null
+          security_score: number | null
+          total_attendance: number | null
+          total_ratings: number | null
+          total_verifications: number | null
+          total_visits: number | null
+          unique_contributors: number | null
+          unique_vendors: number | null
+          unique_visitors: number | null
+          vendor_attendance_rate: number | null
+          vendor_attendance_score: number | null
+        }
+        Insert: {
+          approved_verifications?: number | null
+          avg_daily_visitors?: number | null
+          avg_verification_points?: number | null
+          bookmark_count?: number | null
+          calculated_at?: string | null
+          content_count?: number | null
+          content_engagement_score?: number | null
+          crowd_density_score?: number | null
+          factor_scores?: Json | null
+          flea_score?: number | null
+          last_content_update?: string | null
+          last_updated?: string | null
+          market_id: string
+          reputation_score?: number | null
+          security_score?: number | null
+          total_attendance?: number | null
+          total_ratings?: number | null
+          total_verifications?: number | null
+          total_visits?: number | null
+          unique_contributors?: number | null
+          unique_vendors?: number | null
+          unique_visitors?: number | null
+          vendor_attendance_rate?: number | null
+          vendor_attendance_score?: number | null
+        }
+        Update: {
+          approved_verifications?: number | null
+          avg_daily_visitors?: number | null
+          avg_verification_points?: number | null
+          bookmark_count?: number | null
+          calculated_at?: string | null
+          content_count?: number | null
+          content_engagement_score?: number | null
+          crowd_density_score?: number | null
+          factor_scores?: Json | null
+          flea_score?: number | null
+          last_content_update?: string | null
+          last_updated?: string | null
+          market_id?: string
+          reputation_score?: number | null
+          security_score?: number | null
+          total_attendance?: number | null
+          total_ratings?: number | null
+          total_verifications?: number | null
+          total_visits?: number | null
+          unique_contributors?: number | null
+          unique_vendors?: number | null
+          unique_visitors?: number | null
+          vendor_attendance_rate?: number | null
+          vendor_attendance_score?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "market_reputation_market_id_fkey"
+            columns: ["market_id"]
+            isOneToOne: true
+            referencedRelation: "market_metrics"
+            referencedColumns: ["market_id"]
+          },
+          {
+            foreignKeyName: "market_reputation_market_id_fkey"
+            columns: ["market_id"]
+            isOneToOne: true
+            referencedRelation: "user_social_credits"
+            referencedColumns: ["user_id"]
+          },
+          {
+            foreignKeyName: "market_reputation_market_id_fkey"
             columns: ["market_id"]
             isOneToOne: true
             referencedRelation: "users"
@@ -677,6 +1018,13 @@ export type Database = {
             foreignKeyName: "profiles_id_fkey"
             columns: ["id"]
             isOneToOne: true
+            referencedRelation: "market_metrics"
+            referencedColumns: ["market_id"]
+          },
+          {
+            foreignKeyName: "profiles_id_fkey"
+            columns: ["id"]
+            isOneToOne: true
             referencedRelation: "user_social_credits"
             referencedColumns: ["user_id"]
           },
@@ -740,6 +1088,13 @@ export type Database = {
             foreignKeyName: "ratings_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
+            referencedRelation: "market_metrics"
+            referencedColumns: ["market_id"]
+          },
+          {
+            foreignKeyName: "ratings_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
             referencedRelation: "user_social_credits"
             referencedColumns: ["user_id"]
           },
@@ -754,46 +1109,46 @@ export type Database = {
       }
       users: {
         Row: {
+          business_name: string | null
           geofence_radius: number | null
           gps_tracking_consent: boolean | null
           id: string
           latitude: number | null
           longitude: number | null
+          onboarding_completed: boolean | null
           reputation_score: number | null
           updated_at: string | null
           user_type: string
           username: string | null
-          business_name: string | null
-          onboarding_completed: boolean | null
         }
         Insert: {
+          business_name?: string | null
           geofence_radius?: number | null
           gps_tracking_consent?: boolean | null
           id: string
           latitude?: number | null
           longitude?: number | null
+          onboarding_completed?: boolean | null
           reputation_score?: number | null
           updated_at?: string | null
           user_type: string
           username?: string | null
-          business_name: string | null
-          onboarding_completed: boolean | null
         }
         Update: {
+          business_name?: string | null
           geofence_radius?: number | null
           gps_tracking_consent?: boolean | null
           id?: string
           latitude?: number | null
           longitude?: number | null
+          onboarding_completed?: boolean | null
           reputation_score?: number | null
           updated_at?: string | null
           user_type?: string
           username?: string | null
-          business_name: string | null
-          onboarding_completed: boolean | null
         }
         Relationships: []
-      }  
+      }
       vendor_reputation: {
         Row: {
           last_updated: string | null
@@ -815,11 +1170,70 @@ export type Database = {
             foreignKeyName: "vendor_reputation_vendor_id_fkey"
             columns: ["vendor_id"]
             isOneToOne: true
+            referencedRelation: "market_metrics"
+            referencedColumns: ["market_id"]
+          },
+          {
+            foreignKeyName: "vendor_reputation_vendor_id_fkey"
+            columns: ["vendor_id"]
+            isOneToOne: true
             referencedRelation: "user_social_credits"
             referencedColumns: ["user_id"]
           },
           {
             foreignKeyName: "vendor_reputation_vendor_id_fkey"
+            columns: ["vendor_id"]
+            isOneToOne: true
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      vendor_stats: {
+        Row: {
+          active_listings: number | null
+          avg_rating: number | null
+          last_updated: string | null
+          total_bookmarks: number | null
+          total_listings: number | null
+          total_views: number | null
+          vendor_id: string
+        }
+        Insert: {
+          active_listings?: number | null
+          avg_rating?: number | null
+          last_updated?: string | null
+          total_bookmarks?: number | null
+          total_listings?: number | null
+          total_views?: number | null
+          vendor_id: string
+        }
+        Update: {
+          active_listings?: number | null
+          avg_rating?: number | null
+          last_updated?: string | null
+          total_bookmarks?: number | null
+          total_listings?: number | null
+          total_views?: number | null
+          vendor_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "vendor_stats_vendor_id_fkey"
+            columns: ["vendor_id"]
+            isOneToOne: true
+            referencedRelation: "market_metrics"
+            referencedColumns: ["market_id"]
+          },
+          {
+            foreignKeyName: "vendor_stats_vendor_id_fkey"
+            columns: ["vendor_id"]
+            isOneToOne: true
+            referencedRelation: "user_social_credits"
+            referencedColumns: ["user_id"]
+          },
+          {
+            foreignKeyName: "vendor_stats_vendor_id_fkey"
             columns: ["vendor_id"]
             isOneToOne: true
             referencedRelation: "users"
@@ -880,6 +1294,13 @@ export type Database = {
             foreignKeyName: "verifications_reviewer_id_fkey"
             columns: ["reviewer_id"]
             isOneToOne: false
+            referencedRelation: "market_metrics"
+            referencedColumns: ["market_id"]
+          },
+          {
+            foreignKeyName: "verifications_reviewer_id_fkey"
+            columns: ["reviewer_id"]
+            isOneToOne: false
             referencedRelation: "user_social_credits"
             referencedColumns: ["user_id"]
           },
@@ -889,6 +1310,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "verifications_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "market_metrics"
+            referencedColumns: ["market_id"]
           },
           {
             foreignKeyName: "verifications_user_id_fkey"
@@ -960,6 +1388,36 @@ export type Database = {
           },
         ]
       }
+      market_metrics: {
+        Row: {
+          approved_verifications: number | null
+          avg_daily_visitors: number | null
+          avg_verification_points: number | null
+          bookmark_count: number | null
+          business_name: string | null
+          calculated_at: string | null
+          content_count: number | null
+          content_engagement_score: number | null
+          crime_index: number | null
+          crowd_density_score: number | null
+          factor_scores: Json | null
+          flea_score: number | null
+          last_content_update: string | null
+          market_id: string | null
+          market_name: string | null
+          security_score: number | null
+          total_attendance: number | null
+          total_ratings: number | null
+          total_verifications: number | null
+          total_visits: number | null
+          unique_contributors: number | null
+          unique_vendors: number | null
+          unique_visitors: number | null
+          vendor_attendance_rate: number | null
+          vendor_attendance_score: number | null
+        }
+        Relationships: []
+      }
       profile_full_details: {
         Row: {
           availability_windows: Json | null
@@ -984,6 +1442,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "colors"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "profiles_id_fkey"
+            columns: ["id"]
+            isOneToOne: true
+            referencedRelation: "market_metrics"
+            referencedColumns: ["market_id"]
           },
           {
             foreignKeyName: "profiles_id_fkey"
@@ -1025,6 +1490,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "colors"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "profiles_id_fkey"
+            columns: ["id"]
+            isOneToOne: true
+            referencedRelation: "market_metrics"
+            referencedColumns: ["market_id"]
           },
           {
             foreignKeyName: "profiles_id_fkey"
@@ -1077,6 +1549,13 @@ export type Database = {
             foreignKeyName: "listings_owner_id_fkey"
             columns: ["vendor_id"]
             isOneToOne: false
+            referencedRelation: "market_metrics"
+            referencedColumns: ["market_id"]
+          },
+          {
+            foreignKeyName: "listings_owner_id_fkey"
+            columns: ["vendor_id"]
+            isOneToOne: false
             referencedRelation: "user_social_credits"
             referencedColumns: ["user_id"]
           },
@@ -1099,6 +1578,13 @@ export type Database = {
             foreignKeyName: "attendance_vendor_id_fkey"
             columns: ["vendor_id"]
             isOneToOne: false
+            referencedRelation: "market_metrics"
+            referencedColumns: ["market_id"]
+          },
+          {
+            foreignKeyName: "attendance_vendor_id_fkey"
+            columns: ["vendor_id"]
+            isOneToOne: false
             referencedRelation: "user_social_credits"
             referencedColumns: ["user_id"]
           },
@@ -1111,94 +1597,19 @@ export type Database = {
           },
         ]
       }
-
-      vendor_stats: {
-        Row: {
-          vendor_id: string
-          total_listings: number
-          active_listings: number
-          total_views: number
-          total_bookmarks: number
-          avg_rating: number | null
-          last_updated: string | null
-        }
-        Insert: {
-          vendor_id: string
-          total_listings?: number
-          active_listings?: number
-          total_views?: number
-          total_bookmarks?: number
-          avg_rating?: number | null
-          last_updated?: string | null
-        }
-        Update: {
-          vendor_id?: string
-          total_listings?: number
-          active_listings?: number
-          total_views?: number
-          total_bookmarks?: number
-          avg_rating?: number | null
-          last_updated?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "vendor_stats_vendor_id_fkey"
-            columns: ["vendor_id"]
-            isOneToOne: true
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          }
-        ]
-      }
-      
-      activity_log: {
-        Row: {
-          id: string
-          user_id: string
-          type: Database["public"]["Enums"]["activity_type"]
-          message: string
-          metadata: Json | null
-          created_at: string | null
-          related_entity_id: string | null
-          related_entity_type: string | null
-        }
-        Insert: {
-          id?: string
-          user_id: string
-          type: Database["public"]["Enums"]["activity_type"]
-          message: string
-          metadata?: Json | null
-          created_at?: string | null
-          related_entity_id?: string | null
-          related_entity_type?: string | null
-        }
-        Update: {
-          id?: string
-          user_id?: string
-          type?: Database["public"]["Enums"]["activity_type"]
-          message?: string
-          metadata?: Json | null
-          created_at?: string | null
-          related_entity_id?: string | null
-          related_entity_type?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "activity_log_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          }
-        ]
-      }
-    }
       vendor_market_quality: {
         Row: {
           avg_market_quality: number | null
           vendor_id: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "attendance_vendor_id_fkey"
+            columns: ["vendor_id"]
+            isOneToOne: false
+            referencedRelation: "market_metrics"
+            referencedColumns: ["market_id"]
+          },
           {
             foreignKeyName: "attendance_vendor_id_fkey"
             columns: ["vendor_id"]
@@ -1225,6 +1636,13 @@ export type Database = {
             foreignKeyName: "vendor_reputation_vendor_id_fkey"
             columns: ["vendor_id"]
             isOneToOne: true
+            referencedRelation: "market_metrics"
+            referencedColumns: ["market_id"]
+          },
+          {
+            foreignKeyName: "vendor_reputation_vendor_id_fkey"
+            columns: ["vendor_id"]
+            isOneToOne: true
             referencedRelation: "user_social_credits"
             referencedColumns: ["user_id"]
           },
@@ -1242,8 +1660,14 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      bookmark_item_type: "listing" | "content"
-      activity_type: 'listing_created' | 'listing_updated' | 'listing_deleted' | 'bookmark_added' | 'verification_received' | 'review_received'
+      activity_type:
+        | "listing_created"
+        | "listing_updated"
+        | "listing_deleted"
+        | "bookmark_added"
+        | "verification_received"
+        | "review_received"
+      bookmark_item_type: "listing" | "content" | "review"
       color_source:
         | "99COLORS_NET"
         | "ART_PAINTS_YG07S"
@@ -1392,20 +1816,12 @@ export type CompositeTypes<
     ? PublicSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
     : never
 
+// End of supbase gen types do not edit the above
 
-     // Q Added these helper types
+// Q Added these helper types:
  
-    // export type Tables<T extends keyof Database['public']['Tables']> = 
-    //   Database['public']['Tables'][T]['Row']
-    
     export type Views<T extends keyof Database['public']['Views']> = 
       Database['public']['Views'][T]['Row']
-    
-    // export type TablesInsert<T extends keyof Database['public']['Tables']> = 
-    //   Database['public']['Tables'][T]['Insert']
-    
-    // export type TablesUpdate<T extends keyof Database['public']['Tables']> = 
-    //   Database['public']['Tables'][T]['Insert']
     
     // Common table types
     export type Profile = Tables<'profiles'>
@@ -1414,19 +1830,73 @@ export type CompositeTypes<
     export type Listing = Tables<'listings'>
     export type Bookmark = Tables<'bookmarks'>
     export type Image = Tables<'images'>
+    export type Address = Tables<'addresses'>
+    export type Verification = Tables<'verifications'>
+    export type CrimeReport = Tables<'crime_reports'>
+    export type GPSLog = Tables<'gps_logs'>i
+    export type SocialLink = Tables<'profile_social_links'>;
+    // Add these:
+    export type Rating = Tables<'ratings'>
+    export type MarketReputation = Tables<'market_reputation'>
+    export type MarketCrimeStats = Tables<'market_crime_stats'>
+    export type VendorReputation = Tables<'vendor_reputation'>
+    export type VendorStats = Tables<'vendor_stats'>
+    export type ProfileSocialLinks = Tables<'profile_social_links'>
+    export type Availability = Tables<'profile_availability'>
+    
     
     // Insert types
     export type InsertProfile = TablesInsert<'profiles'>
     export type InsertListing = TablesInsert<'listings'>
     export type InsertBookmark = TablesInsert<'bookmarks'>
-    
+    export type InsertContent = TablesInsert<'content'>
+    export type InsertImage = TablesInsert<'images'>
+    export type InsertAddress = TablesInsert<'addresses'>
+    export type InsertUser = TablesInsert<'users'>
+    export type InsertCrimeReport = TablesInsert<'crime_reports'>
+    export type InsertFactor = TablesInsert<'factors'>
+    export type InsertVerification = TablesInsert<'verifications'>
+    export type InsertRating = TablesInsert<'ratings'>
+    export type InsertMarketReputation = TablesInsert<'market_reputation'>
+    export type InsertMarketCrimeStats = TablesInsert<'market_crime_stats'>
+    export type InsertVendorReputation = TablesInsert<'vendor_reputation'>
+    export type InsertVendorStats = TablesInsert<'vendor_stats'>
+    export type InsertProfileSocialLinks = TablesInsert<'profile_social_links'>
+    export type InsertProfileAvailability = TablesInsert<'profile_availability'>
+
+
     // Update types
     export type UpdateProfile = TablesUpdate<'profiles'>
     export type UpdateListing = TablesUpdate<'listings'>
+    export type UpdateBookmark = TablesUpdate<'bookmarks'>
+    export type UpdateImage = TablesUpdate<'images'>
+    export type UpdateAddress = TablesUpdate<'addresses'>
+    export type UpdateContent = TablesUpdate<'content'>
+    export type UpdateUser = TablesUpdate<'users'>
+    export type UpdateCrimeReport = TablesUpdate<'crime_reports'>
+    export type UpdateVerification = TablesUpdate<'verifications'>
+    export type UpdateGPS = TablesUpdate<'gps_logs'>
+    export type UpdateRating = TablesUpdate<'ratings'>
+    export type UpdateMarketReputation = TablesUpdate<'market_reputation'>
+    export type UpdateMarketCrimeStats = TablesUpdate<'market_crime_stats'>
+    export type UpdateVendorReputation = TablesUpdate<'vendor_reputation'>
+    export type UpdateVendorStats = TablesUpdate<'vendor_stats'>
+    export type UpdateProfileSocialLinks = TablesUpdate<'profile_social_links'>
+    export type UpdateProfileAvailability = TablesUpdate<'profile_availability'>
     
     // View types (if you're using them)
     export type VendorSocialCredit = Views<'vendor_social_credits'>
     export type SecurityScore = Views<'security_scores'>
+    export type MarketMetrics = Views<'market_metrics'>
+    export type ProfileFullDetails = Views<'profile_full_details'>
+    export type ProfileWithUsername = Views<'profile_with_username'>
+    export type ReviewMetrics = Views<'review_metrics'>
+    export type FleaScores = Views<'flea_scores'>
+    export type ListingScores = Views<'listing_scores'>
+    export type VendorAvgRating = Views<'vendor_avg_rating'>
+    export type VendorConsistency = Views<'vendor_consistency'>
+    export type VendorMarketQuality = Views<'vendor_market_quality'>
+    export type UserSocialCredits = Views<'user_social_credits'>
     
     // Type for the Supabase client
     export type TypedSupabaseClient = SupabaseClient<Database>
@@ -1481,8 +1951,5 @@ export type CompositeTypes<
     username: string;
     reputation_score?: number | null;
   };
-  
-  // You might also want to add these helper types for working with the individual tables
-  export type SocialLink = Tables<'profile_social_links'>;
-  export type Availability = Tables<'profile_availability'>;
+ 
   
