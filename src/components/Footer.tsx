@@ -3,67 +3,64 @@
   // Add props here if needed
 //}
 
-export default function Footer(/* props: FooterProps */): JSX.Element {
+export default function Footer(): JSX.Element {
   return (
-    <footer className="bg-gray-900 pt-5 text-gray-200">
-      <div className="container">
-        <div className="flex flex-col md:flex-row">
-          <div className="md:w-1/3 py-3">
-            <a href="#" className="text-2xl mb-4 no-underline text-white uppercase">FleaRadar</a>
-            <p className="mb-3 text-gray-200">FleaRadar is a Netbones Community website, 100% locally owned by South Africans. Designed by Netbones.</p>
-            <div className="mb-4">
-              <a href="#" className="text-gray-200">+27 83 502 7629</a><br />
-              <a href="#" className="text-gray-200">[email protected]</a>
+    <footer className="bg-gray-900 pt-8 text-gray-200">
+      <div className="container mx-auto px-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 max-w-7xl mx-auto text-center md:text-left">
+          {/* Company Info */}
+          <div className="space-y-4">
+            <a href="#" className="text-xl font-semibold text-white uppercase">FleaRadar</a>
+            <p className="text-gray-400">
+              FleaRadar is a Netbones Community website, 100% locally owned by South Africans. Designed by Netbones.
+            </p>
+            <div>
+              <a href="#" className="block text-gray-400">+27 83 502 7629</a>
+              <a href="#" className="block text-gray-400">[email protected]</a>
             </div>
           </div>
-          <div className="md:w-1/3 py-3">
-            <h2 className="text-lg mb-4 text-white">Popular Interests</h2>
-            <div className="flex">
-              <div className="md:w-1/2">
-                <ul className="list-none">
-                  <li className="mb-3"><a href="#" className="text-gray-200">Craft</a></li>
-                  <li className="mb-3"><a href="#" className="text-gray-200">Events</a></li>
-                  <li className="mb-3"><a href="#" className="text-gray-200">Trekking</a></li>
-                  <li className="mb-3"><a href="#" className="text-gray-200">Secondhand</a></li>
-                  <li className="mb-3"><a href="#" className="text-gray-200">Food Truckers</a></li>
-                </ul>
-              </div>
-              <div className="md:w-1/2">
-                <ul className="list-none">
-                  <li className="mb-3"><a href="#" className="text-gray-200">Banks</a></li>
-                  <li className="mb-3"><a href="#" className="text-gray-200">ATMs</a></li>
-                  <li className="mb-3"><a href="#" className="text-gray-200">Services</a></li>
-                  <li className="mb-3"><a href="#" className="text-gray-200">Community Currency</a></li>
-                  <li className="mb-3"><a href="#" className="text-gray-200">Informal Markets</a></li>
-                </ul>
-              </div>
+          
+          {/* Popular Interests */}
+          <div>
+            <h2 className="text-lg font-semibold text-white mb-4">Popular Interests</h2>
+            <div className="grid grid-cols-2 gap-4">
+              <ul className="space-y-2">
+                <li><a href="#" className="text-gray-400 hover:text-white">Craft</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-white">Events</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-white">Trekking</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-white">Secondhand</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-white">Food Truckers</a></li>
+              </ul>
+              <ul className="space-y-2">
+                <li><a href="#" className="text-gray-400 hover:text-white">Banks</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-white">ATMs</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-white">Services</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-white">Community Currency</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-white">Informal Markets</a></li>
+              </ul>
             </div>
           </div>
-          <div className="md:w-1/3 py-3">
-            <h2 className="text-lg mb-4 text-white">Subscribe</h2>
-            <p className="mb-3 text-gray-200">Subscribe to our newsletter and get exclusive updates directly in your inbox.</p>
-            <form className="mb-4">
-              <div className="flex items-center bg-white border rounded-full overflow-hidden p-1">
-                <input
-                  type="email"
-                  className="border-0 w-full p-2"
-                  placeholder="Enter email..."
-                  aria-label="Recipient's username"
-                  aria-describedby="button-addon2"
-                />
-                <button 
-                  className="btn bg-red-500 text-white p-2 rounded-full" 
-                  type="button" 
-                  id="button-addon2" 
-                  aria-label="submit"
-                >
-                  <svg viewBox="0 0 24 24" fill="currentColor" className="inline-block" height="16" width="16">
-                    <path d="M1.946 9.315c-.522-.174-.527-.455.01-.634l19.087-6.362c.529-.176.832.12.684.638l-5.454 19.086c-.15.529-.455.547-.679.045L12 14l6-8-8 6-8.054-2.685z"></path>
-                  </svg>
-                </button>
-              </div>
+          
+          {/* Subscribe & Social Links */}
+          <div className="space-y-4">
+            <h2 className="text-lg font-semibold text-white">Subscribe</h2>
+            <p className="text-gray-400">
+              Subscribe to our newsletter and get exclusive updates directly in your inbox.
+            </p>
+            <form className="flex items-center bg-white border rounded-full overflow-hidden p-1">
+              <input
+                type="email"
+                className="border-0 w-full p-2 text-gray-900 outline-none focus:ring-0 focus:border-transparent"
+                placeholder="Enter email..."
+                aria-label="Email"
+              />
+              <button className="bg-red-500 text-white p-2 rounded-full" type="submit" aria-label="Submit">
+                <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
+                  <path d="M1.946 9.315c-.522-.174-.527-.455.01-.634l19.087-6.362c.529-.176.832.12.684.638l-5.454 19.086c-.15.529-.455.547-.679.045L12 14l6-8-8 6-8.054-2.685z"></path>
+                </svg>
+              </button>
             </form>
-            <h2 className="text-lg mb-3 text-white">Get Social</h2>
+            <h2 className="text-lg font-semibold text-white">Get Social</h2>
             <div className="flex space-x-2">
               <a href="#" className="text-gray-200 p-1" aria-label="facebook link">
                 <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
@@ -93,14 +90,18 @@ export default function Footer(/* props: FooterProps */): JSX.Element {
             </div>
           </div>
         </div>
-        <div className="pb-3 pt-3 text-sm">
-          <hr className="border-gray-600" />
-          <div className="flex flex-col md:flex-row items-center">
-            <div className="md:w-1/2 py-2">
-              <p className="text-gray-200">© 2002 - 2025 | All Rights Reserved - Flea Radar & NetBones Solutions Pty Ltd</p>
-            </div>
-            <div className="md:w-1/2 py-2 text-center md:text-right">
-              <a href="#" className="text-gray-200">Privacy Policy</a> | <a href="#" className="text-gray-200">Terms of Use</a>
+        
+        {/* Footer Bottom */}
+        <div className="w-full mt-5">
+          <div className="w-full flex justify-center mt-5">
+           <hr className="border-gray-600 w-full max-w-screen-xl mx-auto" />
+          </div>
+          <div className="container mx-auto py-3 flex flex-col md:flex-row md:items-center md:justify-between">
+            <p className="text-sm text-gray-200 text-left md:flex-grow">&copy; 2002-2025 | All Rights Reserved - FleaRadar & NetBones Solutions (Pty) Ltd</p>
+            <div className="text-sm space-x-3">
+              <a href="#" className="text-gray-200">Privacy Policy</a>
+              <span className="text-gray-400">|</span>
+              <a href="#" className="text-gray-200">Terms of Use</a>
             </div>
           </div>
         </div>

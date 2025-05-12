@@ -1,7 +1,5 @@
 'use server';
 
-'use server';
-
 import fs from 'fs';
 import path from 'path';
 import { createServerSupabaseClient } from "@/lib/supabase/server";

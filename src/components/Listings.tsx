@@ -24,7 +24,7 @@ export default function Listings(/* props: ListingsProps */): JSX.Element {
   return (
     <section className="p-4">
       <h2 className="text-2xl font-bold text-center mb-6 text-gray-800">Trending Markets & Food Trucks</h2>
-      <p className="text-gray-600 text-center mb-6">These are the highest rated places to shop and trade</p>
+      <p className="text-gray-600 text-center mb-10 text-2xl">These are the highest rated places to shop and trade</p>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
         {(listings as Listing[]).map((listing: Listing) => (
           <div key={listing.id} className="bg-white rounded-lg shadow-md overflow-hidden">

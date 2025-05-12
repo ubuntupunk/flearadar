@@ -37,6 +37,7 @@
     "gray-matter": "^4.0.3",
     "highlight.js": "^11.11.1",
     "js-cookie": "^3.0.5",
+    "keen-slider": "^6.8.6",
     "leaflet": "^1.9.4",
     "lucide-react": "^0.479.0",
     "markdown-to-jsx": "^7.7.4",

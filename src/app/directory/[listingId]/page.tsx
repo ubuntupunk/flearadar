@@ -1,5 +1,5 @@
 import React from 'react';
-import Directory from '../../components/Directory';
+import Directory from '@/components/Directory';
 import { notFound } from 'next/navigation';
 import listingsData from '../../../app/data/listings.json';
 

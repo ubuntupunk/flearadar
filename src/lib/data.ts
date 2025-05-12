@@ -18,11 +18,42 @@ interface Listing {
   rating: number[];
 }
 
-export type { Listing };
+interface Spot {
+  city: string;
+  listings: string;
+  image: string;
+}
+
+interface Article {
+  title: string;
+  categories: string[];
+  author: string;
+  date: string;
+  time: string;
+  image: string;
+}
+
+export type { Listing, Spot, Article };
 
 export async function getListings(): Promise<Listing[]> {
-  const listingsDirectory: string = path.join(process.cwd(), 'src/app/data/listings.json');
-  const fileContents: string = fs.readFileSync(listingsDirectory, 'utf8');
+  const listingsPath = path.join(process.cwd(), 'src/app/data/listings.json');
+  const fileContents = fs.readFileSync(listingsPath, 'utf8');
   const listings: Listing[] = JSON.parse(fileContents);
   return listings;
+}
+
+export async function getSpots(): Promise<Spot[]> {
+  const spotsPath = path.join(process.cwd(), 'src/app/data/spots.json');
+  const fileContents = fs.readFileSync(spotsPath, 'utf8');
+  const data = JSON.parse(fileContents);
+  const spots: Spot[] = data.spots;
+  return spots;
+}
+
+export async function getArticles(): Promise<Article[]> {
+  const spotsPath = path.join(process.cwd(), 'src/app/data/articles.json');
+  const fileContents = fs.readFileSync(spotsPath, 'utf8');
+  const data = JSON.parse(fileContents);
+  const articles: Article[] = data.articles;
+  return articles;
 }

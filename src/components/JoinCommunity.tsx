@@ -7,19 +7,19 @@ export default function JoinCommunity(/* props: JoinCommunityProps */) {
   const router = useRouter();
 
   return (
-    <section className="bg-red-500 pb-3 pt-3 text-white">
-      <div className="mx-auto max-w-7xl pb-5 pt-5">
-        <div className="flex items-center">
-          <div className="flex-1">
-            <h2 className="text-2xl mb-3">Join Our Amazing Community</h2>
-            <p className="text-white opacity-75">
-              We are growing every day. Join a community of traders, bargain-hunters, flea marketeers, supporting South Africa's informal economy.
+    <section className="bg-red-500 py-2 text-white">
+      <div className="mx-auto max-w-5xl py-3 px-4 mb-8">
+        <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-3">
+          <div className="flex-1 text-center sm:text-left">
+            <h2 className="text-xl font-medium mb-1.5">Join Our Amazing Community</h2>
+            <p className="text-white/80 text-sm max-w-md leading-relaxed">
+              We are growing every day. Join a community of traders, bargain-hunters, flea marketeers, supporting South Africa&apos;s informal economy.
             </p>
           </div>
-          <div className="ml-auto">
+          <div className="sm:ml-auto">
             <button
               onClick={() => router.push('/api/auth/login?screen_hint=signup')}
-              className="btn bg-white text-red-500 px-4 py-2 rounded-full hover:bg-gray-100"
+              className="bg-white text-red-500 px-3 py-1.5 text-sm font-medium hover:bg-white/90 transition-colors duration-300"
             >
               Register Now
             </button>

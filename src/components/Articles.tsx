@@ -1,8 +1,12 @@
-// components/Articles.tsx
+'use client';
 
-import Image from 'next/image';
+import React from 'react';
+import { useKeenSlider } from 'keen-slider/react';
+import 'keen-slider/keen-slider.min.css';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+import ArticleExpandable from './ArticleExpandable';
+import articles from "../app/data/articles.json";
 
-// Define the Article interface
 interface Article {
   title: string;
   categories: string[];
@@ -12,91 +16,66 @@ interface Article {
   image: string;
 }
 
-// You could also add props if this component receives any
-//interface ArticlesProps {
-  // Add any props here if needed in the future
-//}
-
-export default function Articles(/* props: ArticlesProps */) {
-  const articles: Article[] = [
-    { 
-      title: "Sunday markets are some of the most vibrant places around", 
-      categories: ["Sunday Market", "Lifestyle"], 
-      author: "Dianne Russell", 
-      date: "10 August 2020", 
-      time: "6 min", 
-      image: "https://www.muizenmesh.co.za/wp/web/flearadar/milnerton-market.jpg" 
+export default function Articles(): React.ReactElement {
+  const [sliderRef, instanceRef] = useKeenSlider<HTMLDivElement>({
+    loop: true,
+    mode: 'snap',
+    slides: {
+      perView: 2,
+      spacing: 16,
     },
-    { 
-      title: "Believe it or not but Saturday is an excellent time to shop bric-a-brac", 
-      categories: ["Saturday Market", "Lifestyle"], 
-      author: "Kathryn Murphy", 
-      date: "10 August 2020", 
-      time: "8 min", 
-      image: "https://www.muizenmesh.co.za/wp/web/flearadar/Greenmarket-Square_GettyImages-940753486.webp" 
+    breakpoints: {
+      '(max-width: 768px)': {
+        slides: {
+          perView: 1,
+          spacing: 12,
+        },
+      },
     },
-    { 
-      title: "Have you noticed local car-boot and yard-sales?", 
-      categories: ["Carboot", "Lifestyle"], 
-      author: "Darrell Steward", 
-      date: "10 August 2020", 
-      time: "5 min", 
-      image: "https://www.muizenmesh.co.za/wp/web/flearadar/photo-1517101724602-c257fe568157.jpeg" 
-    },
-  ];
+    created(slider) {
+      setInterval(() => slider.next(), 3000);
+    }
+  });
 
   return (
     <section className="pb-5 pt-5 text-gray-600">
       <div className="container">
         <div className="mb-4 text-center">
-          <h2 className="text-gray-800 text-2xl">Articles & Guides</h2>
+          <h2 className="text-gray-800 text-2xl">Articles &nnnnn Guides</h2>
           <p className="text-gray-600">Helpful reviews, details and advice on accessing your local informal marketplace</p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 justify-center">
-          {articles.map((article: Article, index: number) => (
-            <div key={index} className="bg-gray-100 border rounded-lg flex flex-col h-full">
-              <a href="#" className="d-block">
-                <Image 
-                  src={article.image} 
-                  className="w-full h-47 object-cover rounded-t-lg" 
-                  alt={article.title} 
-                  width={500} 
-                  height={500} 
-                />
-              </a>
-              <div className="p-3">
-                <div className="font-bold mb-2">
-                  {article.categories.map((cat: string, i: number) => (
-                    <a key={i} href="#" className="text-red-500">{cat}</a>
-                  ))}
-                </div>
-                <a href="#" className="text-gray-800 no-underline">
-                  <h3 className="text-lg mb-0">{article.title}</h3>
-                </a>
-              </div>
-              <div className="border-t border-gray-200 flex items-center justify-between mt-auto p-3 text-sm">
-                <a href="#" className="flex items-center text-gray-800">
-                  <Image 
-                    src="https://via.placeholder.com/48x48" 
-                    className="mr-2 rounded-full" 
-                    alt="Author Image" 
-                    width={48} 
-                    height={48} 
-                  />
-                  <div>
-                    <h4 className="text-sm mb-0">{article.author}</h4>
-                    <p className="text-gray-600 mb-0">{article.date}</p>
+        <div className="relative">
+          {/* Left Chevron */}
+          <button
+            onClick={() => instanceRef.current?.prev()}
+            className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-white text-red-600 p-2 rounded-full shadow-md z-10 hover:bg-red-50"
+          >
+            <ChevronLeft size={24} />
+          </button>
+
+          {/* Slider */}
+          <div ref={sliderRef} className="keen-slider px-2 py-3">
+            {(articles as Article[]).map((article: Article, index: number) => (
+              <div
+                key={`${index}`}
+                className="keen-slider__slide flex justify-center"
+              >
+                <div className="w-full max-w-sm bg-white shadow-md rounded-sm overflow-hidden flex flex-col h-full">
+                  <div className="p-4 flex flex-col flex-grow">
+                    <ArticleExpandable article={article} />
                   </div>
-                </a>
-                <span>{article.time}</span>
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
-        <div className="pb-3 pt-3 text-center">
-          <a href="#" className="btn bg-red-500 text-white px-4 py-2 rounded-full hover:bg-red-600">
-            View More
-          </a>
+            ))}
+          </div>
+
+          {/* Right Chevron */}
+          <button
+            onClick={() => instanceRef.current?.next()}
+            className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-white text-red-600 p-2 rounded-full shadow-md z-10 hover:bg-red-50"
+          >
+            <ChevronRight size={24} />
+          </button>
         </div>
       </div>
     </section>

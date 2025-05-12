@@ -1,46 +1,35 @@
-/// <reference types="react" />
+import { type JSX } from 'react';
+import Link from 'next/link';
 
-// Optional props interface for future use
-import SupaAuthButton from './SupaAuthButton';
-
-//eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface HeroProps {
-  // Add props here if needed
-}
-
-export default function Hero(/* props: HeroProps */): JSX.Element {
+export default function Hero(): JSX.Element {
   return (
     <section 
-      className="pt-20 pb-20 text-center bg-cover bg-center text-white" 
-      style={{ backgroundImage: "url('https://www.sabcnews.com/sabcnews/wp-content/uploads/2021/01/SABC-News-Fleak-market-R.png')" }}
+      className="py-14 text-center bg-cover bg-center text-white relative" 
+      style={{ backgroundImage: "url('/images/Flea-market.png')" }}
     >
-      <div className="bg-black bg-opacity-50 p-10">
-        <div className="max-w-4xl mx-auto">
-          <h1 className="text-4xl md:text-5xl font-normal mb-5">Discover Food Trucks & Flea Markets</h1>
-          <p className="text-lg mb-5">Find the perfect informal places to shop or trade</p>
-          <form className="flex justify-center items-center space-x-2">
-            <input
-              type="text"
-              placeholder="What are you looking for?"
-              className="w-full max-w-md p-3 border rounded-l-full shadow-sm focus:outline-none"
-            />
-            <button className="bg-red-500 text-white px-6 py-3 rounded-r-full hover:bg-red-600">
-              <svg 
-                xmlns="http://www.w3.org/2000/svg" 
-                viewBox="0 0 24 24" 
-                fill="currentColor" 
-                width="1.25em" 
-                height="1.25em" 
-                className="mr-1 inline-block"
+      <div className="absolute inset-0"></div>
+      <div className="relative z-10 p-10">
+        <div className="max-w-2xl mx-auto">
+          <h1 className="text-4xl md:text-4xl font-bold mb-6 leading-tight">Discover Food Trucks & Flea Markets</h1>
+          <p className="text-xl md:text-1xl mb-8 max-w-2xl mx-auto font-light">Find the perfect informal places to shop or trade</p>
+          <div className="flex justify-center space-x-4">
+            <Link 
+              href="/explorer" 
+              className="inline-flex items-center px-8 py-3 text-lg font-medium text-white bg-red-500 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors duration-200"
+            >
+              Explore Now
+              <svg
+                className="ml-2 -mr-1 w-5 h-5"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg"
               >
-                <path fill="none" d="M0 0h24v24H0z"></path>
-                <path d="M18.031 16.617l4.283 4.282-1.415 1.415-4.282-4.283A8.96 8.96 0 0 1 11 20c-4.968 0-9-4.032-9-9s4.032-9 9-9 9 4.032 9 9a8.96 8.96 0 0 1-1.969 5.617zm-2.006-.742A6.977 6.977 0 0 0 18 11c0-3.868-3.133-7-7-7-3.868 0-7 3.132-7 7 0 3.867 3.132 7 7 7a6.977 6.977 0 0 0 4.875-1.975l.15-.15z"></path>
+                <path
+                  fillRule="evenodd"
+                  d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+                />
               </svg>
-              Search
-            </button>
-          </form>
-          <div className="mt-4">
-            <SupaAuthButton />
+            </Link>
           </div>
         </div>
       </div>

@@ -21,8 +21,8 @@ const SupaAuthButton = () => {
   };
 
   return (
-    <Button variant="red" onClick={handleAuthAction} disabled={isLoading}>
-      {isLoading ? "Loading..." : user ? "Logout" : "Login/Register"}
+    <Button variant="red" onClick={handleAuthAction} disabled={isLoading} className="font-bold">
+      {isLoading ? "Loading..." : user ? "LOGOUT" : "LOGIN"}
     </Button>
   );
 };

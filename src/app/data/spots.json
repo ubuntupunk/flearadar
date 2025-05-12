@@ -1,0 +1,23 @@
+[
+    {
+       "city": "Cape Town, Western Cape",
+       "listings": "645+",
+       "image": "/images/capetownmarket.webp"
+    },
+    {
+       "city": "Johannesburg, Gauteng",
+       "listings": "784+",
+       "image": "/images/rosebanksundaymarket.webp"
+    },
+    {
+        "city": "Durban, Kwazulu-Natal",
+        "listings": "214+",
+        "image": "/images/kznmarket.jpg"
+    },
+    {
+        "city": "Louis Trichardt, Limpopo",
+        "listings": "214+",
+        "image": "/images/limpopomarket.jpg"
+    }
+]
+  

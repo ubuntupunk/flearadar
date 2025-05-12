@@ -51,7 +51,7 @@ const SearchBar: React.FC = () => {
         placeholder="Search..."
         value={query}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => setQuery(e.target.value)}
-        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        className="shadow appearance-none border w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
       />
       <div>
         {results.map((item: Listing, index: number) => (

@@ -1,78 +1,83 @@
-//components/PopularSpots
 
-// Define the Spot interface
+"use client";
+
+import React from 'react';
+import { useKeenSlider } from "keen-slider/react";
+import "keen-slider/keen-slider.min.css";
+import spots from "../app/data/spots.json";
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+import PopularSpotExpandable from './PopularSpotExpandable';
+
 interface Spot {
   city: string;
   listings: string;
   image: string;
 }
 
-// Optional props interface for future use
-//eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface PopularSpotsProps {
-  // Add props here if needed
-}
-
-export default function PopularSpots(/* props: PopularSpotsProps */): JSX.Element {
-  const spots: Spot[] = [
-    { 
-      city: "Cape Town, Western Cape", 
-      listings: "645+", 
-      image: "https://resources.formula-e.pulselive.com/photo-resources/2023/02/20/042dd057-7157-4069-beb8-2aa3af8b21ba/Cape-Town.jpg?width=1440&height=810" 
-    },
-    { 
-      city: "Johannesburg, Gauteng", 
-      listings: "784+", 
-      image: "https://media.gadventures.com/media-server/cache/bb/47/bb47fd44498068cc614e4d08610b3dad.jpg" 
-    },
-    { 
-      city: "Durban, Kwazulu-Natal", 
-      listings: "214+", 
-      image: "https://greatruns.com/wp-content/uploads/2021/02/Durban_beach_front_1_of_1.jpg" 
-    },
-  ];
-
+export default function PopularSpots(): React.ReactElement {
+  const [sliderRef, instanceRef] = useKeenSlider<HTMLDivElement>({
+      loop: true,
+      mode: "free-snap",
+      renderMode: "performance",
+      slides: {
+        perView: 1,
+        spacing: 16,
+      },
+      breakpoints: {
+        "(min-width: 640px)": {
+          slides: { perView: 2, spacing: 20 },
+        },
+        "(min-width: 1024px)": {
+          slides: { perView: 4, spacing: 24 },
+        },
+      },
+      created(slider) {
+        setInterval(() => slider.next(), 3000);
+      }
+    });
+  
   return (
-    <section className="pb-5 pt-5 text-gray-200">
-      <div className="mx-auto max-w-7xl">
-        <div className="mb-4 text-center">
-          <h2 className="text-gray-800 text-2xl">Most Popular Spots</h2>
-          <p className="text-gray-600">The most popular cities for trading flea markets in South Africa</p>
+    <section className="pb-2 py-6">
+      <div className="container mx-auto px-4 max-w-6xl">
+        <div className="mb-3 text-center">
+          <h2 className="text-gray-700 text-2xl font-bold mb-2">Most Popular Spots</h2>
+          <p className="text-gray-600 dark:text-gray-300 text-sm max-w-lg mx-auto leading-relaxed mb-6">
+            The most popular cities for trading flea markets in South Africa
+          </p>
         </div>
-        <div className="flex justify-center flex-wrap">
-          {spots.map((spot: Spot, index: number) => (
-            <div key={index} className="w-full lg:w-1/3 md:w-1/2 py-3">
-              <div 
-                className="bg-gray-800 bg-cover bg-center p-4 rounded-lg text-white" 
-                style={{ backgroundImage: `url('${spot.image}')` }}
+
+        <div className="relative">
+          {/* Left Chevron */}
+          <button
+            onClick={() => instanceRef.current?.prev()}
+            className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-white text-red-600 p-2 rounded-full shadow-md z-10 hover:bg-red-50"
+          >
+            <ChevronLeft size={24} />
+          </button>
+
+          {/* Slider */}
+          <div ref={sliderRef} className="keen-slider px-2 py-3">
+            {(spots as Spot[]).map((spot: Spot, index: number) => (
+              <div
+                key={`${index}`}
+                className="keen-slider__slide flex justify-center"
               >
-                <div className="h-32"></div>
-                <div>
-                  <h3 className="text-lg mb-1">{spot.city}</h3>
-                  <p>{spot.listings} listings</p>
-                  <a href="#" className="btn bg-white text-red-500 px-4 py-2 rounded-full hover:bg-gray-100">
-                    <svg 
-                      xmlns="http://www.w3.org/2000/svg" 
-                      viewBox="0 0 24 24" 
-                      fill="currentColor" 
-                      width="1.25em" 
-                      height="1.25em" 
-                      className="mr-1 inline-block"
-                    >
-                      <path fill="none" d="M0 0h24v24H0z"></path>
-                      <path d="M16 12l-6 6V6z"></path>
-                    </svg>
-                    Explore
-                  </a>
+                <div className="w-full max-w-sm bg-white shadow-md rounded-sm overflow-hidden flex flex-col h-full">
+                  <div className="p-4 flex flex-col flex-grow">
+                    <PopularSpotExpandable spot={spot} />
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
-        <div className="pb-3 pt-3 text-center">
-          <a href="#" className="btn bg-red-500 text-white px-4 py-2 rounded-full hover:bg-red-600">
-            View More
-          </a>
+            ))}
+          </div>
+
+          {/* Right Chevron */}
+          <button
+            onClick={() => instanceRef.current?.next()}
+            className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-white text-red-600 p-2 rounded-full shadow-md z-10 hover:bg-red-50"
+          >
+            <ChevronRight size={24} />
+          </button>
         </div>
       </div>
     </section>

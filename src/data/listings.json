@@ -1,0 +1,75 @@
+{
+  "foodTrucks": [
+    {
+      "id": "ft1",
+      "name": "Urban Bites",
+      "description": "Modern street food fusion with a local twist. Featuring fresh ingredients and innovative recipes.",
+      "image": "/images/food-trucks/urban-bites.jpg",
+      "rating": [4, 5, 4, 5, 4],
+      "location": "Downtown Market Square",
+      "cuisine": "Fusion",
+      "priceRange": "$$",
+      "hours": "11:00 AM - 8:00 PM",
+      "specialties": ["Kimchi Tacos", "Banh Mi Burgers", "Korean BBQ Fries"],
+      "type": "food-truck",
+      "gps": { "lat": 37.7749, "lng": -122.4194 }
+    },
+    {
+      "id": "ft2",
+      "name": "Sweet Street",
+      "description": "Artisanal desserts and creative sweet treats made fresh daily.",
+      "image": "/images/food-trucks/sweet-street.jpg",
+      "rating": [5, 4, 5, 5, 4],
+      "location": "Arts District",
+      "cuisine": "Desserts",
+      "priceRange": "$$",
+      "hours": "12:00 PM - 9:00 PM",
+      "specialties": ["Churro Ice Cream", "Matcha Crepes", "Bubble Waffles"],
+      "type": "food-truck",
+      "gps": { "lat": 37.7858, "lng": -122.4008 }
+    },
+    {
+      "id": "ft3",
+      "name": "Spice Route",
+      "description": "Authentic Indian street food with a modern presentation.",
+      "image": "/images/food-trucks/spice-route.jpg",
+      "rating": [4, 4, 5, 4, 5],
+      "location": "Tech Hub Plaza",
+      "cuisine": "Indian",
+      "priceRange": "$$",
+      "hours": "11:30 AM - 7:30 PM",
+      "specialties": ["Butter Chicken Bowl", "Masala Dosa", "Mango Lassi"],
+      "type": "food-truck",
+      "gps": { "lat": 37.7831, "lng": -122.4039 }
+    }
+  ],
+  "markets": [
+    {
+      "id": "m1",
+      "name": "Waterfront Market",
+      "description": "Weekly farmers market featuring local produce, artisanal goods, and live music.",
+      "image": "/images/markets/waterfront.jpg",
+      "rating": [5, 4, 5, 4, 5],
+      "location": "Harbor District",
+      "type": "farmers-market",
+      "schedule": "Every Saturday",
+      "hours": "8:00 AM - 2:00 PM",
+      "highlights": ["Organic Produce", "Local Crafts", "Food Trucks"],
+      "gps": { "lat": 37.7955, "lng": -122.3937 }
+    },
+    {
+      "id": "m2",
+      "name": "Night Owl Market",
+      "description": "Evening market with street food, local vendors, and cultural performances.",
+      "image": "/images/markets/night-owl.jpg",
+      "rating": [4, 5, 4, 5, 5],
+      "location": "Cultural District",
+      "type": "night-market",
+      "schedule": "Friday & Saturday",
+      "hours": "6:00 PM - 11:00 PM",
+      "highlights": ["Street Food", "Live Music", "Art Installations"],
+      "gps": { "lat": 37.7875, "lng": -122.4009 }
+    }
+  ]
+}
+

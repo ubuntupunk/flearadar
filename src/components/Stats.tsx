@@ -39,14 +39,14 @@ export default function Stats(/* props: StatsProps */): JSX.Element {
 
   return (
     <section 
-      className="bg-gray-900 bg-cover bg-center pb-5 pt-5 text-gray-200" 
+      className="py-4 bg-gray-900 bg-cover bg-center pb-5 pt-5 text-gray-200" 
       style={{ backgroundImage: "url('https://images.unsplash.com/photo-1543691379-f2f5b144d593?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwyMDkyMnwwfDF8c2VhcmNofDl8fG5pZ2h0JTIwbGlmZXxlbnwwfHx8&ixlib=rb-1.2.1&q=80&w=1080')" }}
     >
-      <div className="container">
-        <div className="flex justify-center">
+      <div className="mx-auto max-w-7xl mb-4 justify-items-center">
+        <div className="grid grid-cols-4 md:grid-cols-4 gap-32 justify-items-center">
           {stats.map((stat: Stat, index: number) => (
-            <div key={index} className="col-lg-3 col-sm-6 pb-3 pt-3">
-              <div className="flex items-center">
+            <div key={index} className="w-full text-center">
+              <div className="inline-flex flex-col items-center space-y-2 w-full p-2">
                 <svg 
                   xmlns="http://www.w3.org/2000/svg" 
                   viewBox="0 0 24 24" 
@@ -54,19 +54,19 @@ export default function Stats(/* props: StatsProps */): JSX.Element {
                   width="3rem" 
                   height="3rem" 
                   className="mr-3 text-red-500"
-                >
-                  <path fill="none" d="M0 0h24v24H0z"></path>
-                  <path d={stat.icon}></path>
-                </svg>
-                <div>
-                  <h2 className="text-xl mb-1 text-white">{stat.number}</h2>
-                  <p className="text-gray-200">{stat.description}</p>
+                  >
+                    <path fill="none" d="M0 0h24v24H0z"></path>
+                    <path d={stat.icon}></path>
+                  </svg>
+                  <div>
+                    <h2 className="text-xl mb-1 text-white">{stat.number}</h2>
+                    <p className="text-gray-200">{stat.description}</p>
+                  </div>
                 </div>
-              </div>
-            </div>
+             </div>
           ))}
-        </div>
       </div>
+    </div>
     </section>
   );
 }

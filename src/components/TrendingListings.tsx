@@ -1,60 +1,90 @@
 "use client";
 
-import React, { useState } from 'react';
-import { JSX } from 'react';
-//components/TrendingListings
+import React from 'react';
+import { useKeenSlider } from "keen-slider/react";
+import "keen-slider/keen-slider.min.css";
 import listings from "../app/data/listings.json";
-import Image from 'next/image';
-import Score from './Score';
 import TrendingExpandable from './TrendingExpandable';
 import { useAuth0 } from '@auth0/auth0-react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
-// Define the Listing interface based on expected JSON structure
 interface Listing {
   id: string | number;
   name: string;
   image: string;
   location: string;
   rating: number[];
+  extraDetails?: string;
 }
 
-// Optional props interface for future use
-
-interface TrendingListingsProps {
-  // Add props here if needed
-}
-
-export default function TrendingListings(/* props: TrendingListingsProps */): JSX.Element {
-  const [displayedListings, setDisplayedListings] = useState(4);
+export default function TrendingListings(): React.ReactElement {
   const { isAuthenticated } = useAuth0();
-
-  const handleViewMore = () => {
-    setDisplayedListings(displayedListings + 4);
-  };
-
-  const visibleListings = (listings as Listing[]).slice(0, displayedListings);
+  const [sliderRef, instanceRef] = useKeenSlider<HTMLDivElement>({
+    loop: true,
+    mode: "free-snap",
+    renderMode: "performance",
+    slides: {
+      perView: 1,
+      spacing: 16,
+    },
+    breakpoints: {
+      "(min-width: 640px)": {
+        slides: { perView: 2, spacing: 20 },
+      },
+      "(min-width: 1024px)": {
+        slides: { perView: 4, spacing: 24 },
+      },
+    },
+    created(slider) {
+      setInterval(() => slider.next(), 3000);
+    }
+  });
 
   return (
-    <section className="pb-5 pt-5">
-      <div className="container">
-        <div className="mb-4 text-center">
-          <h2 className="text-gray-800 text-2xl">Trending Markets & Food Trucks</h2>
-          <p className="text-gray-600">These are the highest rated places to shop and trade</p>
+    <section className="pb-2 py-8">
+      <div className="container mx-auto px-4 max-w-6xl"> {/* slightly narrower container */}
+        <div className="mb-3 text-center">
+          <h2 className="text-gray-700 text-2xl font-bold mb-2">Trending Markets & Food Trucks</h2>
+          <p className="text-gray-600 dark:text-gray-300 text-sm max-w-lg mx-auto leading-relaxed mb-6">
+            These are the highest rated places to shop and trade
+          </p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 justify-center">
-          {visibleListings.map((listing: Listing) => (
-            <TrendingExpandable key={listing.id} listing={listing} isAuthenticated={isAuthenticated} />
-          ))}
-        </div>
-        <div className="pb-3 pt-3 text-center">
-          {displayedListings < (listings as Listing[]).length && (
-            <button
-              onClick={handleViewMore}
-              className="btn bg-red-500 text-white px-4 py-2 rounded-full hover:bg-red-600"
-            >
-              View More
-            </button>
-          )}
+
+        <div className="relative">
+          {/* Left Chevron */}
+          <button
+            onClick={() => instanceRef.current?.prev()}
+            className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-white text-red-600 p-2 rounded-full shadow-md z-10 hover:bg-red-50"
+          >
+            <ChevronLeft size={24} />
+          </button>
+
+          {/* Slider */}
+          <div ref={sliderRef} className="keen-slider px-2 py-3">
+            {(listings as Listing[]).map((listing: Listing, index: number) => (
+              <div
+                key={`${listing.id}-${index}`}
+                className="keen-slider__slide flex justify-center "
+              >
+              <div className="w-full max-w-sm bg-white shadow-md rounded-sm overflow-hidden flex flex-col h-full">
+                <div className="p-4 flex flex-col flex-grow">
+                  <TrendingExpandable
+                    listing={listing}
+                    isAuthenticated={isAuthenticated}
+                  />
+                </div>
+               </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Right Chevron */}
+          <button
+            onClick={() => instanceRef.current?.next()}
+            className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-white text-red-600 p-2 rounded-full shadow-md z-10 hover:bg-red-50"
+          >
+            <ChevronRight size={24} />
+          </button>
         </div>
       </div>
     </section>

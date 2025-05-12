@@ -1,0 +1,25 @@
+{
+    "spots": [
+      {
+        "city": "Cape Town, Western Cape",
+        "listings": "645+",
+        "image": "/images/flea.png"
+      },
+      {
+        "city": "Johannesburg, Gauteng",
+        "listings": "784+",
+        "image": "/images/flea.png"
+      },
+      {
+        "city": "Durban, Kwazulu-Natal",
+        "listings": "214+",
+        "image": "/images/flea.png"
+      },
+      {
+        "city": "Louis Trichardt, Limpopo",
+        "listings": "214+",
+        "image": "/images/flea.png"
+      }
+    ]
+  }
+  

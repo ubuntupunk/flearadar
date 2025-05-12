@@ -5,14 +5,7 @@ interface Step {
   description: string;
 }
 
-// Optional props interface for future use
-//eslint-disable-next-line @typescript-eslint/no-empty-interface
-
-interface HowItWorksProps {
-  // Add props here if needed
-}
-
-export default function HowItWorks(/* props: HowItWorksProps */): JSX.Element {
+export default function HowItWorks() {
   const steps: Step[] = [
     { 
       icon: "M18.031 16.617l4.283 4.282-1.415 1.415-4.282-4.283A8.96 8.96 0 0 1 11 20c-4.968 0-9-4.032-9-9s4.032-9 9-9 9 4.032 9 9a8.96 8.96 0 0 1-1.969 5.617zm-2.006-.742A6.977 6.977 0 0 0 18 11c0-3.868-3.133-7-7-7-3.868 0-7 3.132-7 7 0 3.867 3.132 7 7 7a6.977 6.977 0 0 0 4.875-1.975l.15-.15zm-3.847-8.699a2 2 0 1 0 2.646 2.646 4 4 0 1 1-2.646-2.646z", 
@@ -32,29 +25,28 @@ export default function HowItWorks(/* props: HowItWorksProps */): JSX.Element {
   ];
 
   return (
-    <section className="pb-5 pt-5 text-gray-600">
-      <div className="mx-auto max-w-7xl">
-        <div className="mb-4 text-center">
-          <h2 className="text-gray-800 text-2xl">How it works</h2>
-          <p className="text-gray-600">Register your Informal Business, Search for Markets & Food Trucks</p>
+    <section className="py-4 text-gray-600 dark:text-gray-300 bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800 py-6">
+      <div className="container mx-auto px-4 max-w-7xl mb-6">
+        <div className="mb-6 text-center">
+        <h2 className="text-gray-700 text-2xl font-bold mb-2">How it works</h2>
+          <p className="text-gray-600 dark:text-gray-300 text-sm max-w-xl mx-auto leading-relaxed">Register your Informal Business, Search for Markets & Food Trucks</p>
         </div>
-        <div className="flex justify-center flex-wrap">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 max-w-4xl mx-auto">
           {steps.map((step: Step, index: number) => (
-            <div key={index} className="w-full lg:w-1/3 sm:w-1/2 pb-3 pt-3">
-              <div className="border p-4 rounded-lg">
-                <svg 
-                  xmlns="http://www.w3.org/2000/svg" 
-                  viewBox="0 0 24 24" 
-                  fill="currentColor" 
-                  width="3rem" 
-                  height="3rem" 
-                  className="mb-4 text-red-500"
-                >
-                  <path fill="none" d="M0 0h24v24H0z"></path>
-                  <path d={step.icon}></path>
-                </svg>
-                <h3 className="text-lg mb-3 text-gray-800">{step.title}</h3>
-                <p className="text-gray-600">{step.description}</p>
+            <div key={index} className="w-full">
+              <div className="border border-gray-200 dark:border-gray-700 p-4 rounded-lg bg-white dark:bg-gray-800 shadow-sm hover:shadow-md transition-all duration-300 h-full flex flex-col items-center text-center transform hover:-translate-y-0.5 hover:border-red-200 dark:hover:border-red-800 group">
+                <div className="mb-3 p-2 bg-red-50 dark:bg-red-900/20 rounded-full inline-flex items-center justify-center transition-colors duration-300 group-hover:bg-red-100 dark:group-hover:bg-red-900/30">
+                  <svg 
+                    xmlns="http://www.w3.org/2000/svg" 
+                    viewBox="0 0 24 24" 
+                    fill="currentColor" 
+                    className="w-6 h-6 text-red-500 dark:text-red-400 transition-transform duration-300 group-hover:scale-110"
+                  >
+                    <path d={step.icon} />
+                  </svg>
+                </div>
+                <h3 className="text-base font-medium text-gray-900 dark:text-white mb-1.5">{step.title}</h3>
+                <p className="text-gray-600 dark:text-gray-300 leading-relaxed flex-grow text-xs">{step.description}</p>
               </div>
             </div>
           ))}

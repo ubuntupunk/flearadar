@@ -1,42 +1,108 @@
-// components/DynamicArticles.tsx
+"use client";
 
-import Link from 'next/link';
+import React from 'react';
+import { useKeenSlider } from "keen-slider/react";
+import "keen-slider/keen-slider.min.css";
+import latestArticles from "../app/data/articles.json";
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+import DynamicArticlesExpandable from './DynamicArticlesExpandable';
 
 // Define the Article interface
 interface Article {
   title: string;
-  description: string;
+  categories: string[];
+  author: string;
   date: string;
-  slug: string;
-  [key: string]: string | number | boolean; // Allow for additional frontmatter fields
+  time: string;
+  image: string;
 }
 
-// Define props interface
-interface DynamicArticlesProps {
-  latestArticles: Article[];
-}
+export default function DynamicArticles(): React.ReactElement {
+  const [sliderRef, instanceRef] = useKeenSlider<HTMLDivElement>({
+    loop: true,
+    mode: 'free',
+    rtl: false,
+    slides: {
+      perView: 2,
+      spacing: 16,
+    },
+    breakpoints: {
+      '(max-width: 768px)': {
+        slides: {
+          perView: 1,
+          spacing: 12,
+        },
+      },
+    },
+    created(slider) {
+      let timeout: ReturnType<typeof setTimeout>
+      let mouseOver = false
+      
+      function clearNextTimeout() {
+        clearTimeout(timeout)
+      }
+      
+      function nextTimeout() {
+        clearTimeout(timeout)
+        if (mouseOver) return
+        timeout = setTimeout(() => {
+          slider.moveToIdx(slider.track.details.abs + 1, true, {
+            duration: 1500
+          })
+        }, 2000)
+      }
+      
+      slider.on("created", () => {
+        slider.container.addEventListener("mouseover", () => {
+          mouseOver = true
+          clearNextTimeout()
+        })
+        slider.container.addEventListener("mouseout", () => {
+          mouseOver = false
+          nextTimeout()
+        })
+        nextTimeout()
+      })
+      slider.on("dragStarted", clearNextTimeout)
+      slider.on("animationEnded", nextTimeout)
+      slider.on("updated", nextTimeout)
+    }
+  });
 
-const DynamicArticles: React.FC<DynamicArticlesProps> = ({ latestArticles }) => {
   return (
-    <div className="container mx-auto my-8">
-      <h2 className="text-3xl font-bold mb-4">Articles & Guides</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {latestArticles.map((article: Article, index: number) => (
-          <div key={index} className="border rounded-lg p-4">
-            <h3 className="text-xl font-semibold">{article.title}</h3>
-            <p className="text-gray-600">{article.description}</p>
-            <Link
-              href={`/articles/${article.slug}`}
-              className="text-blue-500 hover:underline"
-            >
-              Read more
-            </Link>
+    <section className="py-6">
+      <div className="mx-auto max-w-5xl px-4">
+        <div className="mb-6 text-center">
+          <h2 className="text-gray-800 dark:text-white text-xl font-bold mb-2">
+            Articles & Guides
+          </h2>
+        </div>
+
+        <div className="relative">
+          {/* Left Chevron */}
+          <button
+            onClick={() => instanceRef.current?.prev()}
+            className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-white text-red-600 p-2 rounded-full shadow-md z-10 hover:bg-red-50"
+          >
+            <ChevronLeft size={24} />
+          </button>
+
+          {/* Slider */}
+          <div ref={sliderRef} className="keen-slider">
+           {latestArticles.map((article: Article, index: number) => (
+           <DynamicArticlesExpandable key={index} article={article} />
+           ))}
           </div>
-        ))}
+
+          {/* Right Chevron */}
+          <button
+            onClick={() => instanceRef.current?.next()}
+            className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-white text-red-600 p-2 rounded-full shadow-md z-10 hover:bg-red-50"
+          >
+            <ChevronRight size={24} />
+          </button>
+        </div>
       </div>
-    </div>
+    </section>
   );
-};
-
-
-export default DynamicArticles;
+}
