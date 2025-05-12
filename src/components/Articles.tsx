@@ -41,7 +41,7 @@ export default function Articles(): React.ReactElement {
     <section className="pb-5 pt-5 text-gray-600">
       <div className="container">
         <div className="mb-4 text-center">
-          <h2 className="text-gray-800 text-2xl">Articles &nnnnn Guides</h2>
+          <h2 className="text-gray-800 text-2xl">Articles & Guides</h2>
           <p className="text-gray-600">Helpful reviews, details and advice on accessing your local informal marketplace</p>
         </div>
         <div className="relative">
